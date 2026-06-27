@@ -103,7 +103,7 @@
         <!-- সার্চ বক্স -->
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="নাম, ডিপার্টমেন্ট বা রক্তের গ্রুপ দিয়ে খুঁজুন..." onkeyup="filterMembers()">
+            <input type="text" id="searchInput" placeholder="নাম, ডিপার্টমেন্ট, সেশন বা রক্তের গ্রুপ দিয়ে খুঁজুন..." onkeyup="filterMembers()">
         </div>
 
         <!-- মেম্বারদের কার্ড গ্রিড -->
@@ -198,14 +198,15 @@
             });
         }
 
-        // লাইভ সার্চ ফিল্টার
+       // লাইভ সার্চ ফিল্টার (সেশনসহ আপডেট করা)
         function filterMembers() {
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
             
             const filtered = allApprovedMembers.filter(m => 
                 m.name.toLowerCase().includes(query) || 
                 m.dept.toLowerCase().includes(query) || 
-                m.blood.toLowerCase().includes(query)
+                m.blood.toLowerCase().includes(query) ||
+                m.session.toLowerCase().includes(query) // এখানে নতুন সেশন ফিল্টার যুক্ত করা হয়েছে
             );
             
             displayMembers(filtered);
