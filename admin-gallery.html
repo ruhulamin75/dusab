@@ -6,7 +6,7 @@
     <title>গ্যালারি ম্যানেজমেন্ট - DUSAB Admin</title>
     <script>if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') { window.location.href = 'admin-login.html'; }</script>
 		<!-- PWA Manifest -->
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="/dusab/manifest.json">
 <!-- থিম কালার (মোবাইলের স্ট্যাটাস বারের রং পরিবর্তন করবে) -->
 <meta name="theme-color" content="#7D1B7E">
 <!-- অ্যাপল ডিভাইসের জন্য -->
@@ -160,7 +160,7 @@
     // Service Worker রেজিস্টার করা
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js')
+            navigator.serviceWorker.register('/dusab/sw.js')
             .then(registration => {
                 console.log('Service Worker Registered Successfully!', registration.scope);
             })
