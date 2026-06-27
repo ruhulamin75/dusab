@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>নোটিশ বোর্ড - DUSAB</title>
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+<!-- থিম কালার (মোবাইলের স্ট্যাটাস বারের রং পরিবর্তন করবে) -->
+<meta name="theme-color" content="#7D1B7E">
+<!-- অ্যাপল ডিভাইসের জন্য -->
+<link rel="apple-touch-icon" href="icon-192.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -125,5 +132,20 @@
             });
         }).catch(() => { document.getElementById('loadingMessage').innerHTML = 'নোটিশ লোড করতে সমস্যা হয়েছে!'; });
     </script>
+<script>
+    // Service Worker রেজিস্টার করা
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+            .then(registration => {
+                console.log('Service Worker Registered Successfully!', registration.scope);
+            })
+            .catch(err => {
+                console.log('Service Worker Registration Failed:', err);
+            });
+        });
+    }
+</script>
+
 </body>
 </html>
