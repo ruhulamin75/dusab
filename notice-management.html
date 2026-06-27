@@ -9,12 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* আগের অ্যাডমিন প্যানেলের বেসিক ডিজাইন */
+        /* বেসিক ডিজাইন */
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --white: #ffffff; --sidebar-width: 260px; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background-color: var(--bg-light); display: flex; overflow-x: hidden; }
         
-        .sidebar { width: var(--sidebar-width); background-color: var(--primary-color); height: 100vh; position: fixed; color: var(--white); z-index: 1000; }
+        /* সাইডবার */
+        .sidebar { width: var(--sidebar-width); background-color: var(--primary-color); height: 100vh; position: fixed; left: 0; top: 0; color: var(--white); z-index: 1000; transition: 0.3s; }
         .sidebar-header { padding: 20px; text-align: center; border-bottom: 3px solid var(--accent-color); background-color: var(--white); }
         .sidebar-header img { height: 60px; margin-bottom: 10px; }
         .sidebar-menu { list-style: none; padding: 20px 0; }
@@ -22,36 +23,57 @@
         .sidebar-menu li a:hover, .sidebar-menu li a.active { background-color: var(--accent-color); color: var(--primary-color); font-weight: 600; }
         .sidebar-menu li a i { margin-right: 15px; width: 20px; }
 
-        .main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; padding-bottom: 40px;}
-        .topbar { background-color: var(--white); height: 70px; padding: 0 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .menu-toggle { font-size: 24px; color: var(--primary-color); cursor: pointer; display: none; }
+        /* মূল কন্টেন্ট */
+        .main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; padding-bottom: 40px; transition: 0.3s;}
+        .topbar { background-color: var(--white); height: 70px; padding: 0 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 999;}
+        .menu-toggle { font-size: 24px; color: var(--primary-color); cursor: pointer; display: none; margin-right: 15px;}
         .admin-profile { display: flex; align-items: center; gap: 15px; font-weight: 600; color: var(--secondary-color); }
         .admin-profile img { height: 40px; width: 40px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover; }
         
         .dashboard-content { padding: 30px; }
         .content-box { background-color: var(--white); border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-color); margin-bottom: 30px;}
         
+        /* ফর্ম স্টাইল */
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; font-weight: 600; color: var(--secondary-color); margin-bottom: 5px; }
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 16px; outline: none; }
+        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 16px; outline: none; transition: 0.3s;}
+        .input-group input:focus, .input-group textarea:focus { border-color: var(--primary-color); }
         .input-group textarea { height: 150px; resize: vertical; }
         
-        .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 12px 25px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold;}
+        .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 12px 25px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s;}
+        .btn-submit:hover { background-color: var(--secondary-color); }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        /* টেবিল স্টাইল */
+        .table-responsive { overflow-x: auto; width: 100%; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; min-width: 600px; }
         table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
         table th { background-color: #f8f9fa; color: var(--secondary-color); }
         
-        .action-btns button { border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; color: white; margin-right: 5px; }
+        .action-btns button { border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; color: white; margin-right: 5px; transition: 0.3s;}
         .btn-edit { background-color: #f39c12; }
+        .btn-edit:hover { background-color: #d68910; }
         .btn-delete { background-color: #e74c3c; }
+        .btn-delete:hover { background-color: #c0392b; }
 
         /* Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background-color: var(--white); border-radius: 8px; width: 100%; max-width: 600px; padding: 25px; position: relative;}
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #777;}
+        .close-btn:hover { color: red; }
 
-        @media (max-width: 992px) { .sidebar { left: -260px; } .sidebar.active { left: 0; } .main-content { margin-left: 0; width: 100%; } .menu-toggle { display: block; } }
+        /* মোবাইল রেসপন্সিভ লজিক */
+        @media (max-width: 992px) { 
+            .sidebar { left: -260px; } 
+            .sidebar.active { left: 0; box-shadow: 4px 0 15px rgba(0,0,0,0.2); } 
+            .main-content { margin-left: 0; width: 100%; } 
+            .menu-toggle { display: block; } 
+            .topbar { padding: 0 20px; justify-content: flex-start; }
+            .admin-profile { margin-left: auto; }
+        }
+        @media (max-width: 768px) {
+            .dashboard-content { padding: 20px 15px; }
+            .content-box { padding: 20px 15px; }
+        }
     </style>
 </head>
 <body>
@@ -66,21 +88,20 @@
             <li><a href="member-management.html"><i class="fas fa-users-cog"></i> মেম্বার ম্যানেজমেন্ট</a></li>
             <li><a href="admin-gallery.html"><i class="fas fa-images"></i> গ্যালারি ম্যানেজমেন্ট</a></li>
             <li><a href="notice-management.html" class="active"><i class="fas fa-bullhorn"></i> নোটিশ বোর্ড</a></li>
+            <li><a href="admin-settings.html"><i class="fas fa-cogs"></i> ওয়েবসাইট সেটিংস</a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="topbar">
             <div class="menu-toggle" id="menuToggleBtn"><i class="fas fa-bars"></i></div>
-            <div class="admin-profile"><img src="logo.png"> <span>DUSAB Admin</span></div>
+            <div style="font-size:20px; font-weight:bold; color:var(--primary-color);" class="mobile-title">নোটিশ ম্যানেজমেন্ট</div>
+            <div class="admin-profile"><img src="logo.png" alt="Admin"> <span>Admin</span></div>
         </div>
 
         <div class="dashboard-content">
-            <h2 style="color: var(--secondary-color); margin-bottom: 20px;">নোটিশ ম্যানেজমেন্ট</h2>
-
-            <!-- Add Notice Form -->
             <div class="content-box">
-                <h3 style="margin-bottom: 15px;">নতুন নোটিশ প্রকাশ করুন</h3>
+                <h3 style="margin-bottom: 15px; color: var(--secondary-color);"><i class="fas fa-plus-circle"></i> নতুন নোটিশ প্রকাশ করুন</h3>
                 <form id="addNoticeForm">
                     <div class="input-group">
                         <label>তারিখ</label>
@@ -98,13 +119,15 @@
                 </form>
             </div>
 
-            <!-- Notice List -->
             <div class="content-box">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3>প্রকাশিত নোটিশসমূহ</h3>
-                    <button onclick="loadNotices()" style="background:none; border:none; color:var(--primary-color); cursor:pointer;"><i class="fas fa-sync-alt"></i> রিফ্রেশ</button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="color: var(--secondary-color);"><i class="fas fa-list-alt"></i> প্রকাশিত নোটিশসমূহ</h3>
+                    <button onclick="loadNotices()" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:16px; font-weight:bold;"><i class="fas fa-sync-alt"></i> রিফ্রেশ</button>
                 </div>
-                <div style="overflow-x: auto;">
+                
+                <div id="loadingMessage" style="text-align: center; display: none; color: var(--primary-color); padding: 10px;"><i class="fas fa-spinner fa-spin"></i> নোটিশ লোড হচ্ছে...</div>
+
+                <div class="table-responsive">
                     <table>
                         <thead>
                             <tr><th>তারিখ</th><th>শিরোনাম</th><th>বিস্তারিত</th><th>অ্যাকশন</th></tr>
@@ -116,11 +139,10 @@
         </div>
     </div>
 
-    <!-- Edit Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
-            <h3 style="margin-bottom: 15px;">নোটিশ এডিট করুন</h3>
+            <h3 style="margin-bottom: 15px; color: var(--primary-color);">নোটিশ এডিট করুন</h3>
             <form id="editNoticeForm">
                 <input type="hidden" id="editRow">
                 <div class="input-group"><label>তারিখ (DD/MM/YYYY)</label><input type="text" id="editDate" required></div>
@@ -132,14 +154,28 @@
     </div>
 
     <script>
+        // ========================================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec"; // <-- URL বসান
+        // ========================================================
 
         document.getElementById('noticeDate').valueAsDate = new Date();
         let noticeData = [];
 
-        // Sidebar Toggle
+        // সাইডবার টগল লজিক (মোবাইলের জন্য)
         const sidebar = document.getElementById('sidebar');
-        document.getElementById('menuToggleBtn').addEventListener('click', (e) => { sidebar.classList.toggle('active'); e.stopPropagation(); });
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        
+        menuToggleBtn.addEventListener('click', (e) => { 
+            sidebar.classList.toggle('active'); 
+            e.stopPropagation(); 
+        });
+        
+        // স্ক্রিনের অন্য কোথাও ক্লিক করলে সাইডবার বন্ধ হবে
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
 
         // Add Notice
         document.getElementById('addNoticeForm').addEventListener('submit', function(e) {
@@ -164,18 +200,26 @@
 
         // Load Notices
         function loadNotices() {
+            document.getElementById('loadingMessage').style.display = 'block';
             fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_notices" }) })
             .then(res => res.json()).then(data => {
+                document.getElementById('loadingMessage').style.display = 'none';
                 noticeData = data;
                 const tbody = document.getElementById('noticeTableBody');
                 tbody.innerHTML = '';
+                
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #888;">কোনো নোটিশ পাওয়া যায়নি।</td></tr>';
+                    return;
+                }
+
                 data.reverse().forEach(item => {
                     // বিস্তারিত টেক্সট ছোট করে দেখানোর জন্য
-                    let shortContent = item.content.length > 50 ? item.content.substring(0, 50) + "..." : item.content;
+                    let shortContent = item.content.length > 40 ? item.content.substring(0, 40) + "..." : item.content;
                     tbody.innerHTML += `
                         <tr>
                             <td style="white-space:nowrap;">${item.date}</td>
-                            <td style="font-weight:bold;">${item.title}</td>
+                            <td style="font-weight:bold; color: var(--secondary-color);">${item.title}</td>
                             <td>${shortContent}</td>
                             <td class="action-btns" style="white-space:nowrap;">
                                 <button class="btn-edit" onclick="openEditModal(${item.row})"><i class="fas fa-edit"></i></button>
@@ -187,7 +231,7 @@
             });
         }
 
-        // Edit
+        // Edit Modal
         function openEditModal(row) {
             const item = noticeData.find(n => n.row === row);
             if(item) {
@@ -201,15 +245,22 @@
 
         document.getElementById('editNoticeForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            const btn = e.target.querySelector('.btn-submit');
+            btn.innerText = "আপডেট হচ্ছে..."; btn.disabled = true;
+
             fetch(API_URL, {
                 method: 'POST',
                 body: JSON.stringify({ action: "edit_notice", row: document.getElementById('editRow').value, date: document.getElementById('editDate').value, title: document.getElementById('editTitle').value, content: document.getElementById('editContent').value })
-            }).then(() => { alert("আপডেট সফল!"); document.getElementById('editModal').style.display='none'; loadNotices(); });
+            }).then(() => { 
+                alert("আপডেট সফল!"); 
+                document.getElementById('editModal').style.display='none'; 
+                loadNotices(); 
+            }).finally(() => { btn.innerText = "আপডেট করুন"; btn.disabled = false; });
         });
 
-        // Delete
+        // Delete Notice
         function deleteNotice(row) {
-            if(confirm("নোটিশটি মুছে ফেলতে চান?")) {
+            if(confirm("আপনি কি নিশ্চিত যে এই নোটিশটি মুছে ফেলতে চান?")) {
                 fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "delete_notice", row: row }) }).then(() => loadNotices());
             }
         }
