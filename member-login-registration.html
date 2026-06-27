@@ -211,7 +211,29 @@
                 base64: base64Data // ছবি না থাকলে ব্ল্যাঙ্ক স্ট্রিং যাবে
             };
 
-            fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) }).then(response => response.json()).then(data => { if (data.status === "success") { alert("অভিনন্দন! আপনার রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে। অ্যাডমিন অ্যাকাউন্টটি অ্যাপ্রুভ করার পর আপনি লগইন করতে পারবেন।"); document.getElementById('memberRegisterForm').reset(); profileImagePreview.src = "https://via.placeholder.com/150?text=ছবি+(ঐচ্ছিক)"; croppedImageData.value = ''; } else { alert("রেজিস্ট্রেশন ব্যর্থ হয়েছে: " + data.message); } }).catch(error => { alert("নেটওয়ার্ক সমস্যা!"); }).finally(() => { submitBtn.innerHTML = 'রেজিস্ট্রেশন সম্পন্ন করুন'; submitBtn.disabled = false; });
+            fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
+            .then(response => response.json())
+            .then(data => { 
+                if (data.status === "success") { 
+                    alert("অভিনন্দন! আপনার রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে। অ্যাডমিন অ্যাকাউন্টটি অ্যাপ্রুভ করার পর আপনি লগইন করতে পারবেন।"); 
+                    document.getElementById('memberRegisterForm').reset(); 
+                    profileImagePreview.src = "https://via.placeholder.com/150?text=ছবি+(ঐচ্ছিক)"; 
+                    croppedImageData.value = ''; 
+                    
+                    // রেজিস্ট্রেশন সফল হওয়ার পর হোমপেজে নিয়ে যাওয়ার লাইন
+                    window.location.href = "index.html";
+                    
+                } else { 
+                    alert("রেজিস্ট্রেশন ব্যর্থ হয়েছে: " + data.message); 
+                } 
+            })
+            .catch(error => { 
+                alert("নেটওয়ার্ক সমস্যা!"); 
+            })
+            .finally(() => { 
+                submitBtn.innerHTML = 'রেজিস্ট্রেশন সম্পন্ন করুন'; 
+                submitBtn.disabled = false; 
+            });
         });
     </script>
 </body>
