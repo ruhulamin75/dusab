@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>গ্যালারি ম্যানেজমেন্ট - DUSAB Admin</title>
+    <script>if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') { window.location.href = 'admin-login.html'; }</script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <style>
+        :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; --sidebar-width: 260px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); display: flex; overflow-x: hidden; }
+        .sidebar { width: var(--sidebar-width); background-color: var(--primary-color); height: 100vh; position: fixed; top: 0; left: 0; color: var(--white); transition: 0.3s; z-index: 1000; }
+        .sidebar-header { padding: 20px; text-align: center; border-bottom: 3px solid var(--accent-color); background-color: var(--white); }
+        .sidebar-header img { height: 60px; margin-bottom: 10px; }
+        .sidebar-header h3 { font-size: 18px; color: var(--primary-color); font-weight: 700; }
+        .sidebar-menu { list-style: none; padding: 20px 0; }
+        .sidebar-menu li { padding: 10px 20px; }
+        .sidebar-menu li a { color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; font-size: 16px; padding: 10px; border-radius: 6px; transition: 0.3s; }
+        .sidebar-menu li a i { margin-right: 15px; width: 20px; text-align: center; font-size: 18px; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background-color: var(--accent-color); color: var(--primary-color); font-weight: 600; }
+        .main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; transition: 0.3s; padding-bottom: 40px;}
+        .topbar { background-color: var(--white); height: 70px; padding: 0 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 999; }
+        .menu-toggle { font-size: 24px; color: var(--primary-color); cursor: pointer; display: none; }
+        .admin-profile { display: flex; align-items: center; gap: 15px; font-weight:600; color:var(--secondary-color); }
+        .admin-profile img { height: 40px; width: 40px; border-radius: 50%; border: 2px solid var(--accent-color); }
+        .dashboard-content { padding: 30px; }
+        .page-title { margin-bottom: 25px; color: var(--secondary-color); font-size: 24px; }
+        .content-box { background-color: var(--white); border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; border-top: 4px solid var(--primary-color);}
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group.full-width { grid-column: 1 / -1; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); }
+        .input-group input[type="text"], .input-group input[type="file"], .input-group input[type="date"] { width: 100%; padding: 12px 15px; border: 1px solid #ced4da; border-radius: 6px; font-size: 16px; outline: none; background-color: #fcfcfc; }
+        .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 12px 25px; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 10px; width: 100%;}
+        .btn-submit:hover { background-color: var(--secondary-color); }
+        .preview-container { display: none; margin-top: 15px; text-align: center; }
+        .preview-container img { max-width: 100%; height: auto; max-height: 300px; border-radius: 8px; border: 2px solid var(--accent-color); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table th, table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle; }
+        table th { background-color: #f8f9fa; color: var(--secondary-color); font-weight: 600; }
+        .gallery-img-preview { width: 100px; height: 75px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
+        .action-btns button { border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; color: white; margin-right: 5px; font-size: 14px; transition: 0.3s;}
+        .btn-edit { background-color: #f39c12; }
+        .btn-delete { background-color: #e74c3c; }
+        #loadingMessage { text-align: center; padding: 20px; font-size: 18px; color: var(--primary-color); display: none; }
+        .crop-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; padding: 20px; }
+        .crop-modal-content { background-color: var(--white); padding: 20px; border-radius: 8px; width: 100%; max-width: 600px; }
+        .crop-container { width: 100%; height: 400px; margin-bottom: 20px; background-color: #eee;}
+        .crop-container img { max-width: 100%; display: block; }
+        .crop-modal-buttons { display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-crop-cancel, .btn-crop-save { color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        .btn-crop-cancel { background-color: #6c757d; } .btn-crop-save { background-color: var(--primary-color); }
+        @media (max-width: 992px) { .sidebar { left: -260px; } .sidebar.active { left: 0; } .main-content { margin-left: 0; width: 100%; } .menu-toggle { display: block; } }
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .content-box { overflow-x: auto; } }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header"><img src="logo.png"><h3>অ্যাডমিন প্যানেল</h3></div>
+        <ul class="sidebar-menu">
+            <li><a href="admin-panel.html"><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড</a></li>
+            <li><a href="member-management.html"><i class="fas fa-users-cog"></i> মেম্বার ম্যানেজমেন্ট</a></li>
+            <li><a href="admin-gallery.html" class="active"><i class="fas fa-images"></i> গ্যালারি ম্যানেজমেন্ট</a></li>
+            <li><a href="notice-management.html"><i class="fas fa-bullhorn"></i> নোটিশ বোর্ড</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="topbar">
+            <div class="menu-toggle" id="menuToggleBtn"><i class="fas fa-bars"></i></div>
+            <div class="admin-profile"><img src="logo.png"><span>DUSAB Admin</span></div>
+        </div>
+        <div class="dashboard-content">
+            <h2 class="page-title">গ্যালারি ম্যানেজমেন্ট</h2>
+            <div class="content-box">
+                <h3 style="margin-bottom:20px;">নতুন ছবি আপলোড করুন</h3>
+                <form id="uploadForm">
+                    <div class="form-grid">
+                        <div class="input-group"><label>ছবির ক্যাপশন</label><input type="text" id="imageCaption" placeholder="ক্যাপশন লিখুন" required></div>
+                        <div class="input-group"><label>ছবির তারিখ</label><input type="date" id="imageDate" required></div>
+                        <div class="input-group full-width"><label>ছবি নির্বাচন করুন</label><input type="file" id="imageFile" accept="image/*" required></div>
+                    </div>
+                    <div class="preview-container" id="previewContainer"><p style="margin-bottom:10px; font-weight:600; color:var(--primary-color);">ফাইনাল প্রিভিউ:</p><img id="finalImagePreview"></div>
+                    <input type="hidden" id="croppedBase64Data"><input type="hidden" id="croppedFileName">
+                    <button type="submit" class="btn-submit" id="submitBtn"><i class="fas fa-cloud-upload-alt"></i> ছবি আপলোড করুন</button>
+                </form>
+            </div>
+            <div class="content-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3>আপলোডকৃত ছবিসমূহ</h3>
+                    <button onclick="loadGalleryData()" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:16px;"><i class="fas fa-sync-alt"></i> রিফ্রেশ</button>
+                </div>
+                <div id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> ডেটা লোড হচ্ছে...</div>
+                <div style="overflow-x: auto;"><table id="galleryTable"><thead><tr><th>তারিখ</th><th>ছবি</th><th>ক্যাপশন</th><th>অ্যাকশন</th></tr></thead><tbody id="galleryTableBody"></tbody></table></div>
+            </div>
+        </div>
+    </div>
+    <div id="cropModal" class="crop-modal"><div class="crop-modal-content"><h3 style="margin-bottom:15px; color:var(--primary-color);">ছবিটি ক্রপ করুন</h3><div class="crop-container"><img id="imageToCrop"></div><div class="crop-modal-buttons"><button class="btn-crop-cancel" onclick="closeCropModal()">বাতিল</button><button class="btn-crop-save" onclick="cropAndSave()">ক্রপ করুন</button></div></div></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script>
+        // ========================================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec"; // <-- URL বসান
+        // ========================================================
+        document.getElementById('imageDate').valueAsDate = new Date();
+        const sidebar = document.getElementById('sidebar');
+        document.getElementById('menuToggleBtn').addEventListener('click', (e) => { sidebar.classList.toggle('active'); e.stopPropagation(); });
+
+        let cropper;
+        const cropModal = document.getElementById('cropModal'), imageToCrop = document.getElementById('imageToCrop'), imageFile = document.getElementById('imageFile'), previewContainer = document.getElementById('previewContainer'), finalImagePreview = document.getElementById('finalImagePreview'), croppedBase64Data = document.getElementById('croppedBase64Data'), croppedFileName = document.getElementById('croppedFileName');
+
+        imageFile.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                croppedFileName.value = file.name; const reader = new FileReader();
+                reader.onload = function(event) { imageToCrop.src = event.target.result; cropModal.style.display = 'flex'; if (cropper) { cropper.destroy(); } cropper = new Cropper(imageToCrop, { aspectRatio: 4 / 3, viewMode: 1 }); };
+                reader.readAsDataURL(file);
+            }
+        });
+        function closeCropModal() { cropModal.style.display = 'none'; if (cropper) { cropper.destroy(); } if (!croppedBase64Data.value) { imageFile.value = ''; } }
+        function cropAndSave() { if (cropper) { const canvas = cropper.getCroppedCanvas({ width: 800, height: 600 }); const dataUrl = canvas.toDataURL('image/jpeg', 0.8); finalImagePreview.src = dataUrl; previewContainer.style.display = 'block'; croppedBase64Data.value = dataUrl.split(',')[1]; closeCropModal(); } }
+
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault(); const base64 = croppedBase64Data.value; if (!base64) { alert('ছবি ক্রপ করুন!'); return; }
+            const submitBtn = document.getElementById('submitBtn'); submitBtn.disabled = true; submitBtn.innerText = "আপলোড হচ্ছে...";
+            const rawDate = document.getElementById('imageDate').value.split('-');
+
+            fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: "add_gallery", caption: document.getElementById('imageCaption').value, date: `${rawDate[2]}/${rawDate[1]}/${rawDate[0]}`, fileName: croppedFileName.value.replace(/\.[^/.]+$/, "") + ".jpg", mimeType: "image/jpeg", base64: base64 })
+            }).then(res => res.json()).then(data => { if(data.status==="success"){ alert("সফল হয়েছে!"); document.getElementById('uploadForm').reset(); document.getElementById('imageDate').valueAsDate = new Date(); previewContainer.style.display = 'none'; croppedBase64Data.value = ''; loadGalleryData(); } }).finally(() => { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> ছবি আপলোড করুন'; });
+        });
+
+        function loadGalleryData() {
+            const tableBody = document.getElementById('galleryTableBody'), loadingMsg = document.getElementById('loadingMessage');
+            tableBody.innerHTML = ''; loadingMsg.style.display = 'block';
+            
+            // সংশোধিত: GET এর বদলে POST রিকোয়েস্ট
+            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_gallery" }) })
+            .then(res => res.json()).then(data => {
+                loadingMsg.style.display = 'none'; if(data.length === 0) { tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">কোনো ছবি পাওয়া যায়নি।</td></tr>'; return; }
+                data.reverse().forEach(item => {
+                    tableBody.innerHTML += `<tr><td>${item.date}</td><td><img src="${item.url}" class="gallery-img-preview"></td><td>${item.caption}</td><td class="action-btns"><button class="btn-edit" onclick="editCaption(${item.row}, '${item.caption}')"><i class="fas fa-edit"></i></button><button class="btn-delete" onclick="deleteImage(${item.row})"><i class="fas fa-trash-alt"></i></button></td></tr>`;
+                });
+            }).catch(() => { loadingMsg.innerHTML = '<span style="color:red;">লোড ব্যর্থ হয়েছে!</span>'; });
+        }
+        function editCaption(row, old) { const n = prompt("নতুন ক্যাপশন:", old); if (n && n.trim() !== "" && n !== old) { fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "edit_gallery", row: row, caption: n }) }).then(() => loadGalleryData()); } }
+        function deleteImage(row) { if (confirm("মুছে ফেলতে চান?")) { fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "delete_gallery", row: row }) }).then(() => loadGalleryData()); } }
+        window.onload = loadGalleryData;
+    </script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অ্যাডমিন লগইন - DUSAB</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #7D1B7E; 
+            --secondary-color: #262E7A; 
+            --accent-color: #D4AF37; 
+            --bg-light: #f4f5f7;
+            --text-dark: #212529;
+            --white: #ffffff;
+            --border-color: #ced4da;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f4f5f7 0%, #e8d5e8 100%);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 450px; 
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .brand-header img {
+            height: 80px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .auth-container {
+            background-color: var(--white);
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(125, 27, 126, 0.15);
+            overflow: hidden;
+            border-top: 5px solid var(--primary-color);
+            padding: 40px 30px;
+        }
+
+        .admin-badge {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .admin-badge i {
+            font-size: 40px;
+            color: var(--primary-color);
+            background: #f8eaf8;
+            padding: 15px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+        }
+
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 16px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #fcfcfc;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px rgba(125, 27, 126, 0.2);
+            background-color: var(--white);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 45px;
+            cursor: pointer;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--secondary-color);
+            box-shadow: 0 4px 12px rgba(38, 46, 122, 0.25);
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .back-home a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 600;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        
+        .back-home a:hover {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        
+        <div class="brand-header">
+            <img src="logo.png" alt="DUSAB Logo">
+        </div>
+
+        <div class="auth-container">
+            <div class="admin-badge">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <h2>অ্যাডমিন প্যানেল লগইন</h2>
+            
+            <form id="adminLoginForm">
+                <div class="input-group">
+                    <label>অ্যাডমিন ইমেইল</label>
+                    <input type="email" id="adminEmail" placeholder="অ্যাডমিন ইমেইল দিন" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>পাসওয়ার্ড</label>
+                    <input type="password" id="adminPassword" placeholder="পাসওয়ার্ড লিখুন" required>
+                    <i class="far fa-eye toggle-password" onclick="togglePasswordVisibility('adminPassword', this)"></i>
+                </div>
+                
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-sign-in-alt"></i> লগইন করুন
+                </button>
+            </form>
+        </div>
+
+        <div class="back-home">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> হোমপেজে ফিরে যান</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility(inputId, icon) {
+            const passwordInput = document.getElementById(inputId);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        document.getElementById('adminLoginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const emailValue = document.getElementById('adminEmail').value;
+            const passwordValue = document.getElementById('adminPassword').value;
+
+            if (emailValue === 'ourdusab@gmail.com' && passwordValue === '123456') {
+                // লগইন সফল হলে ব্রাউজারে সেশন সেভ হবে
+                sessionStorage.setItem('isAdminLoggedIn', 'true');
+                window.location.href = 'admin-panel.html';
+            } else {
+                alert('দুঃখিত! ভুল ইমেইল বা পাসওয়ার্ড দিয়েছেন। দয়া করে সঠিক তথ্য দিন।');
+            }
+        });
+    </script>
+</body>
+</html>

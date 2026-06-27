@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নোটিশ বোর্ড - DUSAB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 80px; }
+        header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; }
+        .logo img { height: 60px; display: block; }
+        .nav-links { display: flex; list-style: none; align-items: center; }
+        .nav-links li { position: relative; }
+        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; display: block; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background-color: var(--white); min-width: 160px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-top: 3px solid var(--accent-color); list-style: none; padding: 5px 0; }
+        .dropdown-menu li a { padding: 10px 15px; font-size: 15px; color: var(--primary-color); }
+        .dropdown:hover .dropdown-menu { display: block; }
+        .menu-toggle { display: none; color: var(--primary-color); font-size: 26px; cursor: pointer; }
+        .page-header { background: linear-gradient(rgba(125, 27, 126, 0.85), rgba(38, 46, 122, 0.90)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200') no-repeat center center/cover; padding: 80px 20px 50px; text-align: center; color: var(--white); }
+        .page-header h1 { font-size: 36px; color: var(--accent-color); margin-bottom: 10px; }
+        .notice-container { max-width: 900px; margin: 50px auto; padding: 0 20px; min-height: 400px; }
+        .notice-card { background-color: var(--white); border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid var(--accent-color); transition: 0.3s; }
+        .notice-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .notice-date { color: var(--primary-color); font-weight: 600; font-size: 14px; margin-bottom: 8px; display: inline-flex; align-items: center; gap: 6px; background-color: #f3e5f5; padding: 4px 12px; border-radius: 50px;}
+        .notice-title { font-size: 22px; color: var(--secondary-color); font-weight: 700; margin-bottom: 12px; }
+        .notice-content { font-size: 16px; color: #555; white-space: pre-wrap; }
+        #loadingMessage { text-align: center; font-size: 18px; color: var(--primary-color); margin-top: 30px; }
+        @media (max-width: 768px) { .menu-toggle { display: block; } .nav-links { position: absolute; top: 100%; left: -100%; width: 100%; height: 100vh; background-color: var(--white); flex-direction: column; align-items: flex-start; padding: 20px; transition: 0.5s; } .nav-links.active { left: 0; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo"><a href="index.html"><img src="logo.png" alt="Logo"></a></div>
+            <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+            <ul class="nav-links" id="nav-menu"></ul>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <h1>নোটিশ বোর্ড</h1>
+        <p>সংগঠনের সকল আপডেট, মিটিং ও গুরুত্বপূর্ণ ঘোষণা এখানে পাবেন।</p>
+    </section>
+
+    <div class="notice-container">
+        <div id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> নোটিশ বোর্ড লোড হচ্ছে...</div>
+        <div id="noticeList"></div>
+    </div>
+
+    <script>
+        // ========================================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec"; // <-- URL বসান
+        // ========================================================
+
+        document.getElementById('mobile-menu').addEventListener('click', () => { document.getElementById('nav-menu').classList.toggle('active'); });
+
+        const memberDataString = sessionStorage.getItem('memberData'), navMenu = document.getElementById('nav-menu');
+        if (memberDataString) {
+            navMenu.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html" class="active"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
+        } else {
+            navMenu.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html" class="active"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
+        }
+
+        // টেক্সটের ভেতরের লিংক স্বয়ংক্রিয়ভাবে ক্লিকেবল করার ফাংশন
+        function makeLinksClickable(text) {
+            const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            return text.replace(urlRegex, function(url) {
+                return '<a href="' + url + '" target="_blank" style="color: #2980b9; text-decoration: underline; font-weight: 600;">' + url + '</a>';
+            });
+        }
+
+        // নোটিশ লোড করা
+        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_notices" }) })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('loadingMessage').style.display = 'none';
+            const noticeList = document.getElementById('noticeList');
+            if(data.length === 0) {
+                noticeList.innerHTML = '<h3 style="text-align: center; color: #888;">এখনো কোনো নোটিশ প্রকাশ করা হয়নি।</h3>';
+                return;
+            }
+            data.reverse().forEach(item => {
+                // ক্লিকেবল লিংক ফাংশন এখানে ব্যবহার করা হয়েছে
+                const dynamicContent = makeLinksClickable(item.content);
+                
+                noticeList.innerHTML += `
+                    <div class="notice-card">
+                        <div class="notice-date"><i class="far fa-calendar-alt"></i> ${item.date}</div>
+                        <div class="notice-title">${item.title}</div>
+                        <div class="notice-content">${dynamicContent}</div>
+                    </div>
+                `;
+            });
+        }).catch(() => { document.getElementById('loadingMessage').innerHTML = 'নোটিশ লোড করতে সমস্যা হয়েছে!'; });
+    </script>
+</body>
+</html>

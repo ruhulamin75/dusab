@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মেম্বার ম্যানেজমেন্ট - DUSAB Admin</title>
+    
+    <script>
+        if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') { window.location.href = 'admin-login.html'; }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; --sidebar-width: 260px; --border-color: #ced4da; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); display: flex; overflow-x: hidden; }
+
+        .sidebar { width: var(--sidebar-width); background-color: var(--primary-color); height: 100vh; position: fixed; top: 0; left: 0; color: var(--white); transition: 0.3s; z-index: 1000; }
+        .sidebar-header { padding: 20px; text-align: center; border-bottom: 3px solid var(--accent-color); background-color: var(--white); }
+        .sidebar-header img { height: 60px; margin-bottom: 10px; }
+        .sidebar-header h3 { font-size: 18px; color: var(--primary-color); font-weight: 700; }
+        .sidebar-menu { list-style: none; padding: 20px 0; }
+        .sidebar-menu li { padding: 10px 20px; }
+        .sidebar-menu li a { color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; font-size: 16px; padding: 10px; border-radius: 6px; transition: 0.3s; }
+        .sidebar-menu li a i { margin-right: 15px; width: 20px; font-size: 18px; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background-color: var(--accent-color); color: var(--primary-color); font-weight: 600; }
+
+        .main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; transition: 0.3s; padding-bottom: 40px;}
+        .topbar { background-color: var(--white); height: 70px; padding: 0 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 999; }
+        .menu-toggle { font-size: 24px; color: var(--primary-color); cursor: pointer; display: none; }
+        
+        .admin-profile { display: flex; align-items: center; gap: 15px; }
+        .admin-profile span { font-weight: 600; color: var(--secondary-color); }
+        .admin-profile img { height: 40px; width: 40px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover; }
+        
+        .dashboard-content { padding: 30px; }
+        .page-title { margin-bottom: 25px; color: var(--secondary-color); font-size: 24px; }
+        .content-box { background-color: var(--white); border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-color);}
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table th, table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle; }
+        table th { background-color: #f8f9fa; color: var(--secondary-color); font-weight: 600; white-space: nowrap; }
+        
+        .member-thumb { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd; }
+        .badge { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block;}
+        .badge-pending { background-color: #fcf3cf; color: #d4ac0d; }
+        .badge-approved { background-color: #d5f5e3; color: #27ae60; }
+        
+        .action-btns button { border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; color: white; margin-right: 3px; font-size: 12px; font-weight: 600; transition: 0.3s;}
+        .btn-view { background-color: #3498db; }
+        .btn-view:hover { background-color: #2980b9; }
+        .btn-edit { background-color: #f39c12; }
+        .btn-edit:hover { background-color: #d68910; }
+        .btn-approve { background-color: #27ae60; }
+        .btn-approve:hover { background-color: #219150; }
+        .btn-delete { background-color: #e74c3c; }
+        .btn-delete:hover { background-color: #c0392b; }
+
+        #loadingMessage { text-align: center; padding: 20px; font-size: 18px; color: var(--primary-color); display: none; }
+
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background-color: var(--white); border-radius: 8px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); position: relative;}
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #777; }
+        .close-btn:hover { color: red; }
+        
+        .modal-header { display: flex; align-items: center; gap: 15px; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .modal-header img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-color); }
+        .modal-body p { margin-bottom: 8px; font-size: 15px; }
+        .modal-body strong { color: var(--secondary-color); display: inline-block; width: 140px; }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;}
+        .full-width { grid-column: 1 / -1; }
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { margin-bottom: 5px; font-weight: 600; color: var(--secondary-color); }
+        .input-group input, .input-group select, .input-group textarea { padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; outline: none; }
+        .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 12px; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 20px; width: 100%;}
+        .btn-submit:hover { background-color: var(--secondary-color); }
+
+        @media (max-width: 992px) { .sidebar { left: -260px; } .sidebar.active { left: 0; box-shadow: 4px 0 15px rgba(0,0,0,0.2); } .main-content { margin-left: 0; width: 100%; } .menu-toggle { display: block; } }
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .content-box { overflow-x: auto; } }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="logo.png" alt="DUSAB Logo">
+            <h3>অ্যাডমিন প্যানেল</h3>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="admin-panel.html"><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড</a></li>
+            <li><a href="member-management.html" class="active"><i class="fas fa-users-cog"></i> মেম্বার ম্যানেজমেন্ট</a></li>
+            <li><a href="admin-gallery.html"><i class="fas fa-images"></i> গ্যালারি ম্যানেজমেন্ট</a></li>
+            <li><a href="#"><i class="fas fa-bullhorn"></i> নোটিশ বোর্ড</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="topbar">
+            <div class="menu-toggle" id="menuToggleBtn">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="admin-profile">
+                <img src="logo.png" alt="Admin">
+                <span>DUSAB Admin</span>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <h2 class="page-title">মেম্বার ম্যানেজমেন্ট</h2>
+
+            <div class="content-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="color: var(--secondary-color);">রেজিস্টারকৃত মেম্বারদের তালিকা</h3>
+                    <button onclick="loadMembers()" style="background: none; border: none; color: var(--primary-color); cursor: pointer; font-size: 16px;"><i class="fas fa-sync-alt"></i> রিফ্রেশ করুন</button>
+                </div>
+                
+                <div id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> মেম্বারদের ডেটা লোড হচ্ছে...</div>
+                
+                <div style="overflow-x: auto;">
+                    <table id="memberTable">
+                        <thead>
+                            <tr>
+                                <th>ছবি</th>
+                                <th>নাম</th>
+                                <th>মোবাইল</th>
+                                <th>সেশন</th>
+                                <th>রক্তের গ্রুপ</th>
+                                <th>স্ট্যাটাস</th>
+                                <th>অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memberTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('detailsModal')">&times;</span>
+            <div class="modal-header">
+                <img id="mPhoto" src="https://via.placeholder.com/80" alt="Member Photo">
+                <div>
+                    <h2 id="mName" style="color: var(--primary-color); margin-bottom: 5px;">নাম</h2>
+                    <span id="mStatusBadge"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p><strong><i class="fas fa-phone-alt"></i> মোবাইল নাম্বার:</strong> <span id="mPhone"></span></p>
+                <p><strong><i class="fas fa-calendar-alt"></i> সেশন:</strong> <span id="mSession"></span></p>
+                <p><strong><i class="fas fa-graduation-cap"></i> ডিপার্টমেন্ট:</strong> <span id="mDept"></span></p>
+                <p><strong><i class="fas fa-building"></i> হল:</strong> <span id="mHall"></span></p>
+                <p><strong><i class="fas fa-tint"></i> রক্তের গ্রুপ:</strong> <span id="mBlood"></span></p>
+                <p><strong><i class="fas fa-map-marker-alt"></i> গ্রাম/ইউনিয়ন:</strong> <span id="mVillage"></span></p>
+                <hr style="margin: 15px 0; border: 1px solid #eee;">
+                <p><strong><i class="fas fa-school"></i> স্কুল/মাদ্রাসা:</strong> <span id="mSchool"></span></p>
+                <p><strong><i class="fas fa-university"></i> কলেজ/মাদ্রাসা:</strong> <span id="mCollege"></span></p>
+                <p><strong><i class="fas fa-home"></i> বর্তমান ঠিকানা:</strong> <span id="mAddress"></span></p>
+                <hr style="margin: 15px 0; border: 1px solid #eee;">
+                <p><strong><i class="fas fa-key"></i> পাসওয়ার্ড:</strong> <span id="mPassword" style="color: #e74c3c; font-family: monospace;"></span></p>
+                <p><strong><i class="far fa-clock"></i> রেজিস্ট্রেশন তারিখ:</strong> <span id="mDate"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('editModal')">&times;</span>
+            <h2 style="color: var(--primary-color); border-bottom: 2px solid #eee; padding-bottom: 10px;">মেম্বার তথ্য এডিট করুন</h2>
+            
+            <form id="editMemberForm">
+                <input type="hidden" id="editRow">
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label>পূর্ণ নাম</label>
+                        <input type="text" id="editName" required>
+                    </div>
+                    <div class="input-group">
+                        <label>মোবাইল</label>
+                        <input type="tel" id="editPhone" required>
+                    </div>
+                    <div class="input-group">
+                        <label>রক্তের গ্রুপ</label>
+                        <select id="editBlood">
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>সেশন</label>
+                        <input type="text" id="editSession" required>
+                    </div>
+                    <div class="input-group">
+                        <label>ডিপার্টমেন্ট</label>
+                        <input type="text" id="editDept" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>হল</label>
+                        <input type="text" id="editHall" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>গ্রাম/ইউনিয়ন</label>
+                        <input type="text" id="editVillage" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>স্কুল/মাদ্রাসা</label>
+                        <input type="text" id="editSchool">
+                    </div>
+                    <div class="input-group full-width">
+                        <label>কলেজ/মাদ্রাসা</label>
+                        <input type="text" id="editCollege">
+                    </div>
+                    <div class="input-group full-width">
+                        <label>বর্তমান ঠিকানা</label>
+                        <textarea id="editAddress" rows="3" required></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit" id="editSubmitBtn">তথ্য আপডেট করুন</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ========================================================
+        // অত্যন্ত গুরুত্বপূর্ণ: এখানে আপনার সেই নতুন Web App URL টি দিন
+        const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec";
+        // ========================================================
+
+        let membersData = []; 
+
+        // মেনু বার লজিক (টাইপো ফিক্সড)
+        const sidebar = document.getElementById('sidebar');
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        menuToggleBtn.addEventListener('click', (e) => { sidebar.classList.toggle('active'); e.stopPropagation(); });
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        function loadMembers() {
+            const tableBody = document.getElementById('memberTableBody');
+            const loadingMsg = document.getElementById('loadingMessage');
+            tableBody.innerHTML = '';
+            loadingMsg.style.display = 'block';
+
+            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_members" }) })
+            .then(response => response.json())
+            .then(data => {
+                loadingMsg.style.display = 'none';
+                if(data.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">কোনো মেম্বার পাওয়া যায়নি।</td></tr>';
+                    return;
+                }
+                
+                membersData = data; 
+                
+                data.reverse().forEach((item) => {
+                    const statusBadge = item.status === 'Approved' ? '<span class="badge badge-approved">Approved</span>' : '<span class="badge badge-pending">Pending</span>';
+                                        
+                    const pendingActions = `
+                        <button class="btn-view" onclick="viewDetails(${item.row})" title="বিস্তারিত"><i class="fas fa-eye"></i></button>
+                        <button class="btn-approve" onclick="approveMember(${item.row})" title="অ্যাপ্রুভ"><i class="fas fa-check"></i></button>
+                        <button class="btn-delete" onclick="deleteMember(${item.row})" title="রিজেক্ট"><i class="fas fa-times"></i></button>
+                    `;
+
+                    const approvedActions = `
+                        <button class="btn-view" onclick="viewDetails(${item.row})" title="বিস্তারিত"><i class="fas fa-eye"></i></button>
+                        <button class="btn-edit" onclick="openEditModal(${item.row})" title="এডিট"><i class="fas fa-edit"></i></button>
+                        <button class="btn-delete" onclick="deleteMember(${item.row})" title="মুছুন"><i class="fas fa-trash-alt"></i></button>
+                    `;
+
+                    const actionButtons = item.status === 'Pending' ? pendingActions : approvedActions;
+                    const photoUrl = item.photo ? item.photo : 'https://via.placeholder.com/45';
+
+                    const rowHtml = `
+                        <tr>
+                            <td><img src="${photoUrl}" class="member-thumb" alt="Photo"></td>
+                            <td style="font-weight: 600; color: var(--secondary-color);">${item.name}</td>
+                            <td>${item.phone}</td>
+                            <td>${item.session}</td>
+                            <td style="color: #e74c3c; font-weight: bold;">${item.blood}</td>
+                            <td>${statusBadge}</td>
+                            <td class="action-btns">${actionButtons}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += rowHtml;
+                });
+            })
+            .catch(error => { loadingMsg.innerHTML = '<span style="color:red;">ডেটা লোড করতে সমস্যা হয়েছে!</span>'; });
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function viewDetails(rowNum) {
+            const member = membersData.find(m => m.row === rowNum);
+            if(member) {
+                document.getElementById('mPhoto').src = member.photo ? member.photo : 'https://via.placeholder.com/80';
+                document.getElementById('mName').innerText = member.name;
+                document.getElementById('mStatusBadge').innerHTML = member.status === 'Approved' ? '<span class="badge badge-approved">Approved</span>' : '<span class="badge badge-pending">Pending</span>';
+                document.getElementById('mPhone').innerText = member.phone;
+                document.getElementById('mSession').innerText = member.session;
+                document.getElementById('mDept').innerText = member.dept;
+                document.getElementById('mHall').innerText = member.hall;
+                document.getElementById('mBlood').innerText = member.blood;
+                document.getElementById('mVillage').innerText = member.village;
+                document.getElementById('mSchool').innerText = member.school;
+                document.getElementById('mCollege').innerText = member.college;
+                document.getElementById('mAddress').innerText = member.address;
+                document.getElementById('mPassword').innerText = member.password;
+                document.getElementById('mDate').innerText = member.date;
+                document.getElementById('detailsModal').style.display = 'flex';
+            }
+        }
+
+        function openEditModal(rowNum) {
+            const member = membersData.find(m => m.row === rowNum);
+            if(member) {
+                document.getElementById('editRow').value = member.row;
+                document.getElementById('editName').value = member.name;
+                document.getElementById('editPhone').value = member.phone;
+                document.getElementById('editBlood').value = member.blood;
+                document.getElementById('editSession').value = member.session;
+                document.getElementById('editDept').value = member.dept;
+                document.getElementById('editHall').value = member.hall;
+                document.getElementById('editVillage').value = member.village;
+                document.getElementById('editSchool').value = member.school;
+                document.getElementById('editCollege').value = member.college;
+                document.getElementById('editAddress').value = member.address;
+                document.getElementById('editModal').style.display = 'flex';
+            }
+        }
+
+        // এডিট ফর্ম সাবমিট (লক ফিক্সড)
+        document.getElementById('editMemberForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('editSubmitBtn');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> আপডেট হচ্ছে...';
+            submitBtn.disabled = true;
+
+            const payload = {
+                action: "edit_member",
+                row: document.getElementById('editRow').value,
+                name: document.getElementById('editName').value,
+                phone: document.getElementById('editPhone').value,
+                blood: document.getElementById('editBlood').value,
+                session: document.getElementById('editSession').value,
+                dept: document.getElementById('editDept').value,
+                hall: document.getElementById('editHall').value,
+                village: document.getElementById('editVillage').value,
+                school: document.getElementById('editSchool').value,
+                college: document.getElementById('editCollege').value,
+                address: document.getElementById('editAddress').value
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === "success") {
+                    alert("মেম্বার তথ্য সফলভাবে আপডেট হয়েছে!");
+                    closeModal('editModal');
+                    loadMembers(); 
+                } else {
+                    alert("আপডেট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
+                }
+            })
+            .catch(error => alert("নেটওয়ার্ক সমস্যা!"))
+            .finally(() => {
+                submitBtn.innerHTML = 'তথ্য আপডেট করুন';
+                submitBtn.disabled = false;
+            });
+        });
+
+        function approveMember(rowNum) {
+            if (confirm("আপনি কি এই মেম্বারকে অ্যাপ্রুভ করতে চান?")) {
+                fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "approve_member", row: rowNum }) })
+                .then(response => response.json())
+                .then(data => { if(data.status === "success") { loadMembers(); } });
+            }
+        }
+
+        function deleteMember(rowNum) {
+            if (confirm("আপনি কি নিশ্চিত যে এই মেম্বারের ডেটা মুছে ফেলতে চান? এটি ড্রাইভ থেকেও ছবি মুছে দেবে।")) {
+                fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "delete_member", row: rowNum }) })
+                .then(response => response.json())
+                .then(data => { if(data.status === "success") { loadMembers(); } });
+            }
+        }
+
+        window.onload = loadMembers;
+    </script>
+</body>
+</html>

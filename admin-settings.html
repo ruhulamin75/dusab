@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ওয়েবসাইট সেটিংস - DUSAB Admin</title>
+    <script>if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') window.location.href = 'admin-login.html';</script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --white: #ffffff; --sidebar-width: 260px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background-color: var(--bg-light); display: flex; overflow-x: hidden; }
+        
+        /* Sidebar & Topbar */
+        .sidebar { width: var(--sidebar-width); background-color: var(--primary-color); height: 100vh; position: fixed; color: var(--white); z-index: 1000; }
+        .sidebar-header { padding: 20px; text-align: center; border-bottom: 3px solid var(--accent-color); background-color: var(--white); }
+        .sidebar-header img { height: 60px; margin-bottom: 10px; }
+        .sidebar-menu { list-style: none; padding: 20px 0; }
+        .sidebar-menu li a { color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; padding: 10px 20px; font-size: 16px; transition: 0.3s; }
+        .sidebar-menu li a:hover, .sidebar-menu li a.active { background-color: var(--accent-color); color: var(--primary-color); font-weight: 600; }
+        .sidebar-menu li a i { margin-right: 15px; width: 20px; }
+        .main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; padding-bottom: 40px;}
+        .topbar { background-color: var(--white); height: 70px; padding: 0 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .admin-profile { display: flex; align-items: center; gap: 15px; font-weight: 600; color: var(--secondary-color); }
+        .admin-profile img { height: 40px; width: 40px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover; }
+        
+        .dashboard-content { padding: 30px; }
+        .content-box { background-color: var(--white); border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-color); margin-bottom: 30px;}
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: 600; color: var(--secondary-color); margin-bottom: 8px; font-size: 17px;}
+        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 16px; outline: none; font-family: inherit;}
+        .input-group textarea { height: 120px; resize: vertical; }
+        .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 15px 25px; border: none; border-radius: 4px; font-size: 18px; cursor: pointer; width: 100%; font-weight: bold;}
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header"><img src="logo.png"><h3>অ্যাডমিন প্যানেল</h3></div>
+        <ul class="sidebar-menu">
+            <li><a href="admin-panel.html"><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড</a></li>
+            <li><a href="member-management.html"><i class="fas fa-users-cog"></i> মেম্বার ম্যানেজমেন্ট</a></li>
+            <li><a href="admin-gallery.html"><i class="fas fa-images"></i> গ্যালারি ম্যানেজমেন্ট</a></li>
+            <li><a href="notice-management.html"><i class="fas fa-bullhorn"></i> নোটিশ বোর্ড</a></li>
+            <li><a href="admin-settings.html" class="active"><i class="fas fa-cogs"></i> ওয়েবসাইট সেটিংস</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar"><div style="font-size:20px; font-weight:bold; color:var(--primary-color);">ওয়েবসাইট সেটিংস</div><div class="admin-profile"><img src="logo.png"><span>Admin</span></div></div>
+
+        <div class="dashboard-content">
+            <div class="content-box">
+                <h3 style="margin-bottom: 20px; color: var(--primary-color);"><i class="fas fa-edit"></i> হোমপেজের তথ্য পরিবর্তন করুন</h3>
+                <form id="settingsForm">
+                    <div class="input-group">
+                        <label>আমাদের সম্পর্কে (About Us)</label>
+                        <textarea id="aboutText" placeholder="সংগঠন সম্পর্কে বিস্তারিত লিখুন..." required></textarea>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <div class="input-group"><label>সভাপতির নাম</label><input type="text" id="presidentName" required></div>
+                            <div class="input-group"><label>সভাপতির বাণী</label><textarea id="presidentMsg" required></textarea></div>
+                        </div>
+                        <div>
+                            <div class="input-group"><label>সাধারণ সম্পাদকের নাম</label><input type="text" id="secretaryName" required></div>
+                            <div class="input-group"><label>সাধারণ সম্পাদকের বাণী</label><textarea id="secretaryMsg" required></textarea></div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit" id="saveBtn">সেভ করুন</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec"; // <-- নতুন URL বসান
+
+        // লোড হওয়ার সাথে সাথে বর্তমান ডেটা ফর্মে বসবে
+        window.onload = () => {
+            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_content" }) })
+            .then(res => res.json()).then(data => {
+                if(data.about_text) {
+                    document.getElementById('aboutText').value = data.about_text;
+                    document.getElementById('presidentName').value = data.president_name;
+                    document.getElementById('presidentMsg').value = data.president_msg;
+                    document.getElementById('secretaryName').value = data.secretary_name;
+                    document.getElementById('secretaryMsg').value = data.secretary_msg;
+                }
+            });
+        };
+
+        // ফর্ম সাবমিট (আপডেট)
+        document.getElementById('settingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('saveBtn');
+            btn.innerText = "আপডেট হচ্ছে..."; btn.disabled = true;
+
+            const payload = {
+                action: "update_content",
+                about_text: document.getElementById('aboutText').value,
+                president_name: document.getElementById('presidentName').value,
+                president_msg: document.getElementById('presidentMsg').value,
+                secretary_name: document.getElementById('secretaryName').value,
+                secretary_msg: document.getElementById('secretaryMsg').value
+            };
+
+            fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
+            .then(res => res.json()).then(data => {
+                if(data.status === "success") alert("হোমপেজের তথ্য সফলভাবে আপডেট হয়েছে!");
+            }).finally(() => { btn.innerText = "সেভ করুন"; btn.disabled = false; });
+        });
+    </script>
+</body>
+</html>
