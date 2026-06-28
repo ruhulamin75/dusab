@@ -169,8 +169,7 @@
 
     <script>
         // ========================================================
-        // অত্যন্ত গুরুত্বপূর্ণ: এখানে আপনার Master Web App URL টি দিন
-        const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbwzg8IKkY1cexDTxnAl3-PryfScT_QgOMKw1Rr6W6aThMly0Wf-21ywd_-GIcrmiuE3/exec"; // <-- নতুন API URL
         // ========================================================
 
         let allMembersData = []; 
@@ -270,6 +269,9 @@
             matchedMembers.forEach(item => {
                 const badgeClass = item.status === 'Approved' ? 'badge-approved' : 'badge-pending';
                 const photoUrl = item.photo ? item.photo : 'https://via.placeholder.com/150';
+                
+                // শেষ রক্তদানের ডেটা রিসিভ করা
+                const lastBloodText = item.lastBloodDonated ? item.lastBloodDonated : 'তথ্য নেই';
 
                 const cardHtml = `
                     <div class="member-card">
@@ -283,9 +285,14 @@
                             <div class="info-grid">
                                 <div class="info-item"><span><i class="fas fa-phone-alt"></i> মোবাইল</span><strong>${item.phone}</strong></div>
                                 <div class="info-item"><span><i class="fas fa-tint"></i> রক্তের গ্রুপ</span><strong style="color: #e74c3c;">${item.blood}</strong></div>
+                                
+                                <!-- শেষ রক্তদানের তথ্য যুক্ত করা হয়েছে -->
                                 <div class="info-item"><span><i class="fas fa-calendar-alt"></i> সেশন</span><strong>${item.session}</strong></div>
+                                <div class="info-item"><span><i class="fas fa-calendar-check"></i> শেষ রক্তদান</span><strong style="color: #e74c3c;">${lastBloodText}</strong></div>
+                                
                                 <div class="info-item"><span><i class="fas fa-graduation-cap"></i> ডিপার্টমেন্ট</span><strong>${item.dept}</strong></div>
-                                <div class="info-item full-width"><span><i class="fas fa-building"></i> হল</span><strong>${item.hall}</strong></div>
+                                <div class="info-item"><span><i class="fas fa-building"></i> হল</span><strong>${item.hall}</strong></div>
+                                
                                 <div class="info-item full-width"><span><i class="fas fa-map-marker-alt"></i> গ্রাম/ইউনিয়ন</span><strong>${item.village}</strong></div>
                                 <div class="info-item full-width"><span><i class="fas fa-home"></i> বর্তমান ঠিকানা</span><strong>${item.address}</strong></div>
                             </div>
