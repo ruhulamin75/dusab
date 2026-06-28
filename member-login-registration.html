@@ -179,7 +179,6 @@
                             </select>
                         </div>
                         
-                        <!-- নতুন যুক্ত করা ফিল্ড: শেষ রক্তদানের তারিখ -->
                         <div class="input-group">
                             <label>শেষ রক্তদানের তারিখ (ঐচ্ছিক)</label>
                             <input type="date" id="regLastBlood">
@@ -208,7 +207,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script>
         // ========================================================
-        const API_URL = "https://script.google.com/macros/s/AKfycbwzg8IKkY1cexDTxnAl3-PryfScT_QgOMKw1Rr6W6aThMly0Wf-21ywd_-GIcrmiuE3/exec"; // <-- নতুন URL বসানো হয়েছে
+        const API_URL = "https://script.google.com/macros/s/AKfycbwzg8IKkY1cexDTxnAl3-PryfScT_QgOMKw1Rr6W6aThMly0Wf-21ywd_-GIcrmiuE3/exec"; 
         // ========================================================
 
         function switchTab(tabId) {
@@ -220,6 +219,20 @@
         function togglePasswordVisibility(inputId, icon) {
             const passwordInput = document.getElementById(inputId);
             if (passwordInput.type === 'password') { passwordInput.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { passwordInput.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
+        }
+
+        // তারিখকে সুন্দর বাংলা ফরম্যাটে রূপান্তর করার ফাংশন
+        function formatBengaliDate(dateString) {
+            if (!dateString) return "";
+            const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+            const engToBng = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+            
+            const dateObj = new Date(dateString);
+            const day = dateObj.getDate().toString().split('').map(c => engToBng[c]).join('');
+            const month = months[dateObj.getMonth()];
+            const year = dateObj.getFullYear().toString().split('').map(c => engToBng[c]).join('');
+            
+            return `${day} ${month}, ${year}`;
         }
 
         let cropper;
@@ -254,8 +267,11 @@
             let base64Data = "";
             if(imageRaw) { base64Data = imageRaw.split(',')[1]; }
             const phone = document.getElementById('regPhone').value;
+            
+            // Raw Date-কে বাংলা টেক্সটে কনভার্ট করা হচ্ছে
+            const rawDate = document.getElementById('regLastBlood').value;
+            const formattedBloodDate = formatBengaliDate(rawDate);
 
-            // payload এ lastBloodDonated যুক্ত করা হয়েছে
             const payload = {
                 action: "register_member",
                 name: document.getElementById('regName').value,
@@ -265,7 +281,7 @@
                 village: document.getElementById('regVillage').value,
                 phone: phone,
                 blood: document.getElementById('regBlood').value,
-                lastBloodDonated: document.getElementById('regLastBlood').value, // <--- নতুন ডেটা
+                lastBloodDonated: formattedBloodDate, // ফরম্যাট করা ডেট পাঠানো হলো
                 password: document.getElementById('regPassword').value,
                 school: document.getElementById('regSchool').value,
                 college: document.getElementById('regCollege').value,
@@ -300,7 +316,6 @@
         });
     </script>
 <script>
-    // Service Worker রেজিস্টার করা
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/dusab/sw.js')
@@ -313,6 +328,5 @@
         });
     }
 </script>
-
 </body>
 </html>
