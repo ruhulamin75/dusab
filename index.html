@@ -61,7 +61,7 @@
         .message-card h4 { color: var(--secondary-color); font-size: 18px; }
         .message-card span { color: var(--primary-color); font-size: 14px; font-weight: 600; }
 
-        /* লক্ষ্য ও উদ্দেশ্য (সংবিধান অনুযায়ী) */
+        /* লক্ষ্য ও উদ্দেশ্য */
         .features-section { background-color: var(--white); padding: 80px 20px; }
         .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
         .feature-card { padding: 30px; border-radius: 10px; transition: 0.3s; border: 1px solid #eee; background: #fdfdfd; }
@@ -126,8 +126,8 @@
         <h1>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব<br>ব্রাহ্মণপাড়া (DUSAB)</h1>
         <p>"শিক্ষা-সহযোগিতা-ভ্রাতৃত্ব" - এই পবিত্র মোটিভকে বুকে ধারণ করে গড়ে ওঠা ডুসাব পরিবারের অফিসিয়াল ওয়েবসাইটে আপনাকে স্বাগতম।</p>
         <div class="hero-btns">
-            <!-- বাটন পরিবর্তন করা হয়েছে -->
-            <a href="member-login-registration.html" class="btn btn-primary">লগইন/রেজিস্ট্রেশন</a>
+            <!-- id="heroLoginBtn" যুক্ত করা হয়েছে -->
+            <a href="member-login-registration.html" class="btn btn-primary" id="heroLoginBtn">লগইন/রেজিস্ট্রেশন</a>
             <a href="gallery.html" class="btn btn-outline">গ্যালারি দেখুন</a>
         </div>
     </section>
@@ -158,9 +158,9 @@
         </div>
     </section>
 
-    <!-- লক্ষ্য ও উদ্দেশ্য (সংবিধান অনুযায়ী) -->
+    <!-- লক্ষ্য ও উদ্দেশ্য -->
     <section class="features-section">
-        <div class="section-header"><h2>লক্ষ্য ও উদ্দেশ্য (সংবিধান অনুযায়ী)</h2></div>
+        <div class="section-header"><h2>লক্ষ্য ও উদ্দেশ্য</h2></div>
         <div class="features-grid">
             <div class="feature-card">
                 <i class="fas fa-users-cog"></i>
@@ -255,8 +255,16 @@
 
         const memberDataString = sessionStorage.getItem('memberData');
         const navMenu = document.getElementById('nav-menu');
+        const heroLoginBtn = document.getElementById('heroLoginBtn');
+
         if (memberDataString) {
             navMenu.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
+            
+            // ব্যবহারকারী লগইন অবস্থায় থাকলে হিরো সেকশনের বাটন লুকানো হবে
+            if(heroLoginBtn) {
+                heroLoginBtn.style.display = 'none';
+            }
+
         } else {
             navMenu.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
         }
