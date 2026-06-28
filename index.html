@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>হোম - DUSAB</title>
     
-    <!-- PWA Manifest -->
     <link rel="manifest" href="/dusab/manifest.json">
     <meta name="theme-color" content="#7D1B7E">
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -18,7 +17,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 70px; }
 
-        /* নেভিগেশন বার */
         header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; }
         .logo img { height: 60px; display: block; }
@@ -32,7 +30,6 @@
         .dropdown:hover .dropdown-menu { display: block; }
         .menu-toggle { display: none; color: var(--primary-color); font-size: 26px; cursor: pointer; }
 
-        /* হিরো সেকশন */
         .hero { background: linear-gradient(rgba(125, 27, 126, 0.8), rgba(38, 46, 122, 0.85)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200') no-repeat center center/cover; padding: 160px 20px; text-align: center; color: var(--white); }
         .hero h1 { font-size: 46px; color: var(--accent-color); margin-bottom: 15px; font-weight: 700; text-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
         .hero p { font-size: 22px; max-width: 850px; margin: 0 auto 30px; font-weight: 500; }
@@ -43,17 +40,14 @@
         .btn-outline { background-color: transparent; color: var(--white); border: 2px solid var(--white); }
         .btn-outline:hover { background-color: var(--white); color: var(--primary-color); }
 
-        /* সেকশন হেডার */
         .section-header { text-align: center; margin-bottom: 40px; }
         .section-header h2 { font-size: 32px; color: var(--secondary-color); display: inline-block; position: relative; padding-bottom: 10px; }
         .section-header h2::after { content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--accent-color); border-radius: 2px; }
 
-        /* মোটিভ ব্যানার */
         .motive-banner { background-color: var(--primary-color); color: var(--accent-color); text-align: center; padding: 15px 20px; font-size: 24px; font-weight: 700; letter-spacing: 2px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
-        /* আমাদের সম্পর্কে ও বাণী */
         .about-section { max-width: 1200px; margin: 60px auto 80px; padding: 0 20px; }
-        .about-text { font-size: 18px; color: #555; margin-bottom: 40px; text-align: center; max-width: 900px; margin-left: auto; margin-right: auto; white-space: pre-wrap; }
+        .about-text { font-size: 18px; color: #555; margin-bottom: 40px; text-align: justify; text-justify: inter-word; max-width: 900px; margin-left: auto; margin-right: auto; white-space: pre-wrap; line-height: 1.8; }
         .messages-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .message-card { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); position: relative; border-top: 4px solid var(--primary-color); }
         .message-card i.fa-quote-left { font-size: 30px; color: rgba(125, 27, 126, 0.1); margin-bottom: 15px; display: block; }
@@ -61,7 +55,6 @@
         .message-card h4 { color: var(--secondary-color); font-size: 18px; }
         .message-card span { color: var(--primary-color); font-size: 14px; font-weight: 600; }
 
-        /* লক্ষ্য ও উদ্দেশ্য */
         .features-section { background-color: var(--white); padding: 80px 20px; }
         .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
         .feature-card { padding: 30px; border-radius: 10px; transition: 0.3s; border: 1px solid #eee; background: #fdfdfd; }
@@ -70,7 +63,6 @@
         .feature-card h3 { color: var(--primary-color); margin-bottom: 12px; font-size: 20px; }
         .feature-card p { color: #555; font-size: 16px; }
 
-        /* ডাইনামিক আপডেট সেকশন */
         .dynamic-section { max-width: 1200px; margin: 80px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         .recent-notices, .recent-gallery { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 4px solid var(--accent-color);}
         .notice-item { padding: 15px 0; border-bottom: 1px solid #eee; }
@@ -82,7 +74,6 @@
         .g-item img:hover { transform: scale(1.05); }
         .view-all { display: block; text-align: center; margin-top: 20px; color: var(--primary-color); font-weight: 600; text-decoration: none; }
 
-        /* ফুটার এবং কন্টাক্ট */
         footer { background-color: var(--secondary-color); color: var(--white); padding: 60px 20px 20px; }
         .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-bottom: 40px; }
         .footer-col h3 { color: var(--accent-color); margin-bottom: 20px; font-size: 22px; }
@@ -126,18 +117,15 @@
         <h1>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব<br>ব্রাহ্মণপাড়া (DUSAB)</h1>
         <p>"শিক্ষা-সহযোগিতা-ভ্রাতৃত্ব" - এই পবিত্র মোটিভকে বুকে ধারণ করে গড়ে ওঠা ডুসাব পরিবারের অফিসিয়াল ওয়েবসাইটে আপনাকে স্বাগতম।</p>
         <div class="hero-btns">
-            <!-- id="heroLoginBtn" যুক্ত করা হয়েছে -->
             <a href="member-login-registration.html" class="btn btn-primary" id="heroLoginBtn">লগইন/রেজিস্ট্রেশন</a>
             <a href="gallery.html" class="btn btn-outline">গ্যালারি দেখুন</a>
         </div>
     </section>
 
-    <!-- মোটিভ ব্যানার -->
     <div class="motive-banner">
         শিক্ষা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> সহযোগিতা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> ভ্রাতৃত্ব
     </div>
 
-    <!-- আমাদের সম্পর্কে ও বাণী -->
     <section class="about-section">
         <div class="section-header"><h2>আমাদের সম্পর্কে</h2></div>
         <div class="about-text" id="displayAbout">তথ্য লোড হচ্ছে...</div>
@@ -158,7 +146,6 @@
         </div>
     </section>
 
-    <!-- লক্ষ্য ও উদ্দেশ্য -->
     <section class="features-section">
         <div class="section-header"><h2>লক্ষ্য ও উদ্দেশ্য</h2></div>
         <div class="features-grid">
@@ -195,7 +182,6 @@
         </div>
     </section>
 
-    <!-- ডাইনামিক আপডেট -->
     <section class="dynamic-section">
         <div class="recent-notices">
             <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-bell" style="color: var(--accent-color);"></i> সাম্প্রতিক নোটিশ</h3>
@@ -209,7 +195,6 @@
         </div>
     </section>
 
-    <!-- ফুটার ও স্মার্ট কন্টাক্ট -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
@@ -228,18 +213,18 @@
                 <h3>যোগাযোগ</h3>
                 
                 <div class="contact-person">
-                    <strong>সভাপতি: মোহাম্মদ রুহুল আমিন</strong>
+                    <strong id="footerPresName">সভাপতি: লোড হচ্ছে...</strong>
                     <div class="action-btns">
-                        <a href="tel:+8801660003099" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
-                        <a href="https://wa.me/8801660003099" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                        <a href="#" id="footerPresCall" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
+                        <a href="#" id="footerPresWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
                     </div>
                 </div>
 
                 <div class="contact-person">
-                    <strong>সাধারণ সম্পাদক: শাকিল আহমেদ</strong>
+                    <strong id="footerSecName">সাধারণ সম্পাদক: লোড হচ্ছে...</strong>
                     <div class="action-btns">
-                        <a href="tel:+8801986419837" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
-                        <a href="https://wa.me/8801986419837" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                        <a href="#" id="footerSecCall" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
+                        <a href="#" id="footerSecWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
                     </div>
                 </div>
                 
@@ -259,12 +244,7 @@
 
         if (memberDataString) {
             navMenu.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
-            
-            // ব্যবহারকারী লগইন অবস্থায় থাকলে হিরো সেকশনের বাটন লুকানো হবে
-            if(heroLoginBtn) {
-                heroLoginBtn.style.display = 'none';
-            }
-
+            if(heroLoginBtn) heroLoginBtn.style.display = 'none';
         } else {
             navMenu.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
         }
@@ -273,10 +253,39 @@
         .then(res => res.json()).then(data => {
             if(data.about_text) {
                 document.getElementById('displayAbout').innerText = data.about_text;
+                
                 document.getElementById('displayPresMsg').innerText = `"${data.president_msg}"`;
                 document.getElementById('displayPresName').innerText = data.president_name;
+                
                 document.getElementById('displaySecMsg').innerText = `"${data.secretary_msg}"`;
                 document.getElementById('displaySecName').innerText = data.secretary_name;
+                
+                // সভাপতি অংশ (স্ট্রিং ফিক্স সহ)
+                document.getElementById('footerPresName').innerText = `সভাপতি: ${data.president_name || ''}`;
+                if (data.president_phone) {
+                    let rawPhoneP = data.president_phone.toString().replace(/'/g, '');
+                    document.getElementById('footerPresCall').href = "tel:" + rawPhoneP;
+                    
+                    let waPres = rawPhoneP.replace(/[^0-9]/g, '');
+                    if(waPres.startsWith('0')) waPres = '88' + waPres;
+                    else if(waPres.startsWith('1')) waPres = '880' + waPres;
+                    
+                    document.getElementById('footerPresWA').href = "https://wa.me/" + waPres;
+                }
+
+                // সাধারণ সম্পাদক অংশ (স্ট্রিং ফিক্স সহ)
+                document.getElementById('footerSecName').innerText = `সাধারণ সম্পাদক: ${data.secretary_name || ''}`;
+                if (data.secretary_phone) {
+                    let rawPhoneS = data.secretary_phone.toString().replace(/'/g, '');
+                    document.getElementById('footerSecCall').href = "tel:" + rawPhoneS;
+                    
+                    let waSec = rawPhoneS.replace(/[^0-9]/g, '');
+                    if(waSec.startsWith('0')) waSec = '88' + waSec;
+                    else if(waSec.startsWith('1')) waSec = '880' + waSec;
+                    
+                    document.getElementById('footerSecWA').href = "https://wa.me/" + waSec;
+                }
+                
             } else {
                 document.getElementById('displayAbout').innerText = "অ্যাডমিন প্যানেল থেকে তথ্য যুক্ত করুন।";
                 document.getElementById('displayPresMsg').innerText = "কোনো বাণী যুক্ত করা হয়নি।";
@@ -300,7 +309,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/dusab/sw.js')
-                .then(registration => { console.log('Service Worker Registered Successfully!', registration.scope); })
+                .then(registration => { console.log('Service Worker Registered Successfully!'); })
                 .catch(err => { console.log('Service Worker Registration Failed:', err); });
             });
         }
