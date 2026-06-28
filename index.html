@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>হোম - DUSAB</title>
+    
     <!-- PWA Manifest -->
-<link rel="manifest" href="/dusab/manifest.json">
-<!-- থিম কালার (মোবাইলের স্ট্যাটাস বারের রং পরিবর্তন করবে) -->
-<meta name="theme-color" content="#7D1B7E">
-<!-- অ্যাপল ডিভাইসের জন্য -->
-<link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="/dusab/manifest.json">
+    <meta name="theme-color" content="#7D1B7E">
+    <link rel="apple-touch-icon" href="icon-192.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,7 +18,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 70px; }
 
-        /* ১. নেভিগেশন বার (যোগাযোগ সরানো হয়েছে) */
+        /* নেভিগেশন বার */
         header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; }
         .logo img { height: 60px; display: block; }
@@ -33,10 +32,10 @@
         .dropdown:hover .dropdown-menu { display: block; }
         .menu-toggle { display: none; color: var(--primary-color); font-size: 26px; cursor: pointer; }
 
-        /* ২. হিরো সেকশন */
+        /* হিরো সেকশন */
         .hero { background: linear-gradient(rgba(125, 27, 126, 0.8), rgba(38, 46, 122, 0.85)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200') no-repeat center center/cover; padding: 160px 20px; text-align: center; color: var(--white); }
         .hero h1 { font-size: 46px; color: var(--accent-color); margin-bottom: 15px; font-weight: 700; text-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
-        .hero p { font-size: 22px; max-width: 750px; margin: 0 auto 30px; font-weight: 500; }
+        .hero p { font-size: 22px; max-width: 850px; margin: 0 auto 30px; font-weight: 500; }
         .hero-btns { display: flex; justify-content: center; gap: 15px; }
         .btn { padding: 12px 30px; border-radius: 50px; font-size: 18px; font-weight: 700; text-decoration: none; transition: 0.3s; }
         .btn-primary { background-color: var(--accent-color); color: var(--primary-color); border: 2px solid var(--accent-color); }
@@ -44,14 +43,17 @@
         .btn-outline { background-color: transparent; color: var(--white); border: 2px solid var(--white); }
         .btn-outline:hover { background-color: var(--white); color: var(--primary-color); }
 
+        /* সেকশন হেডার */
         .section-header { text-align: center; margin-bottom: 40px; }
         .section-header h2 { font-size: 32px; color: var(--secondary-color); display: inline-block; position: relative; padding-bottom: 10px; }
         .section-header h2::after { content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--accent-color); border-radius: 2px; }
 
-        /* ৩. আমাদের সম্পর্কে ও বাণী (ডাইনামিক লেয়ার) */
-        .about-section { max-width: 1200px; margin: 80px auto; padding: 0 20px; }
+        /* মোটিভ ব্যানার */
+        .motive-banner { background-color: var(--primary-color); color: var(--accent-color); text-align: center; padding: 15px 20px; font-size: 24px; font-weight: 700; letter-spacing: 2px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+
+        /* আমাদের সম্পর্কে ও বাণী */
+        .about-section { max-width: 1200px; margin: 60px auto 80px; padding: 0 20px; }
         .about-text { font-size: 18px; color: #555; margin-bottom: 40px; text-align: center; max-width: 900px; margin-left: auto; margin-right: auto; white-space: pre-wrap; }
-        
         .messages-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .message-card { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); position: relative; border-top: 4px solid var(--primary-color); }
         .message-card i.fa-quote-left { font-size: 30px; color: rgba(125, 27, 126, 0.1); margin-bottom: 15px; display: block; }
@@ -59,58 +61,54 @@
         .message-card h4 { color: var(--secondary-color); font-size: 18px; }
         .message-card span { color: var(--primary-color); font-size: 14px; font-weight: 600; }
 
-        /* ৪. আমাদের কার্যক্রম */
+        /* লক্ষ্য ও উদ্দেশ্য (সংবিধান অনুযায়ী) */
         .features-section { background-color: var(--white); padding: 80px 20px; }
-        .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: center; }
-        .feature-card { padding: 30px; border-radius: 10px; transition: 0.3s; border: 1px solid #eee; }
-        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: transparent; }
-        .feature-card i { font-size: 50px; color: var(--accent-color); margin-bottom: 20px; }
-        .feature-card h3 { color: var(--primary-color); margin-bottom: 15px; font-size: 22px; }
+        .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
+        .feature-card { padding: 30px; border-radius: 10px; transition: 0.3s; border: 1px solid #eee; background: #fdfdfd; }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(125, 27, 126, 0.08); border-color: var(--accent-color); }
+        .feature-card i { font-size: 45px; color: var(--accent-color); margin-bottom: 20px; }
+        .feature-card h3 { color: var(--primary-color); margin-bottom: 12px; font-size: 20px; }
+        .feature-card p { color: #555; font-size: 16px; }
 
-        /* ৫. ডাইনামিক আপডেট সেকশন */
+        /* ডাইনামিক আপডেট সেকশন */
         .dynamic-section { max-width: 1200px; margin: 80px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .recent-notices, .recent-gallery { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .recent-notices, .recent-gallery { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 4px solid var(--accent-color);}
         .notice-item { padding: 15px 0; border-bottom: 1px solid #eee; }
+        .notice-item:last-child { border-bottom: none; }
         .n-date { color: var(--primary-color); font-size: 13px; font-weight: 600; margin-bottom: 5px; }
         .n-title { font-size: 18px; color: var(--secondary-color); font-weight: bold; }
         .gallery-preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .g-item img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; transition: 0.3s; }
+        .g-item img:hover { transform: scale(1.05); }
         .view-all { display: block; text-align: center; margin-top: 20px; color: var(--primary-color); font-weight: 600; text-decoration: none; }
-        
-        /* ৬. ফুটার */
+
+        /* ফুটার এবং কন্টাক্ট */
         footer { background-color: var(--secondary-color); color: var(--white); padding: 60px 20px 20px; }
-        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-bottom: 40px; }
         .footer-col h3 { color: var(--accent-color); margin-bottom: 20px; font-size: 22px; }
         .footer-col p, .footer-col a { color: #d1d5db; font-size: 16px; margin-bottom: 10px; display: block; text-decoration: none; transition: 0.3s; }
-        .footer-col a:hover { color: var(--accent-color); padding-left: 5px; }
+        .footer-col a.quick-link:hover { color: var(--accent-color); padding-left: 5px; }
+        
+        .contact-person { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid var(--accent-color);}
+        .contact-person strong { display: block; color: var(--white); font-size: 16px; margin-bottom: 10px; }
+        .action-btns { display: flex; gap: 10px; }
+        .btn-call, .btn-wa { flex: 1; text-align: center; padding: 8px 0; border-radius: 4px; font-size: 14px; font-weight: bold; text-decoration: none; color: white; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 5px;}
+        .btn-call { background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
+        .btn-call:hover { background-color: var(--primary-color); }
+        .btn-wa { background-color: #25D366; }
+        .btn-wa:hover { background-color: #128C7E; }
+
         .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #9ca3af; font-size: 14px; }
 
-         @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .menu-toggle { display: block; }
-            /* মেনু স্ক্রলিং যুক্ত করা হয়েছে যেন মেনু বড় হলে নিচে যাওয়া যায় */
             .nav-links { position: absolute; top: 100%; left: -100%; width: 100%; height: 100vh; background-color: var(--white); flex-direction: column; align-items: flex-start; padding: 20px; transition: 0.5s; overflow-y: auto; }
             .nav-links.active { left: 0; }
-            
-            /* ড্রপডাউন মোবাইল ফিক্স */
             .dropdown { width: 100%; }
-            .dropdown-menu { 
-                position: static; /* স্ক্রিনের বাইরে যাওয়া বন্ধ করবে */
-                box-shadow: none; 
-                border-top: none; 
-                padding-left: 20px; 
-                margin-top: 5px; 
-                border-left: 3px solid var(--accent-color); 
-                background-color: transparent;
-                display: none;
-            }
-            /* মোবাইলে টাচ করলে ড্রপডাউন খুলবে */
-            .dropdown:hover .dropdown-menu, 
-            .dropdown:active .dropdown-menu, 
-            .dropdown:focus-within .dropdown-menu { 
-                display: block; 
-            }
-        }
+            .dropdown-menu { position: static; box-shadow: none; border-top: none; padding-left: 20px; margin-top: 5px; border-left: 3px solid var(--accent-color); background-color: transparent; display: none; }
+            .dropdown:hover .dropdown-menu, .dropdown:active .dropdown-menu, .dropdown:focus-within .dropdown-menu { display: block; }
             .about-section, .dynamic-section, .messages-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 32px; }
         }
     </style>
 </head>
@@ -126,14 +124,20 @@
 
     <section class="hero">
         <h1>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব<br>ব্রাহ্মণপাড়া (DUSAB)</h1>
-        <p>শিক্ষা, ঐক্য ও প্রগতির আমেজে গড়া ডুসাব পরিবারের অফিসিয়াল ওয়েবসাইটে আপনাকে স্বাগতম।</p>
+        <p>"শিক্ষা-সহযোগিতা-ভ্রাতৃত্ব" - এই পবিত্র মোটিভকে বুকে ধারণ করে গড়ে ওঠা ডুসাব পরিবারের অফিসিয়াল ওয়েবসাইটে আপনাকে স্বাগতম।</p>
         <div class="hero-btns">
-            <a href="member-login-registration.html" class="btn btn-primary">মেম্বার হোন</a>
+            <!-- বাটন পরিবর্তন করা হয়েছে -->
+            <a href="member-login-registration.html" class="btn btn-primary">লগইন/রেজিস্ট্রেশন</a>
             <a href="gallery.html" class="btn btn-outline">গ্যালারি দেখুন</a>
         </div>
     </section>
 
-    <!-- ডাইনামিক About & Messages -->
+    <!-- মোটিভ ব্যানার -->
+    <div class="motive-banner">
+        শিক্ষা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> সহযোগিতা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> ভ্রাতৃত্ব
+    </div>
+
+    <!-- আমাদের সম্পর্কে ও বাণী -->
     <section class="about-section">
         <div class="section-header"><h2>আমাদের সম্পর্কে</h2></div>
         <div class="about-text" id="displayAbout">তথ্য লোড হচ্ছে...</div>
@@ -154,55 +158,101 @@
         </div>
     </section>
 
+    <!-- লক্ষ্য ও উদ্দেশ্য (সংবিধান অনুযায়ী) -->
     <section class="features-section">
-        <div class="section-header"><h2>আমাদের মূল লক্ষ্যসমূহ</h2></div>
+        <div class="section-header"><h2>লক্ষ্য ও উদ্দেশ্য (সংবিধান অনুযায়ী)</h2></div>
         <div class="features-grid">
-            <div class="feature-card"><i class="fas fa-book-reader"></i><h3>শিক্ষাবৃত্তি ও গাইডলাইন</h3><p>নবীন শিক্ষার্থীদের বিশ্ববিদ্যালয়ে ভর্তি সহায়তা এবং সঠিক দিকনির্দেশনা প্রদান করা।</p></div>
-            <div class="feature-card"><i class="fas fa-hands-helping"></i><h3>পারস্পরিক সহযোগিতা</h3><p>যেকোনো আপদে-বিপদে একে অপরের পাশে দাঁড়ানো এবং অসচ্ছলদের সহায়তা করা।</p></div>
-            <div class="feature-card"><i class="fas fa-tint"></i><h3>রক্তদান কর্মসূচি</h3><p>জরুরি মুহূর্তে রোগীদের জন্য স্বেচ্ছায় রক্তদান এবং ব্লাড গ্রুপিং ক্যাম্পেইনের আয়োজন করা।</p></div>
+            <div class="feature-card">
+                <i class="fas fa-users-cog"></i>
+                <h3>অরাজনৈতিক ও সেবামূলক</h3>
+                <p>ডুসাব ব্রাহ্মণপাড়া উপজেলার শিক্ষার্থীদের জন্য একটি সম্পূর্ণ অরাজনৈতিক, শিক্ষার্থীবান্ধব ও সেবামূলক প্ল্যাটফর্ম হিসেবে কাজ করে৷</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-user-graduate"></i>
+                <h3>দিকনির্দেশনা ও মেন্টরশিপ</h3>
+                <p>নবাগত শিক্ষার্থীদের বিশ্ববিদ্যালয় জীবন সম্পর্কে দিকনির্দেশনা প্রদান এবং সিনিয়র-জুনিয়রদের মধ্যে একাডেমিক সহযোগিতা নিশ্চিত করা৷</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <h3>ক্যারিয়ার ও দক্ষতা উন্নয়ন</h3>
+                <p>সদস্যদের জন্য নিয়মিত সেমিনার, কর্মশালা ও ক্যারিয়ার বিষয়ক আলোচনার আয়োজন করার মাধ্যমে দক্ষতা বিকাশ করা৷</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-hand-holding-usd"></i>
+                <h3>আর্থিক ও মানসিক সহায়তা</h3>
+                <p>প্রয়োজনের সময় সদস্যদের পাশে দাঁড়ানো এবং আর্থিক, মানসিক ও নৈতিক সহায়তার ব্যবস্থা গ্রহণ করা৷</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-tint"></i>
+                <h3>সামাজিক দায়বদ্ধতা</h3>
+                <p>রক্তদান, দুর্যোগে ত্রাণ ও মানবিক কার্যক্রমে অংশগ্রহণের মাধ্যমে সমাজ ও রাষ্ট্রের কল্যাণে দায়িত্ব পালন করা৷</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-hands-helping"></i>
+                <h3>ভ্রাতৃত্ববোধ ও সুসম্পর্ক</h3>
+                <p>সদস্যদের মধ্যে ভ্রাতৃত্ব, পারস্পরিক সম্মান ও সহমর্মিতার সম্পর্ক সুদৃঢ় করার মাধ্যমে ঐক্যবদ্ধ থাকা৷</p>
+            </div>
         </div>
     </section>
 
+    <!-- ডাইনামিক আপডেট -->
     <section class="dynamic-section">
         <div class="recent-notices">
-            <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-bell"></i> সাম্প্রতিক নোটিশ</h3>
+            <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-bell" style="color: var(--accent-color);"></i> সাম্প্রতিক নোটিশ</h3>
             <div id="homeNoticeList">লোড হচ্ছে...</div>
             <a href="notice.html" class="view-all">সবগুলো নোটিশ দেখুন <i class="fas fa-arrow-right"></i></a>
         </div>
         <div class="recent-gallery">
-            <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-camera-retro"></i> গ্যালারি একনজরে</h3>
+            <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-camera-retro" style="color: var(--accent-color);"></i> গ্যালারি একনজরে</h3>
             <div class="gallery-preview-grid" id="homeGalleryList"></div>
             <a href="gallery.html" class="view-all">সম্পূর্ণ গ্যালারি দেখুন <i class="fas fa-arrow-right"></i></a>
         </div>
     </section>
 
+    <!-- ফুটার ও স্মার্ট কন্টাক্ট -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
                 <h3>DUSAB</h3>
-                <p>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব ব্রাহ্মণপাড়া। শিক্ষা, ঐক্য ও প্রগতির একটি মেলবন্ধন।</p>
+                <p>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব ব্রাহ্মণপাড়া। শিক্ষা, সহযোগিতা ও ভ্রাতৃত্বের একটি মেলবন্ধন।</p>
             </div>
             <div class="footer-col">
                 <h3>কুইক লিংক</h3>
-                <a href="index.html">হোমপেজ</a><a href="gallery.html">গ্যালারি</a>
-                <a href="notice.html">নোটিশ বোর্ড</a><a href="member-login-registration.html">মেম্বার রেজিস্ট্রেশন</a>
+                <a href="index.html" class="quick-link"><i class="fas fa-angle-right"></i> হোমপেজ</a>
+                <a href="gallery.html" class="quick-link"><i class="fas fa-angle-right"></i> গ্যালারি</a>
+                <a href="notice.html" class="quick-link"><i class="fas fa-angle-right"></i> নোটিশ বোর্ড</a>
+                <a href="member-login-registration.html" class="quick-link"><i class="fas fa-angle-right"></i> মেম্বার রেজিস্ট্রেশন</a>
             </div>
+            
             <div class="footer-col">
                 <h3>যোগাযোগ</h3>
-                <p><i class="fas fa-map-marker-alt"></i> ঢাকা বিশ্ববিদ্যালয়, ঢাকা-১০০০</p>
-                <p><i class="fas fa-envelope"></i> contact@dusab.org</p>
-                <p><i class="fas fa-phone-alt"></i> +880 17XX XXXXXX</p>
+                
+                <div class="contact-person">
+                    <strong>সভাপতি: মোহাম্মদ রুহুল আমিন</strong>
+                    <div class="action-btns">
+                        <a href="tel:+8801660003099" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
+                        <a href="https://wa.me/+8801660003099" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                    </div>
+                </div>
+
+                <div class="contact-person">
+                    <strong>সাধারণ সম্পাদক: শাকিল আহমেদ</strong>
+                    <div class="action-btns">
+                        <a href="tel:8801986419837" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
+                        <a href="https://wa.me/8801986419837" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                    </div>
+                </div>
+                
             </div>
         </div>
         <div class="footer-bottom">&copy; 2026 DUSAB. All Rights Reserved.</div>
     </footer>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec"; // <-- নতুন URL বসান
+        const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec";
 
         document.getElementById('mobile-menu').addEventListener('click', () => { document.getElementById('nav-menu').classList.toggle('active'); });
 
-        // নেভিগেশন থেকে যোগাযোগ সরানো হয়েছে
         const memberDataString = sessionStorage.getItem('memberData');
         const navMenu = document.getElementById('nav-menu');
         if (memberDataString) {
@@ -211,7 +261,6 @@
             navMenu.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
         }
 
-        // হোমপেজের ডাইনামিক কন্টেন্ট ফেচ করা
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_content" }) })
         .then(res => res.json()).then(data => {
             if(data.about_text) {
@@ -227,32 +276,26 @@
             }
         });
 
-        // নোটিশ ও গ্যালারি লোড
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_notices" }) }).then(res => res.json()).then(data => {
             const list = document.getElementById('homeNoticeList'); list.innerHTML = '';
             if(data.length === 0) { list.innerHTML = '<p>কোনো নোটিশ নেই</p>'; return; }
             data.reverse().slice(0, 3).forEach(item => { list.innerHTML += `<div class="notice-item"><div class="n-date"><i class="far fa-calendar-alt"></i> ${item.date}</div><div class="n-title">${item.title}</div></div>`; });
         });
+        
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_gallery" }) }).then(res => res.json()).then(data => {
             const grid = document.getElementById('homeGalleryList'); grid.innerHTML = '';
             if(data.length === 0) { grid.innerHTML = '<p>কোনো ছবি নেই</p>'; return; }
             data.reverse().slice(0, 4).forEach(item => { grid.innerHTML += `<div class="g-item"><img src="${item.url}"></div>`; });
         });
     </script>
-<script>
-    // Service Worker রেজিস্টার করা
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/dusab/sw.js')
-            .then(registration => {
-                console.log('Service Worker Registered Successfully!', registration.scope);
-            })
-            .catch(err => {
-                console.log('Service Worker Registration Failed:', err);
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/dusab/sw.js')
+                .then(registration => { console.log('Service Worker Registered Successfully!', registration.scope); })
+                .catch(err => { console.log('Service Worker Registration Failed:', err); });
             });
-        });
-    }
-</script>
-
+        }
+    </script>
 </body>
 </html>
