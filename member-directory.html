@@ -115,8 +115,7 @@
 
     <script>
         // ========================================================
-        // অত্যন্ত গুরুত্বপূর্ণ: এখানে আপনার Master Web App URL টি দিন
-        const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec";
         // ========================================================
 
         // সিকিউরিটি চেক: লগইন না থাকলে লগইন পেজে পাঠিয়ে দেবে
@@ -159,6 +158,10 @@
         // কার্ড প্রদর্শন ফাংশন
         function displayMembers(members) {
             const grid = document.getElementById('membersGrid');
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const bloodGroups = ['a+', 'a-', 'b+', 'b-', 'ab+', 'ab-', 'o+', 'o-'];
+            const isBloodSearch = bloodGroups.includes(query);
+            
             grid.innerHTML = '';
 
             if(members.length === 0) {
@@ -172,6 +175,16 @@
                 // হোয়াটসঅ্যাপের জন্য নাম্বার ফরম্যাটিং (বাংলাদেশের কোড +88 যুক্ত করা)
                 let waNumber = item.phone.replace(/[^0-9]/g, ''); // শুধু নাম্বার রাখা
                 if(waNumber.startsWith('0')) { waNumber = '88' + waNumber; }
+                
+                let lastBloodText = item.lastBloodDonated ? item.lastBloodDonated : 'কখনো দেননি / তথ্য নেই';
+                
+                // রক্তের গ্রুপ দিয়ে সার্চ করলে শেষ রক্তদানের তারিখ দেখাবে
+                let bloodInfoHtml = '';
+                if (isBloodSearch || query === '') {
+                    bloodInfoHtml = `<p><i class="fas fa-calendar-check" style="color:#e74c3c;"></i> <span><strong>শেষ রক্তদান:</strong> ${lastBloodText}</span></p>`;
+                } else {
+                    bloodInfoHtml = `<p><i class="fas fa-calendar-check" style="color:#e74c3c;"></i> <span><strong>শেষ রক্তদান:</strong> ${lastBloodText}</span></p>`;
+                }
 
                 const cardHtml = `
                     <div class="member-card">
@@ -184,6 +197,7 @@
                             <div class="card-dept">${item.dept} (${item.session})</div>
                             
                             <div class="info-list">
+                                ${bloodInfoHtml}
                                 <p><i class="fas fa-map-marker-alt"></i> <span><strong>গ্রাম/ইউনিয়ন:</strong> ${item.village}</span></p>
                                 <p><i class="fas fa-home"></i> <span><strong>বর্তমান ঠিকানা:</strong> ${item.address}</span></p>
                             </div>
@@ -206,7 +220,7 @@
                 m.name.toLowerCase().includes(query) || 
                 m.dept.toLowerCase().includes(query) || 
                 m.blood.toLowerCase().includes(query) ||
-                m.session.toLowerCase().includes(query) // এখানে নতুন সেশন ফিল্টার যুক্ত করা হয়েছে
+                m.session.toLowerCase().includes(query)
             );
             
             displayMembers(filtered);
