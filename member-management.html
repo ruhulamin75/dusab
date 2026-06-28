@@ -164,6 +164,9 @@
                 <p><strong><i class="fas fa-graduation-cap"></i> ডিপার্টমেন্ট:</strong> <span id="mDept"></span></p>
                 <p><strong><i class="fas fa-building"></i> হল:</strong> <span id="mHall"></span></p>
                 <p><strong><i class="fas fa-tint"></i> রক্তের গ্রুপ:</strong> <span id="mBlood"></span></p>
+                <!-- শেষ রক্তদানের তারিখ দেখানোর অপশন -->
+                <p><strong><i class="fas fa-calendar-check"></i> শেষ রক্তদান:</strong> <span id="mLastBlood" style="color: #e74c3c;"></span></p>
+                
                 <p><strong><i class="fas fa-map-marker-alt"></i> গ্রাম/ইউনিয়ন:</strong> <span id="mVillage"></span></p>
                 <hr style="margin: 15px 0; border: 1px solid #eee;">
                 <p><strong><i class="fas fa-school"></i> স্কুল/মাদ্রাসা:</strong> <span id="mSchool"></span></p>
@@ -209,6 +212,13 @@
                         <label>সেশন</label>
                         <input type="text" id="editSession" required>
                     </div>
+                    
+                    <!-- এডিট ফর্মে শেষ রক্তদানের তারিখ ফিল্ড -->
+                    <div class="input-group full-width">
+                        <label>শেষ রক্তদানের তারিখ</label>
+                        <input type="date" id="editLastBlood">
+                    </div>
+
                     <div class="input-group">
                         <label>ডিপার্টমেন্ট</label>
                         <input type="text" id="editDept" required>
@@ -241,13 +251,11 @@
 
     <script>
         // ========================================================
-        // অত্যন্ত গুরুত্বপূর্ণ: এখানে আপনার সেই নতুন Web App URL টি দিন
-        const API_URL = "https://script.google.com/macros/s/AKfycbzraHbfvmMpaJko-nlrcK4kSpuU0XUdVsks-Bi-nVfyYLB3-Noh_EuM2_Nsk488N5z1/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbwzg8IKkY1cexDTxnAl3-PryfScT_QgOMKw1Rr6W6aThMly0Wf-21ywd_-GIcrmiuE3/exec"; // <-- নতুন URL
         // ========================================================
 
         let membersData = []; 
 
-        // মেনু বার লজিক (টাইপো ফিক্সড)
         const sidebar = document.getElementById('sidebar');
         const menuToggleBtn = document.getElementById('menuToggleBtn');
         menuToggleBtn.addEventListener('click', (e) => { sidebar.classList.toggle('active'); e.stopPropagation(); });
@@ -330,6 +338,10 @@
                 document.getElementById('mAddress').innerText = member.address;
                 document.getElementById('mPassword').innerText = member.password;
                 document.getElementById('mDate').innerText = member.date;
+                
+                // শেষ রক্তদান ফিল্ডে ডেটা বসানো
+                document.getElementById('mLastBlood').innerText = member.lastBloodDonated ? member.lastBloodDonated : 'তথ্য দেওয়া নেই';
+                
                 document.getElementById('detailsModal').style.display = 'flex';
             }
         }
@@ -348,11 +360,14 @@
                 document.getElementById('editSchool').value = member.school;
                 document.getElementById('editCollege').value = member.college;
                 document.getElementById('editAddress').value = member.address;
+                
+                // এডিট ফর্মে ডেটা বসানো
+                document.getElementById('editLastBlood').value = member.lastBloodDonated || '';
+
                 document.getElementById('editModal').style.display = 'flex';
             }
         }
 
-        // এডিট ফর্ম সাবমিট (লক ফিক্সড)
         document.getElementById('editMemberForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -366,6 +381,7 @@
                 name: document.getElementById('editName').value,
                 phone: document.getElementById('editPhone').value,
                 blood: document.getElementById('editBlood').value,
+                lastBloodDonated: document.getElementById('editLastBlood').value, // নতুন যুক্ত হওয়া ফিল্ড
                 session: document.getElementById('editSession').value,
                 dept: document.getElementById('editDept').value,
                 hall: document.getElementById('editHall').value,
