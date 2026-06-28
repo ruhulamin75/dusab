@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ওয়েবসাইট সেটিংস - DUSAB Admin</title>
     <script>if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') window.location.href = 'admin-login.html';</script>
-<!-- PWA Manifest -->
-<link rel="manifest" href="/dusab/manifest.json">
-<!-- থিম কালার (মোবাইলের স্ট্যাটাস বারের রং পরিবর্তন করবে) -->
-<meta name="theme-color" content="#7D1B7E">
-<!-- অ্যাপল ডিভাইসের জন্য -->
-<link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="/dusab/manifest.json">
+    <meta name="theme-color" content="#7D1B7E">
+    <link rel="apple-touch-icon" href="icon-192.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,7 +16,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background-color: var(--bg-light); display: flex; overflow-x: hidden; }
         
-        /* Sidebar & Topbar */
         .sidebar { width: var(--sidebar-width); background-color: var(--primary-color); height: 100vh; position: fixed; color: var(--white); z-index: 1000; transition: 0.3s; }
         .sidebar-header { padding: 20px; text-align: center; border-bottom: 3px solid var(--accent-color); background-color: var(--white); }
         .sidebar-header img { height: 60px; margin-bottom: 10px; }
@@ -37,7 +33,6 @@
         .dashboard-content { padding: 30px; }
         .content-box { background-color: var(--white); border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-color); margin-bottom: 30px;}
         
-        /* ফর্ম এবং গ্রিড স্টাইল */
         .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .input-group { margin-bottom: 20px; }
         .input-group label { display: block; font-weight: 600; color: var(--secondary-color); margin-bottom: 8px; font-size: 17px;}
@@ -47,7 +42,6 @@
         .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 15px 25px; border: none; border-radius: 4px; font-size: 18px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s;}
         .btn-submit:hover { background-color: var(--secondary-color); }
 
-        /* মোবাইল রেসপন্সিভ লজিক */
         @media (max-width: 992px) { 
             .sidebar { left: -260px; } 
             .sidebar.active { left: 0; box-shadow: 4px 0 15px rgba(0,0,0,0.2); } 
@@ -96,10 +90,12 @@
                     <div class="form-grid-2">
                         <div>
                             <div class="input-group"><label>সভাপতির নাম</label><input type="text" id="presidentName" required></div>
+                            <div class="input-group"><label>সভাপতির মোবাইল নাম্বার</label><input type="tel" id="presidentPhone" placeholder="017XXXXXXXX" required></div>
                             <div class="input-group"><label>সভাপতির বাণী</label><textarea id="presidentMsg" required></textarea></div>
                         </div>
                         <div>
                             <div class="input-group"><label>সাধারণ সম্পাদকের নাম</label><input type="text" id="secretaryName" required></div>
+                            <div class="input-group"><label>সাধারণ সম্পাদকের মোবাইল নাম্বার</label><input type="tel" id="secretaryPhone" placeholder="017XXXXXXXX" required></div>
                             <div class="input-group"><label>সাধারণ সম্পাদকের বাণী</label><textarea id="secretaryMsg" required></textarea></div>
                         </div>
                     </div>
@@ -113,7 +109,6 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec";
 
-        // সাইডবার টগল লজিক (মোবাইলের জন্য)
         const sidebar = document.getElementById('sidebar');
         const menuToggleBtn = document.getElementById('menuToggleBtn');
         
@@ -128,7 +123,7 @@
             }
         });
 
-        // লোড হওয়ার সাথে সাথে বর্তমান ডেটা ফর্মে বসবে
+        // লোড হওয়ার সাথে সাথে ডেটা বসানো
         window.onload = () => {
             fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_content" }) })
             .then(res => res.json()).then(data => {
@@ -138,11 +133,15 @@
                     document.getElementById('presidentMsg').value = data.president_msg;
                     document.getElementById('secretaryName').value = data.secretary_name;
                     document.getElementById('secretaryMsg').value = data.secretary_msg;
+                    
+                    // শিট থেকে টেক্সট হিসেবে আনা নাম্বারগুলোর কোটেশন সরাতে
+                    document.getElementById('presidentPhone').value = data.president_phone ? data.president_phone.toString().replace(/'/g, '') : '';
+                    document.getElementById('secretaryPhone').value = data.secretary_phone ? data.secretary_phone.toString().replace(/'/g, '') : '';
                 }
             });
         };
 
-        // ফর্ম সাবমিট (আপডেট)
+        // ফর্ম সাবমিট (শিটে টেক্সট আকারে সেভ করার জন্য ' যুক্ত করা হয়েছে)
         document.getElementById('settingsForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('saveBtn');
@@ -152,8 +151,10 @@
                 action: "update_content",
                 about_text: document.getElementById('aboutText').value,
                 president_name: document.getElementById('presidentName').value,
+                president_phone: "'" + document.getElementById('presidentPhone').value, // ' যুক্ত করা হয়েছে
                 president_msg: document.getElementById('presidentMsg').value,
                 secretary_name: document.getElementById('secretaryName').value,
+                secretary_phone: "'" + document.getElementById('secretaryPhone').value, // ' যুক্ত করা হয়েছে
                 secretary_msg: document.getElementById('secretaryMsg').value
             };
 
@@ -164,16 +165,11 @@
         });
     </script>
 <script>
-    // Service Worker রেজিস্টার করা
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/dusab/sw.js')
-            .then(registration => {
-                console.log('Service Worker Registered Successfully!', registration.scope);
-            })
-            .catch(err => {
-                console.log('Service Worker Registration Failed:', err);
-            });
+            .then(registration => { console.log('Service Worker Registered Successfully!'); })
+            .catch(err => { console.log('Service Worker Registration Failed:', err); });
         });
     }
 </script>
