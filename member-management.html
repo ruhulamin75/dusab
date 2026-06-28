@@ -148,6 +148,7 @@
         </div>
     </div>
 
+    <!-- ডিটেইলস মডাল -->
     <div id="detailsModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('detailsModal')">&times;</span>
@@ -164,9 +165,7 @@
                 <p><strong><i class="fas fa-graduation-cap"></i> ডিপার্টমেন্ট:</strong> <span id="mDept"></span></p>
                 <p><strong><i class="fas fa-building"></i> হল:</strong> <span id="mHall"></span></p>
                 <p><strong><i class="fas fa-tint"></i> রক্তের গ্রুপ:</strong> <span id="mBlood"></span></p>
-                <!-- শেষ রক্তদানের তারিখ দেখানোর অপশন -->
                 <p><strong><i class="fas fa-calendar-check"></i> শেষ রক্তদান:</strong> <span id="mLastBlood" style="color: #e74c3c;"></span></p>
-                
                 <p><strong><i class="fas fa-map-marker-alt"></i> গ্রাম/ইউনিয়ন:</strong> <span id="mVillage"></span></p>
                 <hr style="margin: 15px 0; border: 1px solid #eee;">
                 <p><strong><i class="fas fa-school"></i> স্কুল/মাদ্রাসা:</strong> <span id="mSchool"></span></p>
@@ -179,6 +178,7 @@
         </div>
     </div>
 
+    <!-- এডিট মডাল -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('editModal')">&times;</span>
@@ -195,17 +195,20 @@
                         <label>মোবাইল</label>
                         <input type="tel" id="editPhone" required>
                     </div>
+                    
+                    <!-- পাসওয়ার্ড এডিট অপশন যুক্ত করা হয়েছে -->
+                    <div class="input-group">
+                        <label>পাসওয়ার্ড</label>
+                        <input type="text" id="editPassword" required>
+                    </div>
+
                     <div class="input-group">
                         <label>রক্তের গ্রুপ</label>
                         <select id="editBlood">
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
+                            <option value="A+">A+</option><option value="A-">A-</option>
+                            <option value="B+">B+</option><option value="B-">B-</option>
+                            <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                            <option value="O+">O+</option><option value="O-">O-</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -213,10 +216,11 @@
                         <input type="text" id="editSession" required>
                     </div>
                     
-                    <!-- এডিট ফর্মে শেষ রক্তদানের তারিখ ফিল্ড -->
+                    <!-- শেষ রক্তদানের তারিখ (স্মার্ট ফলব্যাক সহ) -->
                     <div class="input-group full-width">
-                        <label>শেষ রক্তদানের তারিখ</label>
+                        <label>শেষ রক্তদানের তারিখ <span id="currentBloodDate" style="color:#e74c3c; font-size: 13px; font-weight: normal; margin-left: 10px;"></span></label>
                         <input type="date" id="editLastBlood">
+                        <small style="color: #888; margin-top: 5px;">নতুন তারিখ দিতে চাইলে ক্যালেন্ডার থেকে নির্বাচন করুন, অন্যথায় খালি রাখুন।</small>
                     </div>
 
                     <div class="input-group">
@@ -250,9 +254,7 @@
     </div>
 
     <script>
-        // ========================================================
-        const API_URL = "https://script.google.com/macros/s/AKfycbwzg8IKkY1cexDTxnAl3-PryfScT_QgOMKw1Rr6W6aThMly0Wf-21ywd_-GIcrmiuE3/exec"; // <-- নতুন URL
-        // ========================================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbwzg8IKkY1cexDTxnAl3-PryfScT_QgOMKw1Rr6W6aThMly0Wf-21ywd_-GIcrmiuE3/exec"; 
 
         let membersData = []; 
 
@@ -264,6 +266,20 @@
                 sidebar.classList.remove('active');
             }
         });
+
+        // তারিখকে বাংলা টেক্সটে কনভার্ট করার ফাংশন
+        function formatBengaliDate(dateString) {
+            if (!dateString) return "";
+            const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+            const engToBng = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+            
+            const dateObj = new Date(dateString);
+            const day = dateObj.getDate().toString().split('').map(c => engToBng[c]).join('');
+            const month = months[dateObj.getMonth()];
+            const year = dateObj.getFullYear().toString().split('').map(c => engToBng[c]).join('');
+            
+            return `${day} ${month}, ${year}`;
+        }
 
         function loadMembers() {
             const tableBody = document.getElementById('memberTableBody');
@@ -317,9 +333,7 @@
             .catch(error => { loadingMsg.innerHTML = '<span style="color:red;">ডেটা লোড করতে সমস্যা হয়েছে!</span>'; });
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
+        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
 
         function viewDetails(rowNum) {
             const member = membersData.find(m => m.row === rowNum);
@@ -338,10 +352,7 @@
                 document.getElementById('mAddress').innerText = member.address;
                 document.getElementById('mPassword').innerText = member.password;
                 document.getElementById('mDate').innerText = member.date;
-                
-                // শেষ রক্তদান ফিল্ডে ডেটা বসানো
                 document.getElementById('mLastBlood').innerText = member.lastBloodDonated ? member.lastBloodDonated : 'তথ্য দেওয়া নেই';
-                
                 document.getElementById('detailsModal').style.display = 'flex';
             }
         }
@@ -352,6 +363,10 @@
                 document.getElementById('editRow').value = member.row;
                 document.getElementById('editName').value = member.name;
                 document.getElementById('editPhone').value = member.phone;
+                
+                // পাসওয়ার্ড এডিটের জন্য ডেটা ফিলআপ
+                document.getElementById('editPassword').value = member.password;
+                
                 document.getElementById('editBlood').value = member.blood;
                 document.getElementById('editSession').value = member.session;
                 document.getElementById('editDept').value = member.dept;
@@ -361,8 +376,10 @@
                 document.getElementById('editCollege').value = member.college;
                 document.getElementById('editAddress').value = member.address;
                 
-                // এডিট ফর্মে ডেটা বসানো
-                document.getElementById('editLastBlood').value = member.lastBloodDonated || '';
+                // ডেট পিকার হ্যান্ডেলিং
+                document.getElementById('currentBloodDate').innerText = member.lastBloodDonated ? `(বর্তমান: ${member.lastBloodDonated})` : '';
+                document.getElementById('editLastBlood').value = ''; // ক্যালেন্ডার খালি করা হলো
+                document.getElementById('editLastBlood').dataset.oldValue = member.lastBloodDonated || '';
 
                 document.getElementById('editModal').style.display = 'flex';
             }
@@ -370,18 +387,23 @@
 
         document.getElementById('editMemberForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const submitBtn = document.getElementById('editSubmitBtn');
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> আপডেট হচ্ছে...';
             submitBtn.disabled = true;
+
+            // তারিখের লজিক: নতুন ইনপুট থাকলে কনভার্ট হবে, না থাকলে আগেরটাই যাবে
+            let rawDate = document.getElementById('editLastBlood').value;
+            let finalBloodDate = document.getElementById('editLastBlood').dataset.oldValue;
+            if (rawDate) { finalBloodDate = formatBengaliDate(rawDate); }
 
             const payload = {
                 action: "edit_member",
                 row: document.getElementById('editRow').value,
                 name: document.getElementById('editName').value,
                 phone: document.getElementById('editPhone').value,
+                password: document.getElementById('editPassword').value, // পাসওয়ার্ড
                 blood: document.getElementById('editBlood').value,
-                lastBloodDonated: document.getElementById('editLastBlood').value, // নতুন যুক্ত হওয়া ফিল্ড
+                lastBloodDonated: finalBloodDate, // বাংলা টেক্সট ডেট
                 session: document.getElementById('editSession').value,
                 dept: document.getElementById('editDept').value,
                 hall: document.getElementById('editHall').value,
@@ -391,10 +413,7 @@
                 address: document.getElementById('editAddress').value
             };
 
-            fetch(API_URL, {
-                method: 'POST',
-                body: JSON.stringify(payload)
-            })
+            fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
             .then(response => response.json())
             .then(data => {
                 if(data.status === "success") {
@@ -431,19 +450,13 @@
         window.onload = loadMembers;
     </script>
 <script>
-    // Service Worker রেজিস্টার করা
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/dusab/sw.js')
-            .then(registration => {
-                console.log('Service Worker Registered Successfully!', registration.scope);
-            })
-            .catch(err => {
-                console.log('Service Worker Registration Failed:', err);
-            });
+            .then(registration => { console.log('Service Worker Registered Successfully!', registration.scope); })
+            .catch(err => { console.log('Service Worker Registration Failed:', err); });
         });
     }
 </script>
-
 </body>
 </html>
