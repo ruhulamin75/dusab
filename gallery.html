@@ -17,18 +17,49 @@
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 80px; }
+
+        /* ================= App-like Preloader (Fast) ================= */
+        .app-preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-light); z-index: 99999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.3s ease, visibility 0.3s ease; /* সময় কমানো হয়েছে */
+        }
+        .app-preloader.hidden { opacity: 0; visibility: hidden; }
+        .app-preloader img { width: 80px; animation: bounce 1.2s infinite alternate ease-in-out; margin-bottom: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));}
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(125, 27, 126, 0.2); border-top: 4px solid var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; }
+        
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .fade-in-content { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ================= ডেস্কটপ হেডার ও নেভিগেশন ================= */
         header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; }
-        .logo img { height: 60px; display: block; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; position: relative; }
+        .logo a { display: flex; align-items: center; text-decoration: none; }
+        .logo img { height: 60px; display: block; transition: 0.3s; }
+        .mobile-logo-text { display: none; font-weight: 700; font-size: 22px; color: var(--primary-color); margin-left: 10px; }
+        
         .nav-links { display: flex; list-style: none; align-items: center; }
         .nav-links li { position: relative; }
         .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; display: block; }
         .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
         .dropdown { position: relative; }
-        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background-color: var(--white); min-width: 160px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-top: 3px solid var(--accent-color); list-style: none; padding: 5px 0; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background-color: var(--white); min-width: 160px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-top: 3px solid var(--accent-color); list-style: none; padding: 5px 0; border-radius: 0 0 6px 6px; }
         .dropdown-menu li a { padding: 10px 15px; font-size: 15px; color: var(--primary-color); }
         .dropdown:hover .dropdown-menu { display: block; }
-        .menu-toggle { display: none; color: var(--primary-color); font-size: 26px; cursor: pointer; }
+        
+        .menu-toggle { display: none; color: var(--primary-color); font-size: 22px; cursor: pointer; padding: 8px; border-radius: 5px; background: rgba(125,27,126,0.1); transition: 0.3s;}
+        .menu-toggle:active { background: var(--primary-color); color: var(--white); }
+        .mobile-top-dropdown { display: none; position: absolute; top: 100%; right: 20px; background: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-radius: 8px; list-style: none; padding: 10px 0; flex-direction: column; z-index: 1001; }
+        .mobile-top-dropdown.active { display: flex; animation: fadeIn 0.3s ease; }
+        .mobile-top-dropdown li a { padding: 12px 20px; display: block; color: var(--primary-color); text-decoration: none; font-weight: 600; font-size: 16px;}
+        
+        .mobile-bottom-nav { display: none; }
+
+        /* ================= মূল কন্টেন্ট ================= */
         .page-header { background: linear-gradient(rgba(125, 27, 126, 0.85), rgba(38, 46, 122, 0.90)), url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200') no-repeat center center/cover; padding: 80px 20px 50px; text-align: center; color: var(--white); }
         .page-header h1 { font-size: 36px; color: var(--accent-color); margin-bottom: 10px; }
         .gallery-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
@@ -39,79 +70,158 @@
         .gallery-details { padding: 15px; }
         .gallery-date { font-size: 13px; color: var(--primary-color); font-weight: 600; margin-bottom: 5px; }
         .gallery-caption { font-size: 16px; font-weight: bold; color: var(--secondary-color); }
-        #loadingMessage { text-align: center; font-size: 18px; color: var(--primary-color); grid-column: 1 / -1; }
-                @media (max-width: 768px) {
-            .menu-toggle { display: block; }
-            /* মেনু স্ক্রলিং যুক্ত করা হয়েছে যেন মেনু বড় হলে নিচে যাওয়া যায় */
-            .nav-links { position: absolute; top: 100%; left: -100%; width: 100%; height: 100vh; background-color: var(--white); flex-direction: column; align-items: flex-start; padding: 20px; transition: 0.5s; overflow-y: auto; }
-            .nav-links.active { left: 0; }
-            
-            /* ড্রপডাউন মোবাইল ফিক্স */
-            .dropdown { width: 100%; }
-            .dropdown-menu { 
-                position: static; /* স্ক্রিনের বাইরে যাওয়া বন্ধ করবে */
-                box-shadow: none; 
-                border-top: none; 
-                padding-left: 20px; 
-                margin-top: 5px; 
-                border-left: 3px solid var(--accent-color); 
-                background-color: transparent;
-                display: none;
-            }
-            /* মোবাইলে টাচ করলে ড্রপডাউন খুলবে */
-            .dropdown:hover .dropdown-menu, 
-            .dropdown:active .dropdown-menu, 
-            .dropdown:focus-within .dropdown-menu { 
-                display: block; 
-            }
-        }
+        #errorMsg { text-align: center; font-size: 18px; color: #e74c3c; grid-column: 1 / -1; display: none; }
 
+        /* ================= মোবাইল ভিউ ================= */
+        @media (max-width: 768px) {
+            body { padding-bottom: 80px; } /* Bottom nav এর জন্য নিচে জায়গা রাখা */
+            .nav-links { display: none !important; } 
+            .logo img { height: 40px; } 
+            .mobile-logo-text { display: block; } 
+            .menu-toggle { display: block; } 
+            
+            /* বটম নেভিগেশন */
+            .mobile-bottom-nav {
+                display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
+                background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+                z-index: 1000; justify-content: space-around; padding: 12px 0;
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+            .mobile-bottom-nav a { 
+                color: #a0a0a0; font-size: 24px; text-decoration: none; 
+                display: flex; flex-direction: column; align-items: center; justify-content: center; 
+                flex: 1; transition: 0.3s; position: relative;
+            }
+            .mobile-bottom-nav a.active { color: var(--primary-color); transform: translateY(-3px); }
+            .mobile-bottom-nav a img { 
+                width: 28px; height: 28px; border-radius: 50%; 
+                border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s;
+            }
+            .mobile-bottom-nav a.active img { border-color: var(--primary-color); }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <div class="logo"><a href="index.html"><img src="logo.png" alt="Logo"></a></div>
-            <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
-            <ul class="nav-links" id="nav-menu"></ul>
-        </div>
-    </header>
-    <section class="page-header"><h1>ফোটো গ্যালারি</h1><p>ডুসাব পরিবারের কিছু স্মরণীয় মুহূর্ত</p></section>
-    <div class="gallery-container"><div class="gallery-grid" id="galleryGrid"><div id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> ছবিগুলো লোড হচ্ছে...</div></div></div>
-    <script>
-        // ========================================================
-        const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec"; // <-- URL বসান
-        // ========================================================
-        document.getElementById('mobile-menu').addEventListener('click', () => { document.getElementById('nav-menu').classList.toggle('active'); });
 
-        const memberDataString = sessionStorage.getItem('memberData'), navMenu = document.getElementById('nav-menu');
+    <!-- Splash Screen (Preloader) -->
+    <div id="app-preloader" class="app-preloader">
+        <img src="logo.png" alt="DUSAB Logo">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Main Content Wrapper -->
+    <div id="main-wrapper" class="fade-in-content" style="display: none;">
+        
+        <header>
+            <div class="navbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Logo">
+                        <span class="mobile-logo-text">DUSAB</span>
+                    </a>
+                </div>
+                
+                <!-- ডেস্কটপ নেভিগেশন -->
+                <ul class="nav-links" id="desktop-nav-menu"></ul>
+                
+                <!-- মোবাইল টপ-রাইট অ্যাডমিন বাটন -->
+                <div class="menu-toggle" id="mobile-menu" title="অ্যাডমিন মেনু"><i class="fas fa-user-shield"></i></div>
+                <ul class="mobile-top-dropdown" id="mobile-top-dropdown">
+                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> অ্যাডমিন প্যানেলে প্রবেশ করুন</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <!-- মোবাইল বটম নেভিগেশন -->
+        <div class="mobile-bottom-nav" id="mobile-bottom-nav"></div>
+
+        <section class="page-header">
+            <h1>ফোটো গ্যালারি</h1>
+            <p>ডুসাব পরিবারের কিছু স্মরণীয় মুহূর্ত</p>
+        </section>
+        
+        <div class="gallery-container">
+            <div id="errorMsg">ছবি লোড করতে সমস্যা হয়েছে! ইন্টারনেট কানেকশন চেক করুন।</div>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </div>
+
+    </div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec";
+        
+        // অ্যাডমিন মেনু টগল লজিক
+        document.getElementById('mobile-menu').addEventListener('click', (e) => { 
+            document.getElementById('mobile-top-dropdown').classList.toggle('active');
+            e.stopPropagation();
+        });
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('mobile-top-dropdown');
+            if (dropdown.classList.contains('active') && !e.target.closest('.menu-toggle') && !e.target.closest('.mobile-top-dropdown')) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // নেভিগেশন সেটআপ (লগইন স্ট্যাটাস অনুযায়ী)
+        const memberDataString = sessionStorage.getItem('memberData');
+        const desktopNav = document.getElementById('desktop-nav-menu');
+        const mobileNav = document.getElementById('mobile-bottom-nav');
+
         if (memberDataString) {
-            navMenu.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html" class="active"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
+            const memberData = JSON.parse(memberDataString);
+            const userPhoto = memberData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+            
+            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html" class="active"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
+            
+            mobileNav.innerHTML = `
+                <a href="index.html"><i class="fas fa-home"></i></a>
+                <a href="gallery.html" class="active"><i class="fas fa-images"></i></a>
+                <a href="member-directory.html"><i class="fas fa-users"></i></a>
+                <a href="notice.html"><i class="fas fa-bell"></i></a>
+                <a href="profile.html"><img src="${userPhoto}" alt="User"></a>
+            `;
         } else {
-            navMenu.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html" class="active"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
+            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html" class="active"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
+            
+            mobileNav.innerHTML = `
+                <a href="index.html"><i class="fas fa-home"></i></a>
+                <a href="gallery.html" class="active"><i class="fas fa-images"></i></a>
+                <a href="notice.html"><i class="fas fa-bell"></i></a>
+                <a href="member-login-registration.html"><i class="fas fa-sign-in-alt"></i></a>
+            `;
         }
 
-        // সংশোধিত: ছবি নিয়ে আসার জন্য POST রিকোয়েস্ট
+        // ছবি লোড ও ফাস্ট স্প্ল্যাশ স্ক্রিন রিমুভার
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_gallery" }) })
-        .then(res => res.json()).then(data => {
-            document.getElementById('loadingMessage').style.display = 'none'; const grid = document.getElementById('galleryGrid');
-            if(data.length === 0) { grid.innerHTML = '<h3 style="text-align:center; grid-column:1/-1; color:#888;">কোনো ছবি পাওয়া যায়নি।</h3>'; return; }
-            data.reverse().forEach(item => {
-                grid.innerHTML += `<div class="gallery-item"><img src="${item.url}"><div class="gallery-details"><div class="gallery-date"><i class="far fa-calendar-alt"></i> ${item.date}</div><div class="gallery-caption">${item.caption}</div></div></div>`;
-            });
-        }).catch(() => { document.getElementById('loadingMessage').innerHTML = 'ছবি লোড করতে সমস্যা হয়েছে!'; });
+        .then(res => res.json())
+        .then(data => {
+            const grid = document.getElementById('galleryGrid');
+            if(data.length === 0) { 
+                grid.innerHTML = '<h3 style="text-align:center; grid-column:1/-1; color:#888;">কোনো ছবি পাওয়া যায়নি।</h3>'; 
+            } else {
+                data.reverse().forEach(item => {
+                    grid.innerHTML += `<div class="gallery-item"><img src="${item.url}"><div class="gallery-details"><div class="gallery-date"><i class="far fa-calendar-alt"></i> ${item.date}</div><div class="gallery-caption">${item.caption}</div></div></div>`;
+                });
+            }
+        })
+        .catch(() => {
+            document.getElementById('errorMsg').style.display = 'block';
+        })
+        .finally(() => {
+            // ডাটা ফেচ হওয়া মাত্রই খুব দ্রুত স্প্ল্যাশ স্ক্রিন সরানো হবে
+            const preloader = document.getElementById('app-preloader');
+            preloader.classList.add('hidden');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+                document.getElementById('main-wrapper').style.display = 'block';
+            }, 300); // লোডিং টাইম একদম কমিয়ে ৩০০ মিলি-সেকেন্ড করা হয়েছে
+        });
     </script>
 <script>
-    // Service Worker রেজিস্টার করা
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/dusab/sw.js')
-            .then(registration => {
-                console.log('Service Worker Registered Successfully!', registration.scope);
-            })
-            .catch(err => {
-                console.log('Service Worker Registration Failed:', err);
-            });
+            .catch(err => { console.log('Service Worker Registration Failed:', err); });
         });
     }
 </script>
