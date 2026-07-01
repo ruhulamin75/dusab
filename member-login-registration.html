@@ -6,7 +6,8 @@
     <title>মেম্বার লগইন ও রেজিস্ট্রেশন - DUSAB</title>
     
     <link rel="manifest" href="/dusab/manifest.json">
-    <meta name="theme-color" content="#7D1B7E">
+    <!-- থিম কালার আপডেট করা হয়েছে যেন হেডারের সাথে না মেশে -->
+    <meta name="theme-color" content="#f4f5f7">
     <link rel="apple-touch-icon" href="icon-192.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -97,10 +98,30 @@
             .mobile-logo-text { display: block; }
             .menu-toggle { display: block; }
             
-            .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 1000; justify-content: space-around; padding: 12px 0; padding-bottom: max(12px, env(safe-area-inset-bottom)); }
-            .mobile-bottom-nav a { color: #a0a0a0; font-size: 24px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; transition: 0.3s; }
-            .mobile-bottom-nav a.active { color: var(--primary-color); transform: translateY(-3px); }
-            .mobile-bottom-nav a img { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #a0a0a0; object-fit: cover; }
+            /* বটম নেভিগেশন - পুরো ঘরটিকে ক্লিকেবল করা হয়েছে */
+            .mobile-bottom-nav {
+                display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
+                background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+                z-index: 1000; justify-content: space-between; 
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            .mobile-bottom-nav a { 
+                color: #a0a0a0; font-size: 24px; text-decoration: none; 
+                display: flex; flex-direction: column; align-items: center; justify-content: center; 
+                flex: 1; padding: 12px 0; transition: background-color 0.3s, color 0.3s; position: relative;
+            }
+            .mobile-bottom-nav a:hover, .mobile-bottom-nav a:active {
+                background-color: rgba(125, 27, 126, 0.05);
+            }
+            .mobile-bottom-nav a.active { 
+                color: var(--primary-color); 
+                background-color: rgba(125, 27, 126, 0.1); 
+            }
+            .mobile-bottom-nav a img { 
+                width: 28px; height: 28px; border-radius: 50%; 
+                border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s;
+            }
+            .mobile-bottom-nav a.active img { border-color: var(--primary-color); }
             
             .form-grid { grid-template-columns: 1fr; }
             .form-area { padding: 30px 20px; }
@@ -189,7 +210,7 @@
                                 <select id="regSession" required>
                                     <option value="" disabled selected>সেশন নির্বাচন করুন</option>
                                     <option value="2000-01">২০০০-০১</option><option value="2001-02">২০০১-০২</option><option value="2002-03">২০০২-০৩</option><option value="2003-04">২০০৩-০৪</option>
-                                    <option value="2004-05">২০০৪-০৫</option><option value="2005-06">২০০৫-০৬</option><option value="2006-07">২০০৬-০৭</option><option value="2007-08">২০০৭-০৮</option>
+                                    <option value="2004-05">২০০৪-০৫</option><option value="2005-06">২০০৫-০৬</option><option value="2006-07">২০০৬-০7</option><option value="2007-08">২০০৭-০৮</option>
                                     <option value="2008-09">২০০৮-০৯</option><option value="2009-10">২০০৯-১০</option><option value="2010-11">২০১০-১১</option><option value="2011-12">২০১১-১২</option>
                                     <option value="2012-13">২০১২-১৩</option><option value="2013-14">২০১৩-১৪</option><option value="2014-15">২০১৪-১৫</option><option value="2015-16">২০১৫-১৬</option>
                                     <option value="2016-17">২০১৬-১৭</option><option value="2017-18">২০১৭-১৮</option><option value="2018-19">২০১৮-১৯</option><option value="2019-20">২০১৯-২০</option>
