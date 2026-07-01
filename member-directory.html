@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>মেম্বার ডিরেক্টরি - DUSAB</title>
-    <!-- PWA Manifest -->
-<link rel="manifest" href="/dusab/manifest.json">
-<!-- থিম কালার (মোবাইলের স্ট্যাটাস বারের রং পরিবর্তন করবে) -->
-<meta name="theme-color" content="#7D1B7E">
-<!-- অ্যাপল ডিভাইসের জন্য -->
-<link rel="apple-touch-icon" href="icon-192.png">
+    
+    <link rel="manifest" href="/dusab/manifest.json">
+    <meta name="theme-color" content="#7D1B7E">
+    <link rel="apple-touch-icon" href="icon-192.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,21 +17,37 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 80px; }
 
-        /* ডাইনামিক নেভিগেশন বার */
-        header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; }
-        .logo img { height: 60px; display: block; }
-        .nav-links { display: flex; list-style: none; align-items: center; }
-        .nav-links li { position: relative; }
-        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; display: block; }
-        .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
-        .menu-toggle { display: none; color: var(--primary-color); font-size: 26px; cursor: pointer; }
+        /* ================= Preloader & Animation ================= */
+        .app-preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-light); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .app-preloader.hidden { opacity: 0; visibility: hidden; }
+        .app-preloader img { width: 80px; animation: bounce 1.2s infinite alternate ease-in-out; margin-bottom: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(125, 27, 126, 0.2); border-top: 4px solid var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .fade-in-content { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* পেজ হেডার */
+        /* ================= Header ================= */
+        header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; position: relative; }
+        .logo a { display: flex; align-items: center; text-decoration: none; }
+        .logo img { height: 60px; display: block; }
+        .mobile-logo-text { display: none; font-weight: 700; font-size: 22px; color: var(--primary-color); margin-left: 10px; }
+        
+        .nav-links { display: flex; list-style: none; align-items: center; }
+        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
+
+        .menu-toggle { display: none; color: var(--primary-color); font-size: 22px; cursor: pointer; padding: 8px; border-radius: 5px; background: rgba(125,27,126,0.1); transition: 0.3s;}
+        .menu-toggle:active { background: var(--primary-color); color: var(--white); }
+        .mobile-top-dropdown { display: none; position: absolute; top: 100%; right: 20px; background: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-radius: 8px; list-style: none; padding: 10px 0; z-index: 1001; }
+        .mobile-top-dropdown.active { display: flex; flex-direction: column; animation: fadeIn 0.3s ease; }
+        .mobile-top-dropdown li a { padding: 12px 20px; display: block; color: var(--primary-color); text-decoration: none; font-weight: 600; }
+
+        /* ================= Page Content ================= */
         .page-header { background: linear-gradient(rgba(125, 27, 126, 0.85), rgba(38, 46, 122, 0.90)), url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200') no-repeat center center/cover; padding: 80px 20px 50px; text-align: center; color: var(--white); }
         .page-header h1 { font-size: 36px; color: var(--accent-color); margin-bottom: 10px; }
 
-        /* ডিরেক্টরি কন্টেইনার ও সার্চ */
         .directory-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
         
         .search-box { max-width: 600px; margin: 0 auto 40px; position: relative; }
@@ -41,10 +55,8 @@
         .search-box input:focus { border-color: var(--primary-color); }
         .search-box i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 18px; }
 
-        /* কার্ড গ্রিড */
         .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
         
-        /* মেম্বার কার্ড ডিজাইন */
         .member-card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.06); transition: 0.3s; position: relative; display: flex; flex-direction: column;}
         .member-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
         
@@ -62,7 +74,6 @@
         .info-list p:last-child { margin-bottom: 0; }
         .info-list i { color: var(--primary-color); margin-top: 4px; width: 16px; text-align: center;}
         
-        /* কন্টাক্ট বাটনস */
         .card-footer { display: flex; border-top: 1px solid #eee; }
         .contact-btn { flex: 1; padding: 15px 0; text-align: center; text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .btn-call { color: var(--secondary-color); background: #fcfcfc; border-right: 1px solid #eee; }
@@ -70,74 +81,115 @@
         .btn-wa { color: #25D366; background: #fcfcfc; }
         .btn-wa:hover { background: #e9fbf0; color: #1da851; }
 
-        #loadingMessage { text-align: center; font-size: 20px; color: var(--primary-color); margin-top: 30px; grid-column: 1 / -1; }
         .no-result { text-align: center; color: #e74c3c; font-size: 18px; padding: 20px; font-weight: bold; grid-column: 1 / -1;}
+        .loading-state { text-align: center; color: var(--primary-color); font-weight: 600; padding: 20px 0; grid-column: 1 / -1;}
 
+        /* ================= Mobile View ================= */
+        .mobile-bottom-nav { display: none; }
         @media (max-width: 768px) {
+            body { padding-bottom: 80px; }
+            .nav-links { display: none !important; }
+            .logo img { height: 40px; }
+            .mobile-logo-text { display: block; }
             .menu-toggle { display: block; }
-            .nav-links { position: absolute; top: 100%; left: -100%; width: 100%; height: 100vh; background-color: var(--white); flex-direction: column; align-items: flex-start; padding: 20px; transition: 0.5s; }
-            .nav-links.active { left: 0; }
+            
+            .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 1000; justify-content: space-around; padding: 12px 0; padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+            .mobile-bottom-nav a { color: #a0a0a0; font-size: 24px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; transition: 0.3s; position: relative;}
+            .mobile-bottom-nav a.active { color: var(--primary-color); transform: translateY(-3px); }
+            .mobile-bottom-nav a img { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s;}
+            .mobile-bottom-nav a.active img { border-color: var(--primary-color); }
         }
     </style>
 </head>
 <body>
 
-    <!-- ডাইনামিক নেভিগেশন বার -->
-    <header>
-        <div class="navbar">
-            <div class="logo"><a href="index.html"><img src="logo.png" alt="Logo"></a></div>
-            <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
-            <ul class="nav-links" id="nav-menu">
-                <!-- জাভাস্ক্রিপ্ট দিয়ে মেনু তৈরি হবে -->
-            </ul>
-        </div>
-    </header>
+    <div id="app-preloader" class="app-preloader">
+        <img src="logo.png" alt="DUSAB Logo">
+        <div class="spinner"></div>
+    </div>
 
-    <section class="page-header">
-        <h1>মেম্বার ডিরেক্টরি</h1>
-        <p>সংগঠনের সকল সদস্যদের তথ্য খুঁজুন এবং যোগাযোগ করুন</p>
-    </section>
-
-    <div class="directory-container">
+    <div id="main-wrapper" class="fade-in-content" style="display: none;">
         
-        <!-- সার্চ বক্স -->
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="নাম, ডিপার্টমেন্ট, সেশন বা রক্তের গ্রুপ দিয়ে খুঁজুন..." onkeyup="filterMembers()">
-        </div>
+        <header>
+            <div class="navbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Logo">
+                        <span class="mobile-logo-text">DUSAB</span>
+                    </a>
+                </div>
+                
+                <ul class="nav-links" id="desktop-nav-menu"></ul>
+                
+                <div class="menu-toggle" id="mobile-menu" title="অ্যাডমিন মেনু"><i class="fas fa-user-shield"></i></div>
+                <ul class="mobile-top-dropdown" id="mobile-top-dropdown">
+                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> অ্যাডমিন লগইন</a></li>
+                </ul>
+            </div>
+        </header>
 
-        <!-- মেম্বারদের কার্ড গ্রিড -->
-        <div class="members-grid" id="membersGrid">
-            <div id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> মেম্বারদের তথ্য লোড হচ্ছে...</div>
+        <div class="mobile-bottom-nav" id="mobile-bottom-nav"></div>
+
+        <section class="page-header">
+            <h1>মেম্বার ডিরেক্টরি</h1>
+            <p>সংগঠনের সকল সদস্যদের তথ্য খুঁজুন এবং যোগাযোগ করুন</p>
+        </section>
+
+        <div class="directory-container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="নাম, ডিপার্টমেন্ট, সেশন বা রক্তের গ্রুপ দিয়ে খুঁজুন..." onkeyup="filterMembers()">
+            </div>
+
+            <div class="members-grid" id="membersGrid">
+                <div class="loading-state" id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> মেম্বারদের তথ্য লোড হচ্ছে...</div>
+            </div>
         </div>
 
     </div>
 
     <script>
-        // ========================================================
         const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec";
-        // ========================================================
 
-        // সিকিউরিটি চেক: লগইন না থাকলে লগইন পেজে পাঠিয়ে দেবে
+        // মেনু টগল লজিক
+        document.getElementById('mobile-menu').addEventListener('click', (e) => { 
+            document.getElementById('mobile-top-dropdown').classList.toggle('active');
+            e.stopPropagation();
+        });
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('mobile-top-dropdown');
+            if (dropdown.classList.contains('active') && !e.target.closest('.menu-toggle') && !e.target.closest('.mobile-top-dropdown')) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // সিকিউরিটি চেক ও নেভিগেশন সেটআপ
         const memberDataString = sessionStorage.getItem('memberData');
-        const navMenu = document.getElementById('nav-menu');
+        const desktopNav = document.getElementById('desktop-nav-menu');
+        const mobileNav = document.getElementById('mobile-bottom-nav');
 
-        if (memberDataString) {
-            navMenu.innerHTML = `
+        if (!memberDataString) {
+            window.location.href = "member-login-registration.html";
+        } else {
+            const memberData = JSON.parse(memberDataString);
+            const userPhoto = memberData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+            
+            desktopNav.innerHTML = `
                 <li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li>
                 <li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li>
                 <li><a href="member-directory.html" class="active"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li>
                 <li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li>
                 <li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>
             `;
-        } else {
-            window.location.href = "member-login-registration.html";
+            
+            mobileNav.innerHTML = `
+                <a href="index.html"><i class="fas fa-home"></i></a>
+                <a href="gallery.html"><i class="fas fa-images"></i></a>
+                <a href="member-directory.html" class="active"><i class="fas fa-users"></i></a>
+                <a href="notice.html"><i class="fas fa-bell"></i></a>
+                <a href="profile.html"><img src="${userPhoto}" alt="User"></a>
+            `;
         }
-
-        // মোবাইল মেনু
-        document.getElementById('mobile-menu').addEventListener('click', () => { 
-            document.getElementById('nav-menu').classList.toggle('active'); 
-        });
 
         let allApprovedMembers = [];
 
@@ -146,12 +198,20 @@
             fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_members" }) })
             .then(response => response.json())
             .then(data => {
-                // শুধুমাত্র Approved মেম্বারদের ফিল্টার করা হচ্ছে
                 allApprovedMembers = data.filter(m => m.status === 'Approved');
                 displayMembers(allApprovedMembers);
             })
             .catch(error => {
                 document.getElementById('loadingMessage').innerHTML = '<span style="color:red;">তথ্য লোড করতে সমস্যা হয়েছে! ইন্টারনেট কানেকশন চেক করুন।</span>';
+            })
+            .finally(() => {
+                // ডাটা ফেচ হওয়া মাত্রই স্প্ল্যাশ স্ক্রিন সরিয়ে দেওয়া হবে
+                const preloader = document.getElementById('app-preloader');
+                preloader.classList.add('hidden');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    document.getElementById('main-wrapper').style.display = 'block';
+                }, 300);
             });
         }
 
@@ -172,19 +232,12 @@
             members.reverse().forEach(item => {
                 const photoUrl = item.photo ? item.photo : 'https://via.placeholder.com/150';
                 
-                // হোয়াটসঅ্যাপের জন্য নাম্বার ফরম্যাটিং (বাংলাদেশের কোড +88 যুক্ত করা)
-                let waNumber = item.phone.replace(/[^0-9]/g, ''); // শুধু নাম্বার রাখা
+                let waNumber = item.phone.replace(/[^0-9]/g, ''); 
                 if(waNumber.startsWith('0')) { waNumber = '88' + waNumber; }
                 
                 let lastBloodText = item.lastBloodDonated ? item.lastBloodDonated : 'কখনো দেননি / তথ্য নেই';
                 
-                // রক্তের গ্রুপ দিয়ে সার্চ করলে শেষ রক্তদানের তারিখ দেখাবে
-                let bloodInfoHtml = '';
-                if (isBloodSearch || query === '') {
-                    bloodInfoHtml = `<p><i class="fas fa-calendar-check" style="color:#e74c3c;"></i> <span><strong>শেষ রক্তদান:</strong> ${lastBloodText}</span></p>`;
-                } else {
-                    bloodInfoHtml = `<p><i class="fas fa-calendar-check" style="color:#e74c3c;"></i> <span><strong>শেষ রক্তদান:</strong> ${lastBloodText}</span></p>`;
-                }
+                let bloodInfoHtml = `<p><i class="fas fa-calendar-check" style="color:#e74c3c;"></i> <span><strong>শেষ রক্তদান:</strong> ${lastBloodText}</span></p>`;
 
                 const cardHtml = `
                     <div class="member-card">
@@ -212,34 +265,25 @@
             });
         }
 
-       // লাইভ সার্চ ফিল্টার (সেশনসহ আপডেট করা)
+       // লাইভ সার্চ ফিল্টার
         function filterMembers() {
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
-            
             const filtered = allApprovedMembers.filter(m => 
                 m.name.toLowerCase().includes(query) || 
                 m.dept.toLowerCase().includes(query) || 
                 m.blood.toLowerCase().includes(query) ||
                 m.session.toLowerCase().includes(query)
             );
-            
             displayMembers(filtered);
         }
 
-        // পেজ লোড হলে কল হবে
         window.onload = loadDirectory;
     </script>
 <script>
-    // Service Worker রেজিস্টার করা
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/dusab/sw.js')
-            .then(registration => {
-                console.log('Service Worker Registered Successfully!', registration.scope);
-            })
-            .catch(err => {
-                console.log('Service Worker Registration Failed:', err);
-            });
+            .catch(err => { console.log('Service Worker Registration Failed:', err); });
         });
     }
 </script>
