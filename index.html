@@ -17,9 +17,31 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 70px; }
 
+        /* ================= App-like Preloader ================= */
+        .app-preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-light); z-index: 99999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .app-preloader.hidden { opacity: 0; visibility: hidden; }
+        .app-preloader img { width: 80px; animation: bounce 1.2s infinite alternate ease-in-out; margin-bottom: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));}
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(125, 27, 126, 0.2); border-top: 4px solid var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; }
+        
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Smooth Fade In Animation for content */
+        .fade-in-content { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* ================= ডেস্কটপ হেডার ও নেভিগেশন ================= */
         header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
-        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; }
-        .logo img { height: 60px; display: block; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; position: relative; }
+        .logo a { display: flex; align-items: center; text-decoration: none; }
+        .logo img { height: 60px; display: block; transition: 0.3s; }
+        .mobile-logo-text { display: none; font-weight: 700; font-size: 22px; color: var(--primary-color); margin-left: 10px; }
+        
         .nav-links { display: flex; list-style: none; align-items: center; }
         .nav-links li { position: relative; }
         .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; display: block; }
@@ -28,8 +50,16 @@
         .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background-color: var(--white); min-width: 160px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-top: 3px solid var(--accent-color); list-style: none; padding: 5px 0; border-radius: 0 0 6px 6px; }
         .dropdown-menu li a { padding: 10px 15px; font-size: 15px; color: var(--primary-color); }
         .dropdown:hover .dropdown-menu { display: block; }
-        .menu-toggle { display: none; color: var(--primary-color); font-size: 26px; cursor: pointer; }
+        
+        .menu-toggle { display: none; color: var(--primary-color); font-size: 22px; cursor: pointer; padding: 8px; border-radius: 5px; background: rgba(125,27,126,0.1); transition: 0.3s;}
+        .menu-toggle:active { background: var(--primary-color); color: var(--white); }
+        .mobile-top-dropdown { display: none; position: absolute; top: 100%; right: 20px; background: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-radius: 8px; list-style: none; padding: 10px 0; flex-direction: column; z-index: 1001; }
+        .mobile-top-dropdown.active { display: flex; animation: fadeIn 0.3s ease; }
+        .mobile-top-dropdown li a { padding: 12px 20px; display: block; color: var(--primary-color); text-decoration: none; font-weight: 600; font-size: 16px;}
+        
+        .mobile-bottom-nav { display: none; }
 
+        /* ================= হিরো ও অন্যান্য সেকশন ================= */
         .hero { background: linear-gradient(rgba(125, 27, 126, 0.8), rgba(38, 46, 122, 0.85)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200') no-repeat center center/cover; padding: 160px 20px; text-align: center; color: var(--white); }
         .hero h1 { font-size: 46px; color: var(--accent-color); margin-bottom: 15px; font-weight: 700; text-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
         .hero p { font-size: 22px; max-width: 850px; margin: 0 auto 30px; font-weight: 500; }
@@ -90,226 +120,312 @@
         .btn-wa:hover { background-color: #128C7E; }
 
         .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #9ca3af; font-size: 14px; }
+        
+        /* Data Loading State */
+        .loading-state { text-align: center; color: var(--primary-color); font-weight: 600; padding: 20px 0; }
 
+        /* ================= মোবাইল ভিউ (অ্যাপ-লাইক ডিজাইন) ================= */
         @media (max-width: 768px) {
-            .menu-toggle { display: block; }
-            .nav-links { position: absolute; top: 100%; left: -100%; width: 100%; height: 100vh; background-color: var(--white); flex-direction: column; align-items: flex-start; padding: 20px; transition: 0.5s; overflow-y: auto; }
-            .nav-links.active { left: 0; }
-            .dropdown { width: 100%; }
-            .dropdown-menu { position: static; box-shadow: none; border-top: none; padding-left: 20px; margin-top: 5px; border-left: 3px solid var(--accent-color); background-color: transparent; display: none; }
-            .dropdown:hover .dropdown-menu, .dropdown:active .dropdown-menu, .dropdown:focus-within .dropdown-menu { display: block; }
+            body { padding-bottom: 80px; } 
+            
+            .nav-links { display: none !important; } 
+            .logo img { height: 40px; } 
+            .mobile-logo-text { display: block; } 
+            .menu-toggle { display: block; } 
+            
+            .mobile-bottom-nav {
+                display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
+                background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+                z-index: 1000; justify-content: space-around; padding: 12px 0;
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+            .mobile-bottom-nav a { 
+                color: #a0a0a0; font-size: 24px; text-decoration: none; 
+                display: flex; flex-direction: column; align-items: center; justify-content: center; 
+                flex: 1; transition: 0.3s; position: relative;
+            }
+            .mobile-bottom-nav a.active { color: var(--primary-color); transform: translateY(-3px); }
+            
+            .mobile-bottom-nav a img { 
+                width: 28px; height: 28px; border-radius: 50%; 
+                border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s;
+            }
+            .mobile-bottom-nav a.active img { border-color: var(--primary-color); }
+
             .about-section, .dynamic-section, .messages-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 32px; }
+            .about-text { text-align: left; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="navbar">
-            <div class="logo"><a href="index.html"><img src="logo.png" alt="Logo"></a></div>
-            <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
-            <ul class="nav-links" id="nav-menu"></ul>
-        </div>
-    </header>
-
-    <section class="hero">
-        <h1>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব<br>ব্রাহ্মণপাড়া (DUSAB)</h1>
-        <p>"শিক্ষা-সহযোগিতা-ভ্রাতৃত্ব" - এই পবিত্র মোটিভকে বুকে ধারণ করে গড়ে ওঠা ডুসাব পরিবারের অফিসিয়াল ওয়েবসাইটে আপনাকে স্বাগতম।</p>
-        <div class="hero-btns">
-            <a href="member-login-registration.html" class="btn btn-primary" id="heroLoginBtn">লগইন/রেজিস্ট্রেশন</a>
-            <a href="gallery.html" class="btn btn-outline">গ্যালারি দেখুন</a>
-        </div>
-    </section>
-
-    <div class="motive-banner">
-        শিক্ষা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> সহযোগিতা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> ভ্রাতৃত্ব
+    <!-- Splash Screen (Preloader) -->
+    <div id="app-preloader" class="app-preloader">
+        <img src="logo.png" alt="DUSAB Logo">
+        <div class="spinner"></div>
     </div>
 
-    <section class="about-section">
-        <div class="section-header"><h2>আমাদের সম্পর্কে</h2></div>
-        <div class="about-text" id="displayAbout">তথ্য লোড হচ্ছে...</div>
+    <!-- Main Content Wrapper for Fade In -->
+    <div id="main-wrapper" class="fade-in-content" style="display: none;">
         
-        <div class="messages-grid">
-            <div class="message-card">
-                <i class="fas fa-quote-left"></i>
-                <p id="displayPresMsg">বাণী লোড হচ্ছে...</p>
-                <h4 id="displayPresName"></h4>
-                <span>সভাপতি, ডুসাব</span>
+        <header>
+            <div class="navbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Logo">
+                        <span class="mobile-logo-text">DUSAB</span>
+                    </a>
+                </div>
+                
+                <!-- ডেস্কটপ নেভিগেশন -->
+                <ul class="nav-links" id="desktop-nav-menu"></ul>
+                
+                <!-- মোবাইল টপ-রাইট অ্যাডমিন বাটন (মানানসই আইকন) -->
+                <div class="menu-toggle" id="mobile-menu" title="অ্যাডমিন মেনু"><i class="fas fa-user-shield"></i></div>
+                <ul class="mobile-top-dropdown" id="mobile-top-dropdown">
+                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> অ্যাডমিন প্যানেলে প্রবেশ করুন</a></li>
+                </ul>
             </div>
-            <div class="message-card">
-                <i class="fas fa-quote-left"></i>
-                <p id="displaySecMsg">বাণী লোড হচ্ছে...</p>
-                <h4 id="displaySecName"></h4>
-                <span>সাধারণ সম্পাদক, ডুসাব</span>
-            </div>
-        </div>
-    </section>
+        </header>
 
-    <section class="features-section">
-        <div class="section-header"><h2>লক্ষ্য ও উদ্দেশ্য</h2></div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-users-cog"></i>
-                <h3>অরাজনৈতিক ও সেবামূলক</h3>
-                <p>ডুসাব ব্রাহ্মণপাড়া উপজেলার শিক্ষার্থীদের জন্য একটি সম্পূর্ণ অরাজনৈতিক, শিক্ষার্থীবান্ধব ও সেবামূলক প্ল্যাটফর্ম হিসেবে কাজ করে৷</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-user-graduate"></i>
-                <h3>দিকনির্দেশনা ও মেন্টরশিপ</h3>
-                <p>নবাগত শিক্ষার্থীদের বিশ্ববিদ্যালয় জীবন সম্পর্কে দিকনির্দেশনা প্রদান এবং সিনিয়র-জুনিয়রদের মধ্যে একাডেমিক সহযোগিতা নিশ্চিত করা৷</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <h3>ক্যারিয়ার ও দক্ষতা উন্নয়ন</h3>
-                <p>সদস্যদের জন্য নিয়মিত সেমিনার, কর্মশালা ও ক্যারিয়ার বিষয়ক আলোচনার আয়োজন করার মাধ্যমে দক্ষতা বিকাশ করা৷</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-hand-holding-usd"></i>
-                <h3>আর্থিক ও মানসিক সহায়তা</h3>
-                <p>প্রয়োজনের সময় সদস্যদের পাশে দাঁড়ানো এবং আর্থিক, মানসিক ও নৈতিক সহায়তার ব্যবস্থা গ্রহণ করা৷</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-tint"></i>
-                <h3>সামাজিক দায়বদ্ধতা</h3>
-                <p>রক্তদান, দুর্যোগে ত্রাণ ও মানবিক কার্যক্রমে অংশগ্রহণের মাধ্যমে সমাজ ও রাষ্ট্রের কল্যাণে দায়িত্ব পালন করা৷</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-hands-helping"></i>
-                <h3>ভ্রাতৃত্ববোধ ও সুসম্পর্ক</h3>
-                <p>সদস্যদের মধ্যে ভ্রাতৃত্ব, পারস্পরিক সম্মান ও সহমর্মিতার সম্পর্ক সুদৃঢ় করার মাধ্যমে ঐক্যবদ্ধ থাকা৷</p>
-            </div>
-        </div>
-    </section>
+        <!-- মোবাইল বটম নেভিগেশন -->
+        <div class="mobile-bottom-nav" id="mobile-bottom-nav"></div>
 
-    <section class="dynamic-section">
-        <div class="recent-notices">
-            <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-bell" style="color: var(--accent-color);"></i> সাম্প্রতিক নোটিশ</h3>
-            <div id="homeNoticeList">লোড হচ্ছে...</div>
-            <a href="notice.html" class="view-all">সবগুলো নোটিশ দেখুন <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="recent-gallery">
-            <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-camera-retro" style="color: var(--accent-color);"></i> গ্যালারি একনজরে</h3>
-            <div class="gallery-preview-grid" id="homeGalleryList"></div>
-            <a href="gallery.html" class="view-all">সম্পূর্ণ গ্যালারি দেখুন <i class="fas fa-arrow-right"></i></a>
-        </div>
-    </section>
+        <section class="hero">
+            <h1>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব<br>ব্রাহ্মণপাড়া (DUSAB)</h1>
+            <p>"শিক্ষা-সহযোগিতা-ভ্রাতৃত্ব" - এই পবিত্র মোটিভকে বুকে ধারণ করে গড়ে ওঠা ডুসাব পরিবারের অফিসিয়াল ওয়েবসাইটে আপনাকে স্বাগতম।</p>
+            <div class="hero-btns">
+                <a href="member-login-registration.html" class="btn btn-primary" id="heroLoginBtn">লগইন/রেজিস্ট্রেশন</a>
+                <a href="gallery.html" class="btn btn-outline">গ্যালারি দেখুন</a>
+            </div>
+        </section>
 
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h3>DUSAB</h3>
-                <p>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব ব্রাহ্মণপাড়া। </p><p>শিক্ষা, সহযোগিতা ও ভ্রাতৃত্বের একটি মেলবন্ধন।</p>
-            </div>
-            <div class="footer-col">
-                <h3>কুইক লিংক</h3>
-                <a href="index.html" class="quick-link"><i class="fas fa-angle-right"></i> হোমপেজ</a>
-                <a href="gallery.html" class="quick-link"><i class="fas fa-angle-right"></i> গ্যালারি</a>
-                <a href="notice.html" class="quick-link"><i class="fas fa-angle-right"></i> নোটিশ বোর্ড</a>
-                <a href="member-login-registration.html" class="quick-link"><i class="fas fa-angle-right"></i> মেম্বার রেজিস্ট্রেশন</a>
-            </div>
+        <div class="motive-banner">
+            শিক্ষা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> সহযোগিতা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> ভ্রাতৃত্ব
+        </div>
+
+        <section class="about-section">
+            <div class="section-header"><h2>আমাদের সম্পর্কে</h2></div>
+            <!-- ডাটা লোড হওয়ার আগ পর্যন্ত স্পিনার দেখাবে -->
+            <div class="about-text" id="displayAbout"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> তথ্য লোড হচ্ছে...</div></div>
             
-            <div class="footer-col">
-                <h3>যোগাযোগ</h3>
-                
-                <div class="contact-person">
-                    <strong id="footerPresName">সভাপতি: লোড হচ্ছে...</strong>
-                    <div class="action-btns">
-                        <a href="#" id="footerPresCall" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
-                        <a href="#" id="footerPresWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
-                    </div>
+            <div class="messages-grid">
+                <div class="message-card">
+                    <i class="fas fa-quote-left"></i>
+                    <p id="displayPresMsg"><i class="fas fa-spinner fa-spin"></i> বাণী লোড হচ্ছে...</p>
+                    <h4 id="displayPresName"></h4>
+                    <span>সভাপতি, ডুসাব</span>
                 </div>
-
-                <div class="contact-person">
-                    <strong id="footerSecName">সাধারণ সম্পাদক: লোড হচ্ছে...</strong>
-                    <div class="action-btns">
-                        <a href="#" id="footerSecCall" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
-                        <a href="#" id="footerSecWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
-                    </div>
+                <div class="message-card">
+                    <i class="fas fa-quote-left"></i>
+                    <p id="displaySecMsg"><i class="fas fa-spinner fa-spin"></i> বাণী লোড হচ্ছে...</p>
+                    <h4 id="displaySecName"></h4>
+                    <span>সাধারণ সম্পাদক, ডুসাব</span>
                 </div>
-                
             </div>
-        </div>
-        <div class="footer-bottom">&copy; 2026 DUSAB. All Rights Reserved.</div>
-    </footer>
+        </section>
+
+        <section class="features-section">
+            <div class="section-header"><h2>লক্ষ্য ও উদ্দেশ্য</h2></div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-users-cog"></i>
+                    <h3>অরাজনৈতিক ও সেবামূলক</h3>
+                    <p>ডুসাব ব্রাহ্মণপাড়া উপজেলার শিক্ষার্থীদের জন্য একটি সম্পূর্ণ অরাজনৈতিক, শিক্ষার্থীবান্ধব ও সেবামূলক প্ল্যাটফর্ম হিসেবে কাজ করে৷</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>দিকনির্দেশনা ও মেন্টরশিপ</h3>
+                    <p>নবাগত শিক্ষার্থীদের বিশ্ববিদ্যালয় জীবন সম্পর্কে দিকনির্দেশনা প্রদান এবং সিনিয়র-জুনিয়রদের মধ্যে একাডেমিক সহযোগিতা নিশ্চিত করা৷</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>ক্যারিয়ার ও দক্ষতা উন্নয়ন</h3>
+                    <p>সদস্যদের জন্য নিয়মিত সেমিনার, কর্মশালা ও ক্যারিয়ার বিষয়ক আলোচনার আয়োজন করার মাধ্যমে দক্ষতা বিকাশ করা৷</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <h3>আর্থিক ও মানসিক সহায়তা</h3>
+                    <p>প্রয়োজনের সময় সদস্যদের পাশে দাঁড়ানো এবং আর্থিক, মানসিক ও নৈতিক সহায়তার ব্যবস্থা গ্রহণ করা৷</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-tint"></i>
+                    <h3>সামাজিক দায়বদ্ধতা</h3>
+                    <p>রক্তদান, দুর্যোগে ত্রাণ ও মানবিক কার্যক্রমে অংশগ্রহণের মাধ্যমে সমাজ ও রাষ্ট্রের কল্যাণে দায়িত্ব পালন করা৷</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>ভ্রাতৃত্ববোধ ও সুসম্পর্ক</h3>
+                    <p>সদস্যদের মধ্যে ভ্রাতৃত্ব, পারস্পরিক সম্মান ও সহমর্মিতার সম্পর্ক সুদৃঢ় করার মাধ্যমে ঐক্যবদ্ধ থাকা৷</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dynamic-section">
+            <div class="recent-notices">
+                <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-bell" style="color: var(--accent-color);"></i> সাম্প্রতিক নোটিশ</h3>
+                <div id="homeNoticeList"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> নোটিশ লোড হচ্ছে...</div></div>
+                <a href="notice.html" class="view-all">সবগুলো নোটিশ দেখুন <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="recent-gallery">
+                <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-camera-retro" style="color: var(--accent-color);"></i> গ্যালারি একনজরে</h3>
+                <div class="gallery-preview-grid" id="homeGalleryList"><div class="loading-state" style="grid-column: span 2;"><i class="fas fa-spinner fa-spin"></i> ছবি লোড হচ্ছে...</div></div>
+                <a href="gallery.html" class="view-all">সম্পূর্ণ গ্যালারি দেখুন <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>DUSAB</h3>
+                    <p>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব ব্রাহ্মণপাড়া। </p><p>শিক্ষা, সহযোগিতা ও ভ্রাতৃত্বের একটি মেলবন্ধন।</p>
+                </div>
+                <div class="footer-col">
+                    <h3>কুইক লিংক</h3>
+                    <a href="index.html" class="quick-link"><i class="fas fa-angle-right"></i> হোমপেজ</a>
+                    <a href="gallery.html" class="quick-link"><i class="fas fa-angle-right"></i> গ্যালারি</a>
+                    <a href="notice.html" class="quick-link"><i class="fas fa-angle-right"></i> নোটিশ বোর্ড</a>
+                    <a href="member-login-registration.html" class="quick-link"><i class="fas fa-angle-right"></i> মেম্বার রেজিস্ট্রেশন</a>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>যোগাযোগ</h3>
+                    
+                    <div class="contact-person">
+                        <strong id="footerPresName">সভাপতি: লোড হচ্ছে...</strong>
+                        <div class="action-btns">
+                            <a href="#" id="footerPresCall" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
+                            <a href="#" id="footerPresWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-person">
+                        <strong id="footerSecName">সাধারণ সম্পাদক: লোড হচ্ছে...</strong>
+                        <div class="action-btns">
+                            <a href="#" id="footerSecCall" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
+                            <a href="#" id="footerSecWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 DUSAB. All Rights Reserved.</div>
+        </footer>
+    </div> <!-- Main Wrapper End -->
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec";
 
-        document.getElementById('mobile-menu').addEventListener('click', () => { document.getElementById('nav-menu').classList.toggle('active'); });
-
-        const memberDataString = sessionStorage.getItem('memberData');
-        const navMenu = document.getElementById('nav-menu');
-        const heroLoginBtn = document.getElementById('heroLoginBtn');
-
-        if (memberDataString) {
-            navMenu.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
-            if(heroLoginBtn) heroLoginBtn.style.display = 'none';
-        } else {
-            navMenu.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
-        }
-
-        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_content" }) })
-        .then(res => res.json()).then(data => {
-            if(data.about_text) {
-                document.getElementById('displayAbout').innerText = data.about_text;
-                
-                document.getElementById('displayPresMsg').innerText = `"${data.president_msg}"`;
-                document.getElementById('displayPresName').innerText = data.president_name;
-                
-                document.getElementById('displaySecMsg').innerText = `"${data.secretary_msg}"`;
-                document.getElementById('displaySecName').innerText = data.secretary_name;
-                
-                // সভাপতি অংশ (স্ট্রিং ফিক্স সহ)
-                document.getElementById('footerPresName').innerText = `সভাপতি: ${data.president_name || ''}`;
-                if (data.president_phone) {
-                    let rawPhoneP = data.president_phone.toString().replace(/'/g, '');
-                    document.getElementById('footerPresCall').href = "tel:" + rawPhoneP;
-                    
-                    let waPres = rawPhoneP.replace(/[^0-9]/g, '');
-                    if(waPres.startsWith('0')) waPres = '88' + waPres;
-                    else if(waPres.startsWith('1')) waPres = '880' + waPres;
-                    
-                    document.getElementById('footerPresWA').href = "https://wa.me/" + waPres;
-                }
-
-                // সাধারণ সম্পাদক অংশ (স্ট্রিং ফিক্স সহ)
-                document.getElementById('footerSecName').innerText = `সাধারণ সম্পাদক: ${data.secretary_name || ''}`;
-                if (data.secretary_phone) {
-                    let rawPhoneS = data.secretary_phone.toString().replace(/'/g, '');
-                    document.getElementById('footerSecCall').href = "tel:" + rawPhoneS;
-                    
-                    let waSec = rawPhoneS.replace(/[^0-9]/g, '');
-                    if(waSec.startsWith('0')) waSec = '88' + waSec;
-                    else if(waSec.startsWith('1')) waSec = '880' + waSec;
-                    
-                    document.getElementById('footerSecWA').href = "https://wa.me/" + waSec;
-                }
-                
-            } else {
-                document.getElementById('displayAbout').innerText = "অ্যাডমিন প্যানেল থেকে তথ্য যুক্ত করুন।";
-                document.getElementById('displayPresMsg').innerText = "কোনো বাণী যুক্ত করা হয়নি।";
-                document.getElementById('displaySecMsg').innerText = "কোনো বাণী যুক্ত করা হয়নি।";
+        // মেনু টগল লজিক (অ্যাডমিন আইকনের জন্য)
+        document.getElementById('mobile-menu').addEventListener('click', (e) => { 
+            document.getElementById('mobile-top-dropdown').classList.toggle('active');
+            e.stopPropagation();
+        });
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('mobile-top-dropdown');
+            if (dropdown.classList.contains('active') && !e.target.closest('.menu-toggle') && !e.target.closest('.mobile-top-dropdown')) {
+                dropdown.classList.remove('active');
             }
         });
 
-        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_notices" }) }).then(res => res.json()).then(data => {
-            const list = document.getElementById('homeNoticeList'); list.innerHTML = '';
-            if(data.length === 0) { list.innerHTML = '<p>কোনো নোটিশ নেই</p>'; return; }
-            data.reverse().slice(0, 3).forEach(item => { list.innerHTML += `<div class="notice-item"><div class="n-date"><i class="far fa-calendar-alt"></i> ${item.date}</div><div class="n-title">${item.title}</div></div>`; });
+        // লগইন অনুযায়ী নেভিগেশন সেটআপ
+        const memberDataString = sessionStorage.getItem('memberData');
+        const desktopNav = document.getElementById('desktop-nav-menu');
+        const mobileNav = document.getElementById('mobile-bottom-nav');
+        const heroLoginBtn = document.getElementById('heroLoginBtn');
+
+        if (memberDataString) {
+            const memberData = JSON.parse(memberDataString);
+            const userPhoto = memberData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+            
+            desktopNav.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
+            
+            mobileNav.innerHTML = `
+                <a href="index.html" class="active"><i class="fas fa-home"></i></a>
+                <a href="gallery.html"><i class="fas fa-images"></i></a>
+                <a href="member-directory.html"><i class="fas fa-users"></i></a>
+                <a href="notice.html"><i class="fas fa-bell"></i></a>
+                <a href="profile.html"><img src="${userPhoto}" alt="User"></a>
+            `;
+            if(heroLoginBtn) heroLoginBtn.style.display = 'none';
+        } else {
+            desktopNav.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
+            
+            mobileNav.innerHTML = `
+                <a href="index.html" class="active"><i class="fas fa-home"></i></a>
+                <a href="gallery.html"><i class="fas fa-images"></i></a>
+                <a href="notice.html"><i class="fas fa-bell"></i></a>
+                <a href="member-login-registration.html"><i class="fas fa-sign-in-alt"></i></a>
+            `;
+        }
+
+        // ================= API Data Fetching with App Preloader =================
+        const contentPromise = fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_content" }) }).then(res => res.json());
+        const noticePromise = fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_notices" }) }).then(res => res.json());
+        const galleryPromise = fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_gallery" }) }).then(res => res.json());
+
+        // একসাথে সব ডাটা ফেচ হবে
+        Promise.all([contentPromise, noticePromise, galleryPromise]).then(([contentData, noticeData, galleryData]) => {
+            
+            // 1. Process Content Data
+            if(contentData.about_text) {
+                document.getElementById('displayAbout').innerText = contentData.about_text;
+                document.getElementById('displayPresMsg').innerText = `"${contentData.president_msg}"`;
+                document.getElementById('displayPresName').innerText = contentData.president_name;
+                document.getElementById('displaySecMsg').innerText = `"${contentData.secretary_msg}"`;
+                document.getElementById('displaySecName').innerText = contentData.secretary_name;
+                
+                document.getElementById('footerPresName').innerText = `সভাপতি: ${contentData.president_name || ''}`;
+                if (contentData.president_phone) {
+                    let rawPhoneP = contentData.president_phone.toString().replace(/'/g, '');
+                    document.getElementById('footerPresCall').href = "tel:" + rawPhoneP;
+                    let waPres = rawPhoneP.replace(/[^0-9]/g, '');
+                    if(waPres.startsWith('0')) waPres = '88' + waPres; else if(waPres.startsWith('1')) waPres = '880' + waPres;
+                    document.getElementById('footerPresWA').href = "https://wa.me/" + waPres;
+                }
+
+                document.getElementById('footerSecName').innerText = `সাধারণ সম্পাদক: ${contentData.secretary_name || ''}`;
+                if (contentData.secretary_phone) {
+                    let rawPhoneS = contentData.secretary_phone.toString().replace(/'/g, '');
+                    document.getElementById('footerSecCall').href = "tel:" + rawPhoneS;
+                    let waSec = rawPhoneS.replace(/[^0-9]/g, '');
+                    if(waSec.startsWith('0')) waSec = '88' + waSec; else if(waSec.startsWith('1')) waSec = '880' + waSec;
+                    document.getElementById('footerSecWA').href = "https://wa.me/" + waSec;
+                }
+            } else {
+                document.getElementById('displayAbout').innerText = "অ্যাডমিন প্যানেল থেকে তথ্য যুক্ত করুন।";
+            }
+
+            // 2. Process Notice Data
+            const nList = document.getElementById('homeNoticeList'); nList.innerHTML = '';
+            if(noticeData.length === 0) { nList.innerHTML = '<p>কোনো নোটিশ নেই</p>'; }
+            else { noticeData.reverse().slice(0, 3).forEach(item => { nList.innerHTML += `<div class="notice-item"><div class="n-date"><i class="far fa-calendar-alt"></i> ${item.date}</div><div class="n-title">${item.title}</div></div>`; }); }
+
+            // 3. Process Gallery Data
+            const gGrid = document.getElementById('homeGalleryList'); gGrid.innerHTML = '';
+            if(galleryData.length === 0) { gGrid.innerHTML = '<p>কোনো ছবি নেই</p>'; }
+            else { galleryData.reverse().slice(0, 4).forEach(item => { gGrid.innerHTML += `<div class="g-item"><img src="${item.url}"></div>`; }); }
+
+            // ================= Hide Preloader & Show Content =================
+            document.getElementById('app-preloader').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('app-preloader').style.display = 'none';
+                const mainWrapper = document.getElementById('main-wrapper');
+                mainWrapper.style.display = 'block';
+            }, 600); // 0.6s ট্রানজিশনের সাথে মিলিয়ে
+
+        }).catch(error => {
+            console.error("Data Fetch Error:", error);
+            // এরর হলেও স্প্ল্যাশ স্ক্রিন সরিয়ে কন্টেন্ট দেখাবে
+            document.getElementById('app-preloader').classList.add('hidden');
+            document.getElementById('main-wrapper').style.display = 'block';
         });
-        
-        fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_gallery" }) }).then(res => res.json()).then(data => {
-            const grid = document.getElementById('homeGalleryList'); grid.innerHTML = '';
-            if(data.length === 0) { grid.innerHTML = '<p>কোনো ছবি নেই</p>'; return; }
-            data.reverse().slice(0, 4).forEach(item => { grid.innerHTML += `<div class="g-item"><img src="${item.url}"></div>`; });
-        });
+
     </script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/dusab/sw.js')
-                .then(registration => { console.log('Service Worker Registered Successfully!'); })
                 .catch(err => { console.log('Service Worker Registration Failed:', err); });
             });
         }
