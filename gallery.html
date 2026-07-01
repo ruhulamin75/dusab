@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>গ্যালারি - DUSAB</title>
-<!-- PWA Manifest -->
 <link rel="manifest" href="/dusab/manifest.json">
-<!-- থিম কালার (মোবাইলের স্ট্যাটাস বারের রং পরিবর্তন করবে) -->
-<meta name="theme-color" content="#7D1B7E">
-<!-- অ্যাপল ডিভাইসের জন্য -->
+<meta name="theme-color" content="#f4f5f7">
 <link rel="apple-touch-icon" href="icon-192.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,7 +20,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-light); z-index: 99999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.3s ease, visibility 0.3s ease; /* সময় কমানো হয়েছে */
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         .app-preloader.hidden { opacity: 0; visibility: hidden; }
         .app-preloader img { width: 80px; animation: bounce 1.2s infinite alternate ease-in-out; margin-bottom: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));}
@@ -74,25 +71,31 @@
 
         /* ================= মোবাইল ভিউ ================= */
         @media (max-width: 768px) {
-            body { padding-bottom: 80px; } /* Bottom nav এর জন্য নিচে জায়গা রাখা */
+            body { padding-bottom: 80px; } 
             .nav-links { display: none !important; } 
             .logo img { height: 40px; } 
             .mobile-logo-text { display: block; } 
             .menu-toggle { display: block; } 
             
-            /* বটম নেভিগেশন */
+            /* বটম নেভিগেশন - পুরো ঘরটিকে ক্লিকেবল করা হয়েছে */
             .mobile-bottom-nav {
                 display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
                 background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
-                z-index: 1000; justify-content: space-around; padding: 12px 0;
-                padding-bottom: max(12px, env(safe-area-inset-bottom));
+                z-index: 1000; justify-content: space-between; 
+                padding-bottom: env(safe-area-inset-bottom);
             }
             .mobile-bottom-nav a { 
                 color: #a0a0a0; font-size: 24px; text-decoration: none; 
                 display: flex; flex-direction: column; align-items: center; justify-content: center; 
-                flex: 1; transition: 0.3s; position: relative;
+                flex: 1; padding: 12px 0; transition: background-color 0.3s, color 0.3s; position: relative;
             }
-            .mobile-bottom-nav a.active { color: var(--primary-color); transform: translateY(-3px); }
+            .mobile-bottom-nav a:hover, .mobile-bottom-nav a:active {
+                background-color: rgba(125, 27, 126, 0.05);
+            }
+            .mobile-bottom-nav a.active { 
+                color: var(--primary-color); 
+                background-color: rgba(125, 27, 126, 0.1); 
+            }
             .mobile-bottom-nav a img { 
                 width: 28px; height: 28px; border-radius: 50%; 
                 border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s;
@@ -103,13 +106,11 @@
 </head>
 <body>
 
-    <!-- Splash Screen (Preloader) -->
     <div id="app-preloader" class="app-preloader">
         <img src="logo.png" alt="DUSAB Logo">
         <div class="spinner"></div>
     </div>
 
-    <!-- Main Content Wrapper -->
     <div id="main-wrapper" class="fade-in-content" style="display: none;">
         
         <header>
@@ -121,10 +122,8 @@
                     </a>
                 </div>
                 
-                <!-- ডেস্কটপ নেভিগেশন -->
                 <ul class="nav-links" id="desktop-nav-menu"></ul>
                 
-                <!-- মোবাইল টপ-রাইট অ্যাডমিন বাটন -->
                 <div class="menu-toggle" id="mobile-menu" title="অ্যাডমিন মেনু"><i class="fas fa-user-shield"></i></div>
                 <ul class="mobile-top-dropdown" id="mobile-top-dropdown">
                     <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> অ্যাডমিন প্যানেলে প্রবেশ করুন</a></li>
@@ -132,7 +131,6 @@
             </div>
         </header>
 
-        <!-- মোবাইল বটম নেভিগেশন -->
         <div class="mobile-bottom-nav" id="mobile-bottom-nav"></div>
 
         <section class="page-header">
@@ -208,13 +206,12 @@
             document.getElementById('errorMsg').style.display = 'block';
         })
         .finally(() => {
-            // ডাটা ফেচ হওয়া মাত্রই খুব দ্রুত স্প্ল্যাশ স্ক্রিন সরানো হবে
             const preloader = document.getElementById('app-preloader');
             preloader.classList.add('hidden');
             setTimeout(() => {
                 preloader.style.display = 'none';
                 document.getElementById('main-wrapper').style.display = 'block';
-            }, 300); // লোডিং টাইম একদম কমিয়ে ৩০০ মিলি-সেকেন্ড করা হয়েছে
+            }, 300);
         });
     </script>
 <script>
