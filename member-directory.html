@@ -97,7 +97,7 @@
 
         /* ================= Easter Egg 3: Spin (ঘুরঘুর) ================= */
         @keyframes barrelRoll { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .spin-effect { animation: barrelRoll 1.5s ease-in-out; }
+        .spin-effect { animation: barrelRoll 2s ease-in-out; }
 
         /* ================= Easter Egg 4: Hacker Mode (ম্যাট্রিক্স) ================= */
         body.hacker-mode { background-color: #000 !important; color: #0f0 !important; font-family: 'Courier New', Courier, monospace !important; }
@@ -118,7 +118,7 @@
         .earthquake-effect { animation: shake 0.5s infinite; }
 
         /* ================= Easter Egg 6: Magic (থ্যানোস স্ন্যাপ) ================= */
-        @keyframes fadeOutMagic { to { opacity: 0; transform: translateY(-20px) scale(0.9); visibility: hidden; } }
+        @keyframes fadeOutMagic { to { opacity: 0; transform: scale(0.5) rotate(15deg); visibility: hidden; } }
 
         /* ================= Easter Egg 7: Emoji Rain (সেলিব্রেশন) ================= */
         .emoji-rain { position: fixed; top: -50px; z-index: 9999; animation: fall linear forwards; font-size: 28px; }
@@ -305,6 +305,18 @@
         // ================== EASTER EGG FUNCTIONS ==================
         function makeTextDancing(text) {
             if (!text) return "";
+            
+            // আধুনিক ব্রাউজারের জন্য Intl.Segmenter (বাংলা যুক্তাক্ষর ঠিক রাখার জন্য)
+            if (window.Intl && Intl.Segmenter) {
+                const segmenter = new Intl.Segmenter('bn', { granularity: 'grapheme' });
+                const segments = Array.from(segmenter.segment(text));
+                return segments.map((data, index) => {
+                    if (data.segment === ' ') return '&nbsp;';
+                    return `<span class="dancing-letter" style="animation-delay: ${index * 0.05}s">${data.segment}</span>`;
+                }).join('');
+            }
+            
+            // পুরোনো ব্রাউজারের জন্য ফলব্যাক
             return text.split('').map((char, index) => {
                 if (char === ' ') return '&nbsp;';
                 return `<span class="dancing-letter" style="animation-delay: ${index * 0.05}s">${char}</span>`;
@@ -370,12 +382,14 @@
         function filterMembers() {
             resetEasterEggs(); // নতুন কিছু লিখলে আগের ম্যাজিক রিসেট হবে
             
-            const rawQuery = document.getElementById('searchInput').value.trim();
+            const searchInput = document.getElementById('searchInput');
+            const rawQuery = searchInput.value.trim();
             const query = rawQuery.toLowerCase();
             const grid = document.getElementById('membersGrid');
             
             // ১. Developer Card (0000#)
             if (rawQuery === "0000#") {
+                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
                 const devPhoto = "https://lh3.googleusercontent.com/d/15yi6VDVJR3gqwq46Sesy_QsoDULQg3gD"; 
                 const devName = "Mohammad Rohul Amin"; 
                 const devDept = "Islamic Studies";
@@ -400,6 +414,7 @@
 
             // ২. Dancing Card (123456789)
             if (rawQuery === "123456789") {
+                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
                 const sessionUser = sessionStorage.getItem('memberData');
                 if (sessionUser) {
                     displayMyDancingCard(JSON.parse(sessionUser));
@@ -411,14 +426,16 @@
 
             // ৩. Spin (ঘুরঘুর)
             if (query === "spin" || query === "ঘুরঘুর") {
+                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
                 document.body.classList.add('spin-effect');
-                setTimeout(() => document.body.classList.remove('spin-effect'), 1500);
+                setTimeout(() => document.body.classList.remove('spin-effect'), 2000);
                 displayMembers(allApprovedMembers);
                 return;
             }
 
             // ৪. Hacker Mode (হ্যাকার মোড/ম্যাট্রিক্স)
             if (query === "matrix" || query === "হ্যাকার মোড") {
+                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
                 document.body.classList.add('hacker-mode');
                 displayMembers(allApprovedMembers);
                 return;
@@ -426,6 +443,7 @@
 
             // ৫. Emoji Rain (সেলিব্রেশন/DUSAB)
             if (query === "dusab" || query === "সেলিব্রেশন" || query === "celebrate") {
+                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
                 startEmojiRain();
                 displayMembers(allApprovedMembers);
                 return;
@@ -433,6 +451,7 @@
 
             // ৬. Earthquake (ভূমিকম্প)
             if (query === "earthquake" || query === "ভূমিকম্প") {
+                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
                 document.getElementById('membersGrid').classList.add('earthquake-effect');
                 displayMembers(allApprovedMembers);
                 return;
@@ -440,11 +459,18 @@
 
             // ৭. Thanos Magic (থ্যানোস স্ন্যাপ)
             if (query === "magic" || query === "থ্যানোস স্ন্যাপ") {
-                const cards = document.querySelectorAll('.member-card, .dev-card');
-                cards.forEach((card) => {
-                    // প্রতিটি কার্ড র‍্যান্ডম সময়ে গায়েব হয়ে যাবে
-                    card.style.animation = `fadeOutMagic 1.5s forwards ${Math.random() * 1.5}s`;
-                });
+                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
+                // প্রথমে সব মেম্বার কার্ড শো করা, তারপর গায়েব করা
+                displayMembers(allApprovedMembers); 
+                
+                setTimeout(() => {
+                    const cards = document.querySelectorAll('.member-card, .dev-card');
+                    cards.forEach((card) => {
+                        // প্রতিটি কার্ড র‍্যান্ডম সময়ে গায়েব হয়ে যাবে
+                        card.style.animation = `fadeOutMagic 2s forwards ${Math.random() * 1.5}s`;
+                    });
+                }, 50); 
+                
                 return; 
             }
 
