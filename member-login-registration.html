@@ -6,7 +6,6 @@
     <title>মেম্বার লগইন ও রেজিস্ট্রেশন - DUSAB</title>
     
     <link rel="manifest" href="/dusab/manifest.json">
-    <!-- থিম কালার আপডেট করা হয়েছে যেন হেডারের সাথে না মেশে -->
     <meta name="theme-color" content="#f4f5f7">
     <link rel="apple-touch-icon" href="icon-192.png">
 
@@ -31,16 +30,26 @@
         .fade-in-content { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ================= Header (App-like) ================= */
+        /* ================= Header ================= */
         header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; position: relative; }
         .logo a { display: flex; align-items: center; text-decoration: none; }
         .logo img { height: 60px; display: block; }
         .mobile-logo-text { display: none; font-weight: 700; font-size: 22px; color: var(--primary-color); margin-left: 10px; }
         
-        .nav-links { display: flex; list-style: none; align-items: center; }
-        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; }
+        .nav-links { display: flex; list-style: none; align-items: center; margin: 0; padding: 0; }
+        .nav-links li { position: relative; list-style: none; }
+        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; display: block;}
         .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
+        
+        /* Desktop Dropdown Menu Fix */
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background-color: var(--white); min-width: 180px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; padding: 5px 0; z-index: 1001; }
+        .dropdown:hover .dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-menu li { display: block; }
+        .dropdown-menu li a { padding: 10px 20px; font-size: 16px; border-bottom: 1px solid #f4f5f7; }
+        .dropdown-menu li:last-child a { border-bottom: none; }
+        .dropdown-menu li a:hover { background-color: #fdfdfd; padding-left: 25px; }
+
         .menu-toggle { display: none; color: var(--primary-color); font-size: 22px; cursor: pointer; padding: 8px; border-radius: 5px; background: rgba(125,27,126,0.1); }
         .mobile-top-dropdown { display: none; position: absolute; top: 100%; right: 20px; background: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-radius: 8px; list-style: none; padding: 10px 0; z-index: 1001; }
         .mobile-top-dropdown.active { display: flex; flex-direction: column; animation: fadeIn 0.3s ease; }
@@ -92,13 +101,12 @@
         /* ================= Mobile View ================= */
         .mobile-bottom-nav { display: none; }
         @media (max-width: 768px) {
-            body { padding-bottom: 100px; } /* Bottom nav এর জন্য পেজের নিচে জায়গা */
+            body { padding-bottom: 100px; }
             .nav-links { display: none !important; }
             .logo img { height: 40px; }
             .mobile-logo-text { display: block; }
             .menu-toggle { display: block; }
             
-            /* বটম নেভিগেশন - পুরো ঘরটিকে ক্লিকেবল করা হয়েছে */
             .mobile-bottom-nav {
                 display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
                 background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
