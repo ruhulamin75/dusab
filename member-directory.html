@@ -6,7 +6,8 @@
     <title>মেম্বার ডিরেক্টরি - DUSAB</title>
     
     <link rel="manifest" href="/dusab/manifest.json">
-    <meta name="theme-color" content="#7D1B7E">
+    <!-- থিম কালার আপডেট করা হয়েছে যেন হেডারের সাথে না মেশে -->
+    <meta name="theme-color" content="#f4f5f7">
     <link rel="apple-touch-icon" href="icon-192.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -57,6 +58,7 @@
 
         .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
         
+        /* সাধারণ মেম্বার কার্ড */
         .member-card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.06); transition: 0.3s; position: relative; display: flex; flex-direction: column;}
         .member-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
         
@@ -84,6 +86,16 @@
         .no-result { text-align: center; color: #e74c3c; font-size: 18px; padding: 20px; font-weight: bold; grid-column: 1 / -1;}
         .loading-state { text-align: center; color: var(--primary-color); font-weight: 600; padding: 20px 0; grid-column: 1 / -1;}
 
+        /* ================= Developer Card (Easter Egg) ================= */
+        .dev-card { background: linear-gradient(135deg, #1f1c2c, #928DAB); color: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; position: relative; border: 2px solid var(--accent-color); margin: 0 auto; max-width: 400px; grid-column: 1 / -1; animation: fadeIn 0.5s ease; }
+        .dev-header-badge { background: var(--accent-color); color: #111; font-weight: 800; padding: 10px; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; }
+        .dev-photo-wrapper { margin: 25px auto 15px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--accent-color); overflow: hidden; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
+        .dev-photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .dev-info { padding: 0 20px 30px; }
+        .dev-info h3 { font-size: 26px; color: var(--accent-color); margin-bottom: 8px; font-weight: 700; }
+        .dev-info p { font-size: 16px; color: #eee; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .dev-motive { margin-top: 20px; font-style: italic; font-size: 14px; color: #bbb; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+
         /* ================= Mobile View ================= */
         .mobile-bottom-nav { display: none; }
         @media (max-width: 768px) {
@@ -93,10 +105,30 @@
             .mobile-logo-text { display: block; }
             .menu-toggle { display: block; }
             
-            .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 1000; justify-content: space-around; padding: 12px 0; padding-bottom: max(12px, env(safe-area-inset-bottom)); }
-            .mobile-bottom-nav a { color: #a0a0a0; font-size: 24px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; transition: 0.3s; position: relative;}
-            .mobile-bottom-nav a.active { color: var(--primary-color); transform: translateY(-3px); }
-            .mobile-bottom-nav a img { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s;}
+            /* বটম নেভিগেশন - পুরো ঘরটিকে ক্লিকেবল করা হয়েছে */
+            .mobile-bottom-nav {
+                display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
+                background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+                z-index: 1000; justify-content: space-between; 
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            .mobile-bottom-nav a { 
+                color: #a0a0a0; font-size: 24px; text-decoration: none; 
+                display: flex; flex-direction: column; align-items: center; justify-content: center; 
+                flex: 1; padding: 12px 0; transition: background-color 0.3s, color 0.3s; position: relative;
+            }
+            .mobile-bottom-nav a:hover, .mobile-bottom-nav a:active {
+                background-color: rgba(125, 27, 126, 0.05);
+            }
+            .mobile-bottom-nav a.active { 
+                color: var(--primary-color); 
+                background-color: rgba(125, 27, 126, 0.1); 
+            }
+            
+            .mobile-bottom-nav a img { 
+                width: 28px; height: 28px; border-radius: 50%; 
+                border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s;
+            }
             .mobile-bottom-nav a.active img { border-color: var(--primary-color); }
         }
     </style>
@@ -138,6 +170,7 @@
         <div class="directory-container">
             <div class="search-box">
                 <i class="fas fa-search"></i>
+                <!-- 0000# চেক করার জন্য onkeyup ইভেন্ট -->
                 <input type="text" id="searchInput" placeholder="নাম, ডিপার্টমেন্ট, সেশন বা রক্তের গ্রুপ দিয়ে খুঁজুন..." onkeyup="filterMembers()">
             </div>
 
@@ -265,14 +298,43 @@
             });
         }
 
-       // লাইভ সার্চ ফিল্টার
+       // লাইভ সার্চ এবং সিক্রেট কোড লজিক
         function filterMembers() {
-            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const query = document.getElementById('searchInput').value.trim();
+            const grid = document.getElementById('membersGrid');
+            
+            // ================== EASTER EGG LOGIC ==================
+            if (query === "0000#") {
+                // আপনার তথ্য এখানে সেট করুন
+                const devPhoto = "https://via.placeholder.com/150"; // আপনার ছবির লিংক দিন
+                const devName = "মোহাম্মদ রুহুল আমিন"; 
+                const devDept = "আপনার ডিপার্টমেন্টের নাম"; // আপনার ডিপার্টমেন্ট লিখুন
+                const devSession = "আপনার সেশন"; // আপনার সেশন লিখুন
+
+                grid.innerHTML = `
+                    <div class="dev-card">
+                        <div class="dev-header-badge"><i class="fas fa-code"></i> DEVELOPER</div>
+                        <div class="dev-photo-wrapper">
+                            <img src="${devPhoto}" alt="Developer Photo">
+                        </div>
+                        <div class="dev-info">
+                            <h3>${devName}</h3>
+                            <p><i class="fas fa-graduation-cap"></i> ${devDept}</p>
+                            <p><i class="fas fa-calendar-alt"></i> ${devSession}</p>
+                            <div class="dev-motive">"Turning ideas into reality for DUSAB."</div>
+                        </div>
+                    </div>
+                `;
+                return; // এখানেই শেষ, সাধারণ কার্ড দেখাবে না
+            }
+            // ======================================================
+
+            const lowerQuery = query.toLowerCase();
             const filtered = allApprovedMembers.filter(m => 
-                m.name.toLowerCase().includes(query) || 
-                m.dept.toLowerCase().includes(query) || 
-                m.blood.toLowerCase().includes(query) ||
-                m.session.toLowerCase().includes(query)
+                m.name.toLowerCase().includes(lowerQuery) || 
+                m.dept.toLowerCase().includes(lowerQuery) || 
+                m.blood.toLowerCase().includes(lowerQuery) ||
+                m.session.toLowerCase().includes(lowerQuery)
             );
             displayMembers(filtered);
         }
