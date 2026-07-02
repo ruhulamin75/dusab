@@ -15,7 +15,7 @@
     <style>
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 80px; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 80px; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
 
         /* ================= Preloader & Animation ================= */
         .app-preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-light); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.3s ease, visibility 0.3s ease; }
@@ -28,7 +28,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ================= Header ================= */
-        header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
+        header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); transition: 0.3s; }
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; position: relative; }
         .logo a { display: flex; align-items: center; text-decoration: none; }
         .logo img { height: 60px; display: block; }
@@ -45,7 +45,7 @@
         .mobile-top-dropdown li a { padding: 12px 20px; display: block; color: var(--primary-color); text-decoration: none; font-weight: 600; }
 
         /* ================= Page Content ================= */
-        .page-header { background: linear-gradient(rgba(125, 27, 126, 0.85), rgba(38, 46, 122, 0.90)), url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200') no-repeat center center/cover; padding: 80px 20px 50px; text-align: center; color: var(--white); }
+        .page-header { background: linear-gradient(rgba(125, 27, 126, 0.85), rgba(38, 46, 122, 0.90)), url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200') no-repeat center center/cover; padding: 80px 20px 50px; text-align: center; color: var(--white); transition: 0.3s; }
         .page-header h1 { font-size: 36px; color: var(--accent-color); margin-bottom: 10px; }
 
         .directory-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
@@ -55,37 +55,31 @@
         .search-box input:focus { border-color: var(--primary-color); }
         .search-box i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 18px; }
 
-        .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; transition: 0.3s; }
         
         /* সাধারণ মেম্বার কার্ড */
         .member-card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.06); transition: 0.3s; position: relative; display: flex; flex-direction: column;}
         .member-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
-        
         .card-header { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); height: 100px; position: relative; }
         .blood-badge { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        
         .card-photo { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--white); object-fit: cover; position: absolute; bottom: -55px; left: 50%; transform: translateX(-50%); background: #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        
         .card-body { padding: 65px 20px 20px; text-align: center; flex-grow: 1; }
         .card-name { font-size: 22px; font-weight: 700; color: var(--secondary-color); margin-bottom: 5px; }
         .card-dept { font-size: 15px; color: var(--primary-color); font-weight: 600; margin-bottom: 15px; }
-        
-        .info-list { text-align: left; background: #f8f9fa; padding: 15px; border-radius: 10px; }
+        .info-list { text-align: left; background: #f8f9fa; padding: 15px; border-radius: 10px; transition: 0.3s; }
         .info-list p { font-size: 14px; color: #555; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
         .info-list p:last-child { margin-bottom: 0; }
         .info-list i { color: var(--primary-color); margin-top: 4px; width: 16px; text-align: center;}
-        
-        .card-footer { display: flex; border-top: 1px solid #eee; }
+        .card-footer { display: flex; border-top: 1px solid #eee; transition: 0.3s; }
         .contact-btn { flex: 1; padding: 15px 0; text-align: center; text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .btn-call { color: var(--secondary-color); background: #fcfcfc; border-right: 1px solid #eee; }
         .btn-call:hover { background: #e8f4fd; color: #2980b9; }
         .btn-wa { color: #25D366; background: #fcfcfc; }
         .btn-wa:hover { background: #e9fbf0; color: #1da851; }
-
         .no-result { text-align: center; color: #e74c3c; font-size: 18px; padding: 20px; font-weight: bold; grid-column: 1 / -1;}
         .loading-state { text-align: center; color: var(--primary-color); font-weight: 600; padding: 20px 0; grid-column: 1 / -1;}
 
-        /* ================= Developer Card (Easter Egg: 0000#) ================= */
+        /* ================= Easter Egg 1: Developer Card ================= */
         .dev-card { background: linear-gradient(135deg, #1f1c2c, #928DAB); color: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; position: relative; border: 2px solid var(--accent-color); margin: 0 auto; max-width: 400px; grid-column: 1 / -1; animation: fadeIn 0.5s ease; }
         .dev-header-badge { background: var(--accent-color); color: #111; font-weight: 800; padding: 10px; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; }
         .dev-photo-wrapper { margin: 25px auto 15px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--accent-color); overflow: hidden; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
@@ -95,23 +89,40 @@
         .dev-info p { font-size: 16px; color: #eee; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .dev-motive { margin-top: 20px; font-style: italic; font-size: 14px; color: #bbb; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
 
-        /* ================= Dancing Animation (Easter Egg: 123456789) ================= */
-        @keyframes letterDance {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); color: var(--accent-color); }
+        /* ================= Easter Egg 2: Dancing Animation ================= */
+        @keyframes letterDance { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); color: var(--accent-color); } }
+        .dancing-letter { display: inline-block; animation: letterDance 0.6s infinite ease-in-out; }
+        @keyframes cardSway { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); box-shadow: 0 15px 30px rgba(125, 27, 126, 0.3); } }
+        .dancing-card { animation: cardSway 2s infinite ease-in-out; border: 2px dashed var(--primary-color) !important; }
+
+        /* ================= Easter Egg 3: Spin (ঘুরঘুর) ================= */
+        @keyframes barrelRoll { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .spin-effect { animation: barrelRoll 1.5s ease-in-out; }
+
+        /* ================= Easter Egg 4: Hacker Mode (ম্যাট্রিক্স) ================= */
+        body.hacker-mode { background-color: #000 !important; color: #0f0 !important; font-family: 'Courier New', Courier, monospace !important; }
+        body.hacker-mode header, body.hacker-mode .page-header, body.hacker-mode .mobile-bottom-nav { background: #111 !important; border-bottom: 1px solid #0f0; box-shadow: none !important;}
+        body.hacker-mode .member-card { background-color: #000 !important; border: 1px solid #0f0 !important; box-shadow: 0 0 10px #0f0 !important; }
+        body.hacker-mode .card-header, body.hacker-mode .info-list, body.hacker-mode .card-footer { background: transparent !important; border-color: #0f0 !important; }
+        body.hacker-mode * { color: #0f0 !important; border-color: #0f0 !important; text-shadow: 0 0 5px #0f0; }
+
+        /* ================= Easter Egg 5: Earthquake (ভূমিকম্প) ================= */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
-        .dancing-letter {
-            display: inline-block;
-            animation: letterDance 0.6s infinite ease-in-out;
-        }
-        @keyframes cardSway {
-            0%, 100% { transform: rotate(-1deg); }
-            50% { transform: rotate(1deg); box-shadow: 0 15px 30px rgba(125, 27, 126, 0.3); }
-        }
-        .dancing-card {
-            animation: cardSway 2s infinite ease-in-out;
-            border: 2px dashed var(--primary-color) !important;
-        }
+        .earthquake-effect { animation: shake 0.5s infinite; }
+
+        /* ================= Easter Egg 6: Magic (থ্যানোস স্ন্যাপ) ================= */
+        @keyframes fadeOutMagic { to { opacity: 0; transform: translateY(-20px) scale(0.9); visibility: hidden; } }
+
+        /* ================= Easter Egg 7: Emoji Rain (সেলিব্রেশন) ================= */
+        .emoji-rain { position: fixed; top: -50px; z-index: 9999; animation: fall linear forwards; font-size: 28px; }
+        @keyframes fall { to { transform: translateY(100vh); } }
 
         /* ================= Mobile View ================= */
         .mobile-bottom-nav { display: none; }
@@ -122,7 +133,7 @@
             .mobile-logo-text { display: block; }
             .menu-toggle { display: block; }
             
-            .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 1000; justify-content: space-between; padding-bottom: env(safe-area-inset-bottom); }
+            .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 1000; justify-content: space-between; padding-bottom: env(safe-area-inset-bottom); transition: 0.3s;}
             .mobile-bottom-nav a { color: #a0a0a0; font-size: 24px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 12px 0; transition: background-color 0.3s, color 0.3s; position: relative;}
             .mobile-bottom-nav a:hover, .mobile-bottom-nav a:active { background-color: rgba(125, 27, 126, 0.05); }
             .mobile-bottom-nav a.active { color: var(--primary-color); background-color: rgba(125, 27, 126, 0.1); }
@@ -178,10 +189,12 @@
 
     </div>
 
+    <!-- ইমোজি রেইন এর জন্য কন্টেইনার -->
+    <div id="rain-container"></div>
+
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec";
 
-        // মেনু টগল লজিক
         document.getElementById('mobile-menu').addEventListener('click', (e) => { 
             document.getElementById('mobile-top-dropdown').classList.toggle('active');
             e.stopPropagation();
@@ -247,10 +260,6 @@
         // কার্ড প্রদর্শন ফাংশন
         function displayMembers(members) {
             const grid = document.getElementById('membersGrid');
-            const query = document.getElementById('searchInput').value.trim().toLowerCase();
-            const bloodGroups = ['a+', 'a-', 'b+', 'b-', 'ab+', 'ab-', 'o+', 'o-'];
-            const isBloodSearch = bloodGroups.includes(query);
-            
             grid.innerHTML = '';
 
             if(members.length === 0) {
@@ -293,7 +302,7 @@
             });
         }
 
-        // ================== DANCING ANIMATION LOGIC ==================
+        // ================== EASTER EGG FUNCTIONS ==================
         function makeTextDancing(text) {
             if (!text) return "";
             return text.split('').map((char, index) => {
@@ -335,13 +344,38 @@
             `;
         }
 
+        function startEmojiRain() {
+            const container = document.getElementById('rain-container');
+            container.innerHTML = '';
+            const emojis = ['🎉', '🎓', '❤️', '✨', '🎈', '🎊'];
+            for (let i = 0; i < 60; i++) {
+                let emoji = document.createElement('div');
+                emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.className = 'emoji-rain';
+                emoji.style.left = Math.random() * 100 + 'vw';
+                emoji.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
+                emoji.style.animationDelay = (Math.random() * 2) + 's';
+                container.appendChild(emoji);
+            }
+        }
+
+        function resetEasterEggs() {
+            document.body.classList.remove('hacker-mode');
+            document.body.classList.remove('spin-effect');
+            document.getElementById('membersGrid').classList.remove('earthquake-effect');
+            document.getElementById('rain-container').innerHTML = '';
+        }
+
        // লাইভ সার্চ এবং ইস্টার এগ লজিক
         function filterMembers() {
-            const query = document.getElementById('searchInput').value.trim();
+            resetEasterEggs(); // নতুন কিছু লিখলে আগের ম্যাজিক রিসেট হবে
+            
+            const rawQuery = document.getElementById('searchInput').value.trim();
+            const query = rawQuery.toLowerCase();
             const grid = document.getElementById('membersGrid');
             
-            // ================== EASTER EGG 1: DEVELOPER CARD ==================
-            if (query === "0000#") {
+            // ১. Developer Card (0000#)
+            if (rawQuery === "0000#") {
                 const devPhoto = "https://lh3.googleusercontent.com/d/15yi6VDVJR3gqwq46Sesy_QsoDULQg3gD"; 
                 const devName = "Mohammad Rohul Amin"; 
                 const devDept = "Islamic Studies";
@@ -364,25 +398,62 @@
                 return;
             }
 
-            // ================== EASTER EGG 2: DANCING CARD ==================
-            if (query === "123456789") {
+            // ২. Dancing Card (123456789)
+            if (rawQuery === "123456789") {
                 const sessionUser = sessionStorage.getItem('memberData');
                 if (sessionUser) {
-                    const loggedInUser = JSON.parse(sessionUser);
-                    displayMyDancingCard(loggedInUser);
+                    displayMyDancingCard(JSON.parse(sessionUser));
                 } else {
                     grid.innerHTML = '<div class="no-result">দয়া করে আগে লগইন করুন!</div>';
                 }
                 return;
             }
 
-            // রেগুলার ফিল্টারিং
-            const lowerQuery = query.toLowerCase();
+            // ৩. Spin (ঘুরঘুর)
+            if (query === "spin" || query === "ঘুরঘুর") {
+                document.body.classList.add('spin-effect');
+                setTimeout(() => document.body.classList.remove('spin-effect'), 1500);
+                displayMembers(allApprovedMembers);
+                return;
+            }
+
+            // ৪. Hacker Mode (হ্যাকার মোড/ম্যাট্রিক্স)
+            if (query === "matrix" || query === "হ্যাকার মোড") {
+                document.body.classList.add('hacker-mode');
+                displayMembers(allApprovedMembers);
+                return;
+            }
+
+            // ৫. Emoji Rain (সেলিব্রেশন/DUSAB)
+            if (query === "dusab" || query === "সেলিব্রেশন" || query === "celebrate") {
+                startEmojiRain();
+                displayMembers(allApprovedMembers);
+                return;
+            }
+
+            // ৬. Earthquake (ভূমিকম্প)
+            if (query === "earthquake" || query === "ভূমিকম্প") {
+                document.getElementById('membersGrid').classList.add('earthquake-effect');
+                displayMembers(allApprovedMembers);
+                return;
+            }
+
+            // ৭. Thanos Magic (থ্যানোস স্ন্যাপ)
+            if (query === "magic" || query === "থ্যানোস স্ন্যাপ") {
+                const cards = document.querySelectorAll('.member-card, .dev-card');
+                cards.forEach((card) => {
+                    // প্রতিটি কার্ড র‍্যান্ডম সময়ে গায়েব হয়ে যাবে
+                    card.style.animation = `fadeOutMagic 1.5s forwards ${Math.random() * 1.5}s`;
+                });
+                return; 
+            }
+
+            // রেগুলার ফিল্টারিং (যদি উপরের কোনোটি না হয়)
             const filtered = allApprovedMembers.filter(m => 
-                m.name.toLowerCase().includes(lowerQuery) || 
-                m.dept.toLowerCase().includes(lowerQuery) || 
-                m.blood.toLowerCase().includes(lowerQuery) ||
-                m.session.toLowerCase().includes(lowerQuery)
+                m.name.toLowerCase().includes(query) || 
+                m.dept.toLowerCase().includes(query) || 
+                m.blood.toLowerCase().includes(query) ||
+                m.session.toLowerCase().includes(query)
             );
             displayMembers(filtered);
         }
