@@ -48,7 +48,7 @@
         .page-header { background: linear-gradient(rgba(125, 27, 126, 0.85), rgba(38, 46, 122, 0.90)), url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200') no-repeat center center/cover; padding: 80px 20px 50px; text-align: center; color: var(--white); transition: 0.3s; }
         .page-header h1 { font-size: 36px; color: var(--accent-color); margin-bottom: 10px; }
 
-        .directory-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .directory-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 10; }
         
         .search-box { max-width: 600px; margin: 0 auto 40px; position: relative; }
         .search-box input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid #ddd; border-radius: 50px; font-size: 16px; outline: none; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
@@ -101,8 +101,16 @@
 
         /* ================= Easter Egg 4: Hacker Mode (ম্যাট্রিক্স) ================= */
         body.hacker-mode { background-color: #000 !important; color: #0f0 !important; font-family: 'Courier New', Courier, monospace !important; }
-        body.hacker-mode header, body.hacker-mode .page-header, body.hacker-mode .mobile-bottom-nav { background: #111 !important; border-bottom: 1px solid #0f0; box-shadow: none !important;}
-        body.hacker-mode .member-card { background-color: #000 !important; border: 1px solid #0f0 !important; box-shadow: 0 0 10px #0f0 !important; }
+        /* ব্যাকগ্রাউন্ড ক্যানভাস (বৃষ্টির জন্য) */
+        #matrixCanvas { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        body.hacker-mode #matrixCanvas { display: block; }
+        
+        /* হ্যাকার মোডে হেডার ও ফুটার আপডেট */
+        body.hacker-mode header, body.hacker-mode .page-header, body.hacker-mode .mobile-bottom-nav { background: rgba(0, 0, 0, 0.8) !important; background-image: none !important; border-bottom: 1px solid #0f0; box-shadow: none !important;}
+        body.hacker-mode .search-box input { background: rgba(0,0,0,0.8) !important; color: #0f0 !important; border: 1px solid #0f0 !important; box-shadow: 0 0 10px #0f0 !important;}
+        
+        /* হ্যাকার মোডে কার্ডগুলো হালকা ট্রান্সপারেন্ট হবে যাতে পেছনে বৃষ্টি দেখা যায় */
+        body.hacker-mode .member-card { background-color: rgba(0, 0, 0, 0.7) !important; border: 1px solid #0f0 !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.3) !important; backdrop-filter: blur(2px); }
         body.hacker-mode .card-header, body.hacker-mode .info-list, body.hacker-mode .card-footer { background: transparent !important; border-color: #0f0 !important; }
         body.hacker-mode * { color: #0f0 !important; border-color: #0f0 !important; text-shadow: 0 0 5px #0f0; }
 
@@ -143,6 +151,8 @@
     </style>
 </head>
 <body>
+
+    <canvas id="matrixCanvas"></canvas>
 
     <div id="app-preloader" class="app-preloader">
         <img src="logo.png" alt="DUSAB Logo">
@@ -189,7 +199,6 @@
 
     </div>
 
-    <!-- ইমোজি রেইন এর জন্য কন্টেইনার -->
     <div id="rain-container"></div>
 
     <script>
@@ -305,20 +314,16 @@
         // ================== EASTER EGG FUNCTIONS ==================
         function makeTextDancing(text) {
             if (!text) return "";
-            
-            // আধুনিক ব্রাউজারের জন্য Intl.Segmenter (বাংলা যুক্তাক্ষর ঠিক রাখার জন্য)
             if (window.Intl && Intl.Segmenter) {
                 const segmenter = new Intl.Segmenter('bn', { granularity: 'grapheme' });
                 const segments = Array.from(segmenter.segment(text));
                 return segments.map((data, index) => {
-                    if (data.segment === ' ') return '&nbsp;';
+                    if (data.segment === ' ') return ' ';
                     return `<span class="dancing-letter" style="animation-delay: ${index * 0.05}s">${data.segment}</span>`;
                 }).join('');
             }
-            
-            // পুরোনো ব্রাউজারের জন্য ফলব্যাক
             return text.split('').map((char, index) => {
-                if (char === ' ') return '&nbsp;';
+                if (char === ' ') return ' ';
                 return `<span class="dancing-letter" style="animation-delay: ${index * 0.05}s">${char}</span>`;
             }).join('');
         }
@@ -371,11 +376,59 @@
             }
         }
 
+        // ================== MATRIX RAIN LOGIC ==================
+        let matrixInterval;
+        function startMatrixRain() {
+            const canvas = document.getElementById('matrixCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const binaryChars = '10';
+            const fontSize = 18;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+
+            for (let x = 0; x < columns; x++) { drops[x] = 1; }
+
+            if (matrixInterval) clearInterval(matrixInterval);
+
+            matrixInterval = setInterval(() => {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // হালকা কালো ট্রেইল
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0F0'; // সবুজ টেক্সট
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = binaryChars.charAt(Math.floor(Math.random() * binaryChars.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }, 33);
+        }
+
+        function stopMatrixRain() {
+            if (matrixInterval) {
+                clearInterval(matrixInterval);
+                matrixInterval = null;
+            }
+            const canvas = document.getElementById('matrixCanvas');
+            if(canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
         function resetEasterEggs() {
             document.body.classList.remove('hacker-mode');
             document.body.classList.remove('spin-effect');
             document.getElementById('membersGrid').classList.remove('earthquake-effect');
             document.getElementById('rain-container').innerHTML = '';
+            stopMatrixRain(); // ম্যাট্রিক্স বৃষ্টি থামানো
         }
 
        // লাইভ সার্চ এবং ইস্টার এগ লজিক
@@ -389,7 +442,7 @@
             
             // ১. Developer Card (0000#)
             if (rawQuery === "0000#") {
-                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
+                searchInput.blur(); 
                 const devPhoto = "https://lh3.googleusercontent.com/d/15yi6VDVJR3gqwq46Sesy_QsoDULQg3gD"; 
                 const devName = "Mohammad Rohul Amin"; 
                 const devDept = "Islamic Studies";
@@ -414,7 +467,7 @@
 
             // ২. Dancing Card (123456789)
             if (rawQuery === "123456789") {
-                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
+                searchInput.blur(); 
                 const sessionUser = sessionStorage.getItem('memberData');
                 if (sessionUser) {
                     displayMyDancingCard(JSON.parse(sessionUser));
@@ -426,24 +479,25 @@
 
             // ৩. Spin (ঘুরঘুর)
             if (query === "spin" || query === "ঘুরঘুর") {
-                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
+                searchInput.blur(); 
                 document.body.classList.add('spin-effect');
                 setTimeout(() => document.body.classList.remove('spin-effect'), 2000);
                 displayMembers(allApprovedMembers);
                 return;
             }
 
-            // ৪. Hacker Mode (হ্যাকার মোড/ম্যাট্রিক্স)
+            // ৪. Hacker Mode (ম্যাট্রিক্স)
             if (query === "matrix" || query === "হ্যাকার মোড") {
-                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
+                searchInput.blur(); 
                 document.body.classList.add('hacker-mode');
+                startMatrixRain(); // ম্যাট্রিক্স বৃষ্টি শুরু
                 displayMembers(allApprovedMembers);
                 return;
             }
 
             // ৫. Emoji Rain (সেলিব্রেশন/DUSAB)
             if (query === "dusab" || query === "সেলিব্রেশন" || query === "celebrate") {
-                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
+                searchInput.blur(); 
                 startEmojiRain();
                 displayMembers(allApprovedMembers);
                 return;
@@ -451,7 +505,7 @@
 
             // ৬. Earthquake (ভূমিকম্প)
             if (query === "earthquake" || query === "ভূমিকম্প") {
-                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
+                searchInput.blur(); 
                 document.getElementById('membersGrid').classList.add('earthquake-effect');
                 displayMembers(allApprovedMembers);
                 return;
@@ -459,22 +513,18 @@
 
             // ৭. Thanos Magic (থ্যানোস স্ন্যাপ)
             if (query === "magic" || query === "থ্যানোস স্ন্যাপ") {
-                searchInput.blur(); // কিবোর্ড নামিয়ে ফেলা
-                // প্রথমে সব মেম্বার কার্ড শো করা, তারপর গায়েব করা
+                searchInput.blur(); 
                 displayMembers(allApprovedMembers); 
-                
                 setTimeout(() => {
                     const cards = document.querySelectorAll('.member-card, .dev-card');
                     cards.forEach((card) => {
-                        // প্রতিটি কার্ড র‍্যান্ডম সময়ে গায়েব হয়ে যাবে
                         card.style.animation = `fadeOutMagic 2s forwards ${Math.random() * 1.5}s`;
                     });
                 }, 50); 
-                
                 return; 
             }
 
-            // রেগুলার ফিল্টারিং (যদি উপরের কোনোটি না হয়)
+            // রেগুলার ফিল্টারিং
             const filtered = allApprovedMembers.filter(m => 
                 m.name.toLowerCase().includes(query) || 
                 m.dept.toLowerCase().includes(query) || 
