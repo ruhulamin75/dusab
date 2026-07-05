@@ -203,7 +203,8 @@
                             
                             <div class="profile-upload-container">
                                 <div class="profile-preview-wrapper">
-                                    <img id="profileImagePreview" src="https://via.placeholder.com/150?text=ছবি+(ঐচ্ছিক)" alt="প্রোফাইল ছবি">
+                                    <!-- ডিফল্ট অবতার আইকন আপডেট করা হয়েছে -->
+                                    <img id="profileImagePreview" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="প্রোফাইল ছবি">
                                 </div>
                                 <button type="button" class="upload-btn" onclick="document.getElementById('imageUploadInput').click();">
                                     <i class="fas fa-camera"></i> ছবি আপলোড করুন (ঐচ্ছিক)
@@ -323,7 +324,7 @@
             desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
             mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="fas fa-images"></i></a><a href="member-directory.html"><i class="fas fa-users"></i></a><a href="notice.html"><i class="fas fa-bell"></i></a><a href="profile.html"><img src="${userPhoto}"></a>`;
             
-            // লগইন করা থাকলে প্রোফাইল পেজে পাঠিয়ে দিবে (কারণ সে অলরেডি মেম্বার)
+            // লগইন করা থাকলে প্রোফাইল পেজে পাঠিয়ে দিবে
             window.location.href = "profile.html";
         } else {
             desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)" class="active"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
@@ -419,7 +420,8 @@
                 if (data.status === "success") { 
                     alert("অভিনন্দন! আপনার রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে। অ্যাডমিন অ্যাকাউন্টটি অ্যাপ্রুভ করার পর আপনি লগইন করতে পারবেন।"); 
                     document.getElementById('memberRegisterForm').reset(); 
-                    profileImagePreview.src = "https://via.placeholder.com/150?text=ছবি+(ঐচ্ছিক)"; 
+                    // রিসেট করার সময়ও ডিফল্ট আইকন সেট করা হলো
+                    profileImagePreview.src = "https://cdn-icons-png.flaticon.com/512/149/149071.png"; 
                     croppedImageData.value = ''; 
                     window.location.href = "index.html";
                 } else { 
