@@ -277,7 +277,8 @@
             }
 
             members.reverse().forEach(item => {
-                const photoUrl = item.photo ? item.photo : 'https://via.placeholder.com/150';
+                // ডিফল্ট আইকন সেট করা হলো
+                const photoUrl = item.photo ? item.photo : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
                 
                 let waNumber = item.phone.replace(/[^0-9]/g, ''); 
                 if(waNumber.startsWith('0')) { waNumber = '88' + waNumber; }
@@ -318,19 +319,20 @@
                 const segmenter = new Intl.Segmenter('bn', { granularity: 'grapheme' });
                 const segments = Array.from(segmenter.segment(text));
                 return segments.map((data, index) => {
-                    if (data.segment === ' ') return ' ';
+                    if (data.segment === ' ') return '&nbsp;';
                     return `<span class="dancing-letter" style="animation-delay: ${index * 0.05}s">${data.segment}</span>`;
                 }).join('');
             }
             return text.split('').map((char, index) => {
-                if (char === ' ') return ' ';
+                if (char === ' ') return '&nbsp;';
                 return `<span class="dancing-letter" style="animation-delay: ${index * 0.05}s">${char}</span>`;
             }).join('');
         }
 
         function displayMyDancingCard(user) {
             const grid = document.getElementById('membersGrid');
-            const photoUrl = user.photo ? user.photo : 'https://via.placeholder.com/150';
+            // ডিফল্ট আইকন সেট করা হলো
+            const photoUrl = user.photo ? user.photo : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
             let waNumber = user.phone.replace(/[^0-9]/g, ''); 
             if(waNumber.startsWith('0')) { waNumber = '88' + waNumber; }
             let lastBloodText = user.lastBloodDonated ? user.lastBloodDonated : 'কখনো দেননি / তথ্য নেই';
