@@ -398,7 +398,7 @@
         const userPhoto = userData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
 
         navMenu.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html" class="active"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
-        mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="images"></i></a><a href="member-directory.html"><i class="fas fa-users"></i></a><a href="notice.html"><i class="fas fa-bell"></i></a><a href="profile.html" class="active"><img src="${userPhoto}" alt="User"></a>`;
+        mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="fas fa-images"></i></a><a href="member-directory.html"><i class="fas fa-users"></i></a><a href="notice.html"><i class="fas fa-bell"></i></a><a href="profile.html" class="active"><img src="${userPhoto}" alt="User"></a>`;
 
         function formatBengaliDate(dateString) {
             if (!dateString) return "";
@@ -550,7 +550,7 @@
             
             const renderPDF = (photoUrl) => {
                 document.getElementById('cvPrintPhoto').src = photoUrl || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-                document.getElementById('cvPrintName').innerText = document.getElementById('cvName').value || "Your Name";
+                document.getElementById('cvPrintName').innerText = document.getElementById('cvName').value || "Mohammad Rohul Amin";
                 document.getElementById('cvPrintEmail').innerText = document.getElementById('cvEmail').value || "example@email.com";
                 document.getElementById('cvPrintPhone').innerText = document.getElementById('cvPhone').value || "N/A";
                 document.getElementById('cvPrintAddress').innerText = document.getElementById('cvAddress').value || "N/A";
