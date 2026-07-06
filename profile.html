@@ -6,7 +6,6 @@
     <title>আমার প্রোফাইল - DUSAB</title>
     
     <link rel="manifest" href="/dusab/manifest.json">
-    <!-- থিম কালার আপডেট করা হয়েছে যেন হেডারের সাথে না মেশে -->
     <meta name="theme-color" content="#f4f5f7">
     <link rel="apple-touch-icon" href="icon-192.png">
 
@@ -344,7 +343,8 @@
         }
 
         function populateView() {
-            document.getElementById('viewPhoto').src = userData.photo || "https://via.placeholder.com/150";
+            // ডিফল্ট আইকন সেট করা হলো
+            document.getElementById('viewPhoto').src = userData.photo || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
             document.getElementById('viewName').innerText = userData.name;
             document.getElementById('viewSessionDept').innerHTML = `<i class="fas fa-graduation-cap"></i> ${userData.dept} (${userData.session})`;
             
