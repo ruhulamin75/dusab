@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- html2pdf Library for CV Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; }
@@ -67,24 +68,24 @@
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
         .info-item { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary-color); }
         .info-item span { color: #777; font-size: 13px; display: block; margin-bottom: 5px; }
-        .info-item strong { color: var(--secondary-color); font-size: 16px; }
+        .info-item strong { color: var(--secondary-color); font-size: 16px; display: block; }
         .full-width { grid-column: 1 / -1; }
 
         /* ================= অ্যাকশন বাটন গ্রিড ================= */
         .action-section-title { font-size: 18px; color: var(--secondary-color); margin-bottom: 15px; border-bottom: 2px dashed #eee; padding-bottom: 10px; display: flex; align-items: center; gap: 8px;}
         .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
         
-        .action-btn { background: var(--white); border: 1px solid #ddd; padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 600; color: var(--secondary-color); cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .action-btn { background: var(--white); text-decoration: none; border: 1px solid #ddd; padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 600; color: var(--secondary-color); cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); text-align: center; }
         .action-btn i { font-size: 24px; color: var(--primary-color); transition: 0.3s;}
-        .action-btn:hover { border-color: var(--primary-color); transform: translateY(-3px); box-shadow: 0 6px 12px rgba(125, 27, 126, 0.1); }
+        .action-btn:hover { border-color: var(--primary-color); transform: translateY(-3px); box-shadow: 0 6px 12px rgba(125, 27, 126, 0.1); color: var(--primary-color);}
         .action-btn:hover i { transform: scale(1.1); }
         
         .btn-logout-card i { color: #e74c3c; }
-        .btn-logout-card:hover { border-color: #e74c3c; box-shadow: 0 6px 12px rgba(231, 76, 60, 0.1); }
+        .btn-logout-card:hover { border-color: #e74c3c; box-shadow: 0 6px 12px rgba(231, 76, 60, 0.1); color: #e74c3c;}
 
         /* ================= Modals (পপ-আপ) ================= */
         .custom-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(3px);}
-        .modal-content { background-color: var(--white); border-radius: 15px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease; position: relative;}
+        .modal-content { background-color: var(--white); border-radius: 15px; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease; position: relative;}
         
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-bottom: 1px solid #eee; position: sticky; top: 0; background: var(--white); z-index: 10; border-radius: 15px 15px 0 0;}
         .modal-header h3 { color: var(--secondary-color); font-size: 20px; display: flex; align-items: center; gap: 10px; margin: 0; }
@@ -94,38 +95,25 @@
         
         .modal-body { padding: 25px; }
 
-        /* ফর্ম ইনপুট স্টাইল (মডালের ভেতর) */
+        /* ফর্ম ইনপুট স্টাইল */
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--secondary-color); font-size: 14px;}
-        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; outline: none; transition: 0.3s; background: #fdfdfd;}
+        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; outline: none; transition: 0.3s; background: #fdfdfd; font-family: 'Hind Siliguri', sans-serif;}
         .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-color: var(--primary-color); background: var(--white); box-shadow: 0 0 0 3px rgba(125, 27, 126, 0.1);}
         .btn-save { background: var(--primary-color); color: white; width: 100%; padding: 14px; font-size: 16px; margin-top: 10px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;}
         .btn-save:hover { background: var(--secondary-color); }
 
-        /* Age Calculator স্টাইল */
+        /* CV & CGPA Calculator স্টাইল */
         .age-inputs { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
-        .age-result { font-weight: bold; background: #e9fbf0; color: #27ae60; padding: 20px; border-radius: 8px; font-size: 18px; text-align: center; border: 1px solid #bcead1; display: none; margin-top: 20px;}
+        .result-box { font-weight: bold; background: #e9fbf0; color: #27ae60; padding: 20px; border-radius: 8px; font-size: 18px; text-align: center; border: 1px solid #bcead1; display: none; margin-top: 20px;}
         .btn-calc { background: var(--accent-color); color: white; padding: 14px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold; width: 100%; font-size: 16px; transition: 0.3s;}
         .btn-calc:hover { background: #b5952f; }
 
-        /* ID Card Design */
-        .id-card-wrapper { background: linear-gradient(135deg, #ffffff, #f0f2f5); width: 320px; margin: 30px auto 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 1px solid #ddd; position: relative; }
-        .id-card-header { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 20px 10px 60px; text-align: center; }
-        .id-card-header img { height: 50px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); margin-bottom: 5px; }
-        .id-card-header h2 { font-size: 14px; margin: 0; font-weight: 700; letter-spacing: 0.5px; }
-        .id-card-photo { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--white); margin: -60px auto 10px; background: #eee; object-fit: cover; position: relative; z-index: 2; box-shadow: 0 5px 15px rgba(0,0,0,0.15);}
-        .id-card-body { padding: 0 20px 25px; text-align: center; }
-        .id-name { font-size: 22px; font-weight: 700; color: var(--secondary-color); margin-bottom: 2px; }
-        .id-dept { font-size: 14px; color: var(--primary-color); margin-bottom: 15px; font-weight: 600; }
-        .id-info-box { text-align: left; background: #f4f5f7; padding: 12px; border-radius: 8px; border: 1px solid #eee;}
-        .id-info { font-size: 13px; color: #444; margin-bottom: 5px; display: flex; align-items: flex-start;}
-        .id-info span { font-weight: bold; color: var(--secondary-color); width: 75px; flex-shrink: 0; }
-        .id-blood { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; padding: 5px 10px; border-radius: 20px; font-weight: bold; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 3;}
-        .id-footer { background: var(--secondary-color); color: white; text-align: center; padding: 10px; font-size: 11px; font-weight: 600; letter-spacing: 1px;}
-        
-        .btn-download-id { width: 100%; background: #27ae60; color: white; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;}
-        .btn-download-id:hover { background: #219653; }
+        .cgpa-row { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #eee;}
+        .cgpa-row span { font-weight: 600; width: 130px; font-size: 14px; color: var(--secondary-color); flex-shrink: 0;}
+        .cgpa-row input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #ccc; outline: none; }
 
+        /* ক্রপ মডালের ভেতরের কন্টেইনার */
         .crop-container { width: 100%; height: 300px; margin-bottom: 20px; }
         .crop-container img { max-width: 100%; display: block; }
 
@@ -145,7 +133,21 @@
             .mobile-bottom-nav a.active { color: var(--primary-color); background-color: rgba(125, 27, 126, 0.1); }
             .mobile-bottom-nav a img { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s; }
             .mobile-bottom-nav a.active img { border-color: var(--primary-color); }
+
+            .cgpa-row { flex-direction: column; align-items: flex-start; }
+            .cgpa-row span { width: 100%; margin-bottom: 5px;}
+            .cgpa-row input { width: 100%; }
         }
+
+        /* Hidden Printable CV Template Area */
+        #cvPrintContainer { position: absolute; left: -9999px; top: -9999px; }
+        .cv-template { width: 800px; background: #fff; padding: 50px; font-family: 'Arial', sans-serif; color: #333; line-height: 1.5; }
+        .cv-header { display: flex; align-items: center; border-bottom: 3px solid #262E7A; padding-bottom: 20px; margin-bottom: 25px; }
+        .cv-header img { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; margin-right: 30px; border: 2px solid #262E7A; }
+        .cv-header-info h1 { margin: 0 0 10px 0; color: #262E7A; font-size: 36px; text-transform: uppercase; }
+        .cv-header-info p { margin: 5px 0; font-size: 15px; color: #555; }
+        .cv-section-title { font-size: 20px; color: #262E7A; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; text-transform: uppercase; font-weight: bold; }
+        .cv-text-block { font-size: 14px; white-space: pre-wrap; text-align: justify; color: #444; }
     </style>
 </head>
 <body>
@@ -181,10 +183,11 @@
                 </div>
 
                 <div class="profile-body">
+                    
                     <div class="info-grid">
                         <div class="info-item"><span><i class="fas fa-phone-alt"></i> মোবাইল নাম্বার</span><strong id="vPhone"></strong></div>
                         <div class="info-item"><span><i class="fas fa-tint"></i> রক্তের গ্রুপ</span><strong id="vBlood" style="color:#e74c3c;"></strong></div>
-                        <div class="info-item"><span><i class="fas fa-calendar-check"></i> শেষ রক্তদান</span><strong id="vLastBlood" style="color:#e74c3c;"></strong></div>
+                        <div class="info-item"><span><i class="fas fa-calendar-check"></i> শেষ রক্তদান (যোগ্যতা)</span><strong id="vLastBlood"></strong></div>
                         <div class="info-item"><span><i class="fas fa-building"></i> হল</span><strong id="vHall"></strong></div>
                         <div class="info-item"><span><i class="fas fa-map-marker-alt"></i> গ্রাম/ইউনিয়ন</span><strong id="vVillage"></strong></div>
                         <div class="info-item"><span><i class="fas fa-school"></i> স্কুল/মাদ্রাসা</span><strong id="vSchool"></strong></div>
@@ -192,17 +195,29 @@
                         <div class="info-item full-width"><span><i class="fas fa-home"></i> বর্তমান ঠিকানা</span><strong id="vAddress"></strong></div>
                     </div>
 
-                    <div class="action-section-title"><i class="fas fa-th-large"></i> অ্যাকশন প্যানেল</div>
+                    <div class="action-section-title"><i class="fas fa-th-large"></i> মেম্বার ইউটিলিটিস ও অ্যাকশন</div>
                     <div class="action-grid">
                         <button class="action-btn" onclick="openModal('editProfileModal')">
                             <i class="fas fa-user-edit"></i> প্রোফাইল এডিট
                         </button>
-                        <button class="action-btn" onclick="openIdCardModal()">
-                            <i class="fas fa-id-badge"></i> ডিজিটাল আইডি কার্ড
+                        <button class="action-btn" onclick="openModal('cvMakerModal')">
+                            <i class="fas fa-file-pdf"></i> সিভি মেকার
+                        </button>
+                        <button class="action-btn" onclick="openModal('cgpaCalcModal')">
+                            <i class="fas fa-graduation-cap"></i> সিজিপিএ ক্যালকুলেটর
                         </button>
                         <button class="action-btn" onclick="openModal('ageCalcModal')">
                             <i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর
                         </button>
+                        <a href="#" class="action-btn">
+                            <i class="fas fa-money-check-alt"></i> স্টুডেন্ট পোর্টাল (ফি)
+                        </a>
+                        <a href="#" class="action-btn">
+                            <i class="fas fa-file-alt"></i> স্টুডেন্ট পোর্টাল (পরীক্ষা)
+                        </a>
+                        <a href="#" class="action-btn">
+                            <i class="fas fa-poll"></i> একাডেমিক রেজাল্ট
+                        </a>
                         <button class="action-btn btn-logout-card" onclick="userLogout()">
                             <i class="fas fa-sign-out-alt"></i> লগআউট
                         </button>
@@ -212,12 +227,11 @@
         </div>
     </div> 
     
+    <!-- ================= Edit Profile Modal ================= -->
     <div id="editProfileModal" class="custom-modal">
         <div class="modal-content">
             <div class="close-modal" onclick="closeModal('editProfileModal')"><i class="fas fa-times"></i></div>
-            <div class="modal-header">
-                <h3><i class="fas fa-user-edit"></i> প্রোফাইল এডিট</h3>
-            </div>
+            <div class="modal-header"><h3><i class="fas fa-user-edit"></i> প্রোফাইল এডিট</h3></div>
             <div class="modal-body">
                 <form id="editProfileForm">
                     <div class="input-group"><label>পূর্ণ নাম</label><input type="text" id="eName" required></div>
@@ -249,12 +263,54 @@
         </div>
     </div>
 
+    <!-- ================= CV Maker Modal ================= -->
+    <div id="cvMakerModal" class="custom-modal">
+        <div class="modal-content">
+            <div class="close-modal" onclick="closeModal('cvMakerModal')"><i class="fas fa-times"></i></div>
+            <div class="modal-header"><h3><i class="fas fa-file-pdf"></i> প্রফেশনাল সিভি মেকার</h3></div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>আপনার ছবি আপলোড করুন (ঐচ্ছিক)</label>
+                    <input type="file" id="cvPhotoInput" accept="image/*" style="padding: 8px;">
+                    <small style="color: #888;">ছবি না দিলে প্রোফাইলের বর্তমান ছবিটি ব্যবহার করা হবে।</small>
+                </div>
+                <div class="input-group"><label>পূর্ণ নাম</label><input type="text" id="cvName"></div>
+                <div class="input-group"><label>ইমেইল অ্যাড্রেস</label><input type="email" id="cvEmail" placeholder="example@email.com"></div>
+                <div class="input-group"><label>মোবাইল নাম্বার</label><input type="text" id="cvPhone"></div>
+                <div class="input-group"><label>বর্তমান ঠিকানা</label><input type="text" id="cvAddress"></div>
+                <div class="input-group"><label>ক্যারিয়ার অবজেক্টিভ (Career Objective)</label><textarea id="cvObjective" rows="3" placeholder="নিজের পেশাগত লক্ষ্য সম্পর্কে লিখুন..."></textarea></div>
+                <div class="input-group"><label>শিক্ষাগত যোগ্যতা (Education)</label><textarea id="cvEducation" rows="4" placeholder="বিভাগ, সেশন, ইন্সটিটিউশন এর বিস্তারিত লিখুন..."></textarea></div>
+                <div class="input-group"><label>কাজের অভিজ্ঞতা (Experience)</label><textarea id="cvExperience" rows="4" placeholder="আগের বা বর্তমান কাজের অভিজ্ঞতা (যদি থাকে)..."></textarea></div>
+                <div class="input-group"><label>স্কিল ও অন্যান্য (Skills & Others)</label><textarea id="cvSkills" rows="3" placeholder="ভাষাগত দক্ষতা, কম্পিউটার স্কিল ইত্যাদি..."></textarea></div>
+                
+                <button class="btn-save" id="downloadCvBtn" onclick="generateCV()"><i class="fas fa-download"></i> সিভি ডাউনলোড করুন (PDF)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CGPA Calc Modal ================= -->
+    <div id="cgpaCalcModal" class="custom-modal">
+        <div class="modal-content">
+            <div class="close-modal" onclick="closeModal('cgpaCalcModal')"><i class="fas fa-times"></i></div>
+            <div class="modal-header"><h3><i class="fas fa-graduation-cap"></i> সিজিপিএ ক্যালকুলেটর</h3></div>
+            <div class="modal-body">
+                <div id="cgpaRowsContainer"></div>
+                
+                <button onclick="addCgpaRow()" style="background: #ecf0f1; border: 1px dashed #bbb; color: #555; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 20px;">
+                    <i class="fas fa-plus-circle"></i> নতুন সেমিস্টার / বছর যুক্ত করুন
+                </button>
+                
+                <button class="btn-calc" onclick="calculateCGPA()">হিসাব করুন</button>
+                <div id="cgpaResult" class="result-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= Age Calc Modal ================= -->
     <div id="ageCalcModal" class="custom-modal">
         <div class="modal-content">
             <div class="close-modal" onclick="closeModal('ageCalcModal')"><i class="fas fa-times"></i></div>
-            <div class="modal-header">
-                <h3><i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর</h3>
-            </div>
+            <div class="modal-header"><h3><i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর</h3></div>
             <div class="modal-body">
                 <div class="age-inputs">
                     <div class="input-group">
@@ -267,54 +323,50 @@
                     </div>
                 </div>
                 <button class="btn-calc" onclick="calculateAge()">হিসাব করুন</button>
-                <div id="ageResult" class="age-result"></div>
+                <div id="ageResult" class="result-box"></div>
             </div>
         </div>
     </div>
 
-    <div id="idCardModal" class="custom-modal">
-        <div class="modal-content" style="background: transparent; box-shadow: none; padding: 20px;">
-            <div class="close-modal" onclick="closeModal('idCardModal')"><i class="fas fa-times"></i></div>
-            
-            <div id="idCardElement" class="id-card-wrapper">
-                <div class="id-card-header">
-                    <img src="logo.png" alt="DUSAB Logo" crossorigin="anonymous">
-                    <h2>Dhaka University Students Association of Brahmanpara</h2>
-                </div>
-                <div class="id-blood" id="idCardBlood">A+</div>
-                <img id="idCardPhoto" src="" class="id-card-photo" alt="Photo" crossorigin="anonymous">
-                <div class="id-card-body">
-                    <h3 class="id-name" id="idCardName">Name</h3>
-                    <div class="id-dept" id="idCardDept">Dept (Session)</div>
-                    <div class="id-info-box">
-                        <div class="id-info"><span>Phone:</span> <div id="idCardPhone">Number</div></div>
-                        <div class="id-info"><span>Hall:</span> <div id="idCardHall">Hall</div></div>
-                        <div class="id-info"><span>Home:</span> <div id="idCardHome">Village</div></div>
-                    </div>
-                </div>
-                <div class="id-footer">
-                    MEMBER IDENTITY CARD
-                </div>
-            </div>
-            
-            <button class="btn-download-id" id="downloadIdBtn" onclick="downloadIdCard()">
-                <i class="fas fa-download"></i> আইডি কার্ড ডাউনলোড করুন
-            </button>
-        </div>
-    </div>
-
+    <!-- ================= Crop Modal ================= -->
     <div id="cropModal" class="custom-modal">
         <div class="modal-content">
             <div class="close-modal" onclick="closeModal('cropModal')"><i class="fas fa-times"></i></div>
-            <div class="modal-header">
-                <h3><i class="fas fa-crop"></i> ছবি ক্রপ করুন</h3>
-            </div>
+            <div class="modal-header"><h3><i class="fas fa-crop"></i> ছবি ক্রপ করুন</h3></div>
             <div class="modal-body">
                 <div class="crop-container"><img id="imageToCrop" src=""></div>
                 <button class="btn-save" id="savePhotoBtn" onclick="cropAndSavePhoto()">সেভ করুন</button>
             </div>
         </div>
     </div>
+
+    <!-- Hidden CV Print Area -->
+    <div id="cvPrintContainer">
+        <div id="cvPrintArea" class="cv-template">
+            <div class="cv-header">
+                <img id="cvPrintPhoto" src="" alt="Photo">
+                <div class="cv-header-info">
+                    <h1 id="cvPrintName">Name Here</h1>
+                    <p><i class="fas fa-envelope"></i> <span id="cvPrintEmail">email@example.com</span></p>
+                    <p><i class="fas fa-phone-alt"></i> <span id="cvPrintPhone">017XXXXXXXX</span></p>
+                    <p><i class="fas fa-map-marker-alt"></i> <span id="cvPrintAddress">Address goes here</span></p>
+                </div>
+            </div>
+            
+            <div class="cv-section-title">Career Objective</div>
+            <div class="cv-text-block" id="cvPrintObjective"></div>
+            
+            <div class="cv-section-title">Education</div>
+            <div class="cv-text-block" id="cvPrintEducation"></div>
+            
+            <div class="cv-section-title">Experience</div>
+            <div class="cv-text-block" id="cvPrintExperience"></div>
+            
+            <div class="cv-section-title">Skills & Others</div>
+            <div class="cv-text-block" id="cvPrintSkills"></div>
+        </div>
+    </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script>
@@ -346,7 +398,7 @@
         const userPhoto = userData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
 
         navMenu.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html" class="active"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
-        mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="fas fa-images"></i></a><a href="member-directory.html"><i class="fas fa-users"></i></a><a href="notice.html"><i class="fas fa-bell"></i></a><a href="profile.html" class="active"><img src="${userPhoto}" alt="User"></a>`;
+        mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="images"></i></a><a href="member-directory.html"><i class="fas fa-users"></i></a><a href="notice.html"><i class="fas fa-bell"></i></a><a href="profile.html" class="active"><img src="${userPhoto}" alt="User"></a>`;
 
         function formatBengaliDate(dateString) {
             if (!dateString) return "";
@@ -357,13 +409,41 @@
             return `${day} ${months[dateObj.getMonth()]}, ${dateObj.getFullYear().toString().split('').map(c => engToBng[c]).join('')}`;
         }
 
+        // Blood Tracker Logic
+        function calculateBloodEligibility(dateStr) {
+            if (!dateStr || dateStr === "দেওয়া হয়নি") return "দেওয়া হয়নি";
+            const bngToEng = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'};
+            let engStr = dateStr.replace(/[০-৯]/g, m => bngToEng[m]);
+            const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+            let mIndex = -1;
+            for(let i=0; i<months.length; i++) { if(engStr.includes(months[i])) { mIndex = i; break; } }
+            if(mIndex === -1) return dateStr;
+            
+            let numbers = engStr.match(/\d+/g);
+            if(numbers && numbers.length >= 2) {
+                let lastDate = new Date(parseInt(numbers[1]), mIndex, parseInt(numbers[0]));
+                let diffTime = new Date() - lastDate;
+                let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                if(diffDays >= 90) {
+                    return `${dateStr} <span style="background:#27ae60; color:#fff; padding:3px 10px; border-radius:12px; font-size:11px; margin-left:8px; font-weight:bold;">রক্তদানের উপযুক্ত</span>`;
+                } else {
+                    return `${dateStr} <span style="background:#f39c12; color:#fff; padding:3px 10px; border-radius:12px; font-size:11px; margin-left:8px; font-weight:bold;">আরও ${90 - diffDays} দিন বাকি</span>`;
+                }
+            }
+            return dateStr;
+        }
+
         function populateView() {
             document.getElementById('viewPhoto').src = userPhoto;
             document.getElementById('viewName').innerText = userData.name || "N/A";
             document.getElementById('viewSessionDept').innerHTML = `<i class="fas fa-graduation-cap"></i> ${userData.dept || ""} (${userData.session || ""})`;
             document.getElementById('vPhone').innerText = userData.phone || "N/A";
             document.getElementById('vBlood').innerText = userData.blood || "N/A";
-            document.getElementById('vLastBlood').innerText = userData.lastBloodDonated || "দেওয়া হয়নি";
+            
+            // Blood Tracker setup
+            document.getElementById('vLastBlood').innerHTML = calculateBloodEligibility(userData.lastBloodDonated);
+            
             document.getElementById('vHall').innerText = userData.hall || "N/A";
             document.getElementById('vVillage').innerText = userData.village || "N/A";
             document.getElementById('vSchool').innerText = userData.school || "দেওয়া হয়নি";
@@ -379,22 +459,29 @@
             }
         }
 
+        // ================= Modal Manger =================
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
             if(modalId === 'editProfileModal') {
-                document.getElementById('eName').value = userData.name || ""; 
-                document.getElementById('ePhone').value = userData.phone || "";
-                document.getElementById('eSession').value = userData.session || ""; 
-                document.getElementById('eDept').value = userData.dept || "";
-                document.getElementById('eBlood').value = userData.blood || ""; 
-                document.getElementById('eHall').value = userData.hall || "";
-                document.getElementById('eVillage').value = userData.village || ""; 
-                document.getElementById('ePassword').value = userData.password || "";
-                document.getElementById('eSchool').value = userData.school || ""; 
-                document.getElementById('eCollege').value = userData.college || "";
+                document.getElementById('eName').value = userData.name || ""; document.getElementById('ePhone').value = userData.phone || "";
+                document.getElementById('eSession').value = userData.session || ""; document.getElementById('eDept').value = userData.dept || "";
+                document.getElementById('eBlood').value = userData.blood || ""; document.getElementById('eHall').value = userData.hall || "";
+                document.getElementById('eVillage').value = userData.village || ""; document.getElementById('ePassword').value = userData.password || "";
+                document.getElementById('eSchool').value = userData.school || ""; document.getElementById('eCollege').value = userData.college || "";
                 document.getElementById('eAddress').value = userData.address || "";
                 document.getElementById('currentBloodDate').innerText = userData.lastBloodDonated ? `(বর্তমান: ${userData.lastBloodDonated})` : '';
                 document.getElementById('eLastBlood').value = '';
+            }
+            if(modalId === 'cvMakerModal') {
+                document.getElementById('cvName').value = userData.name || "";
+                document.getElementById('cvPhone').value = userData.phone || "";
+                document.getElementById('cvAddress').value = userData.address || "";
+            }
+            if(modalId === 'cgpaCalcModal') {
+                document.getElementById('cgpaRowsContainer').innerHTML = '';
+                cgpaRowCount = 0;
+                addCgpaRow(); // First row by default
+                document.getElementById('cgpaResult').style.display = 'none';
             }
         }
 
@@ -403,103 +490,109 @@
             if(modalId === 'cropModal') { document.getElementById('imageUploadInput').value = ''; }
         }
 
+        // ================= Age Calculator =================
         function calculateAge() {
             const dobInput = document.getElementById('dobInput').value;
             const targetInput = document.getElementById('targetDateInput').value;
             const resultDiv = document.getElementById('ageResult');
+            if (!dobInput) { resultDiv.style.display = 'block'; resultDiv.innerHTML = "<span style='color:#e74c3c;'><i class='fas fa-exclamation-triangle'></i> জন্মতারিখ দিন!</span>"; return; }
             
-            if (!dobInput) {
-                resultDiv.style.display = 'block';
-                resultDiv.innerHTML = "<span style='color:#e74c3c;'><i class='fas fa-exclamation-triangle'></i> অনুগ্রহ করে জন্মতারিখ নির্বাচন করুন!</span>";
-                return;
-            }
-            
-            const dob = new Date(dobInput);
-            const target = targetInput ? new Date(targetInput) : new Date();
-            
-            let years = target.getFullYear() - dob.getFullYear();
-            let months = target.getMonth() - dob.getMonth();
-            let days = target.getDate() - dob.getDate();
-            
-            if (days < 0) {
-                months--;
-                const tempDate = new Date(target.getFullYear(), target.getMonth(), 0);
-                days += tempDate.getDate();
-            }
+            const dob = new Date(dobInput); const target = targetInput ? new Date(targetInput) : new Date();
+            let years = target.getFullYear() - dob.getFullYear(); let months = target.getMonth() - dob.getMonth(); let days = target.getDate() - dob.getDate();
+            if (days < 0) { months--; days += new Date(target.getFullYear(), target.getMonth(), 0).getDate(); }
             if (months < 0) { years--; months += 12; }
-            
-            if(years < 0) {
-               resultDiv.style.display = 'block';
-               resultDiv.innerHTML = "<span style='color:#e74c3c;'><i class='fas fa-exclamation-triangle'></i> ভুল তারিখ! লক্ষ্য তারিখটি জন্মতারিখের পরে হতে হবে।</span>";
-               return;
-            }
+            if(years < 0) { resultDiv.style.display = 'block'; resultDiv.innerHTML = "<span style='color:#e74c3c;'><i class='fas fa-exclamation-triangle'></i> ভুল তারিখ!</span>"; return; }
             
             const engToBng = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
             const yBn = years.toString().split('').map(c => engToBng[c]||c).join('');
             const mBn = months.toString().split('').map(c => engToBng[c]||c).join('');
             const dBn = days.toString().split('').map(c => engToBng[c]||c).join('');
-
             resultDiv.style.display = 'block';
-            resultDiv.innerHTML = `আপনার বয়স: <br><strong style="font-size: 24px; color: var(--primary-color);">${yBn}</strong> বছর, <strong style="font-size: 24px; color: var(--primary-color);">${mBn}</strong> মাস, <strong style="font-size: 24px; color: var(--primary-color);">${dBn}</strong> দিন`;
+            resultDiv.innerHTML = `বয়স: <strong style="font-size:24px; color:var(--primary-color);">${yBn}</strong> বছর, <strong style="font-size:24px; color:var(--primary-color);">${mBn}</strong> মাস, <strong style="font-size:24px; color:var(--primary-color);">${dBn}</strong> দিন`;
         }
 
-        function openIdCardModal() {
-            const photoElement = document.getElementById('idCardPhoto');
-            photoElement.src = (userData && userData.photo) ? userData.photo : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-            
-            document.getElementById('idCardName').innerText = userData.name || "N/A";
-            document.getElementById('idCardDept').innerText = `${userData.dept || ""} (${userData.session || ""})`;
-            document.getElementById('idCardBlood').innerText = userData.blood || "N/A";
-            document.getElementById('idCardPhone').innerText = userData.phone || "N/A";
-            document.getElementById('idCardHall').innerText = userData.hall || "N/A";
-            document.getElementById('idCardHome').innerText = userData.village || "N/A";
-            
-            openModal('idCardModal');
+        // ================= CGPA Calculator =================
+        let cgpaRowCount = 0;
+        const semOrdinals = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth"];
+        function addCgpaRow() {
+            let label = semOrdinals[cgpaRowCount] ? semOrdinals[cgpaRowCount] : (cgpaRowCount+1)+"th";
+            let html = `
+            <div class="cgpa-row">
+                <span>${label} Semester/Year:</span>
+                <input type="number" step="0.01" class="c-credit" placeholder="Total Credit (e.g. 3)">
+                <input type="number" step="0.01" class="c-gpa" placeholder="GPA (e.g. 3.5)">
+            </div>`;
+            document.getElementById('cgpaRowsContainer').insertAdjacentHTML('beforeend', html);
+            cgpaRowCount++;
+        }
+        
+        function calculateCGPA() {
+            let totalCredits = 0; let totalPoints = 0;
+            let credits = document.querySelectorAll('.c-credit');
+            let gpas = document.querySelectorAll('.c-gpa');
+            for(let i=0; i<credits.length; i++) {
+                let c = parseFloat(credits[i].value); let g = parseFloat(gpas[i].value);
+                if(!isNaN(c) && !isNaN(g)) { totalCredits += c; totalPoints += (c * g); }
+            }
+            if(totalCredits > 0) {
+                let cgpa = (totalPoints / totalCredits).toFixed(2);
+                document.getElementById('cgpaResult').style.display = 'block';
+                document.getElementById('cgpaResult').innerHTML = `আপনার মোট সিজিপিএ: <strong style="color:var(--primary-color); font-size:24px;">${cgpa}</strong>`;
+            } else {
+                document.getElementById('cgpaResult').style.display = 'block';
+                document.getElementById('cgpaResult').innerHTML = `<span style='color:#e74c3c;'>সঠিক তথ্য ইনপুট দিন!</span>`;
+            }
         }
 
-        function downloadIdCard() {
-            const idCardElement = document.getElementById('idCardElement');
-            const downloadBtn = document.getElementById('downloadIdBtn');
-            const originalText = downloadBtn.innerHTML;
+        // ================= CV Maker (PDF Generation) =================
+        function generateCV() {
+            const fileInput = document.getElementById('cvPhotoInput');
             
-            downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> কার্ড তৈরি হচ্ছে...';
-            downloadBtn.disabled = true;
+            const renderPDF = (photoUrl) => {
+                document.getElementById('cvPrintPhoto').src = photoUrl || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+                document.getElementById('cvPrintName').innerText = document.getElementById('cvName').value || "Your Name";
+                document.getElementById('cvPrintEmail').innerText = document.getElementById('cvEmail').value || "example@email.com";
+                document.getElementById('cvPrintPhone').innerText = document.getElementById('cvPhone').value || "N/A";
+                document.getElementById('cvPrintAddress').innerText = document.getElementById('cvAddress').value || "N/A";
+                document.getElementById('cvPrintObjective').innerText = document.getElementById('cvObjective').value || "Not provided.";
+                document.getElementById('cvPrintEducation').innerText = document.getElementById('cvEducation').value || "Not provided.";
+                document.getElementById('cvPrintExperience').innerText = document.getElementById('cvExperience').value || "Not provided.";
+                document.getElementById('cvPrintSkills').innerText = document.getElementById('cvSkills').value || "Not provided.";
 
-            html2canvas(idCardElement, {
-                scale: 3, 
-                useCORS: true, 
-                backgroundColor: "#ffffff"
-            }).then(canvas => {
-                const dataUrl = canvas.toDataURL('image/png');
-                
-                // নতুন: অ্যাপের ভেতর থাকলে AndroidBridge কল হবে
-                if (window.AndroidBridge) {
-                    window.AndroidBridge.saveImage(dataUrl);
-                    downloadBtn.innerHTML = originalText;
-                    downloadBtn.disabled = false;
-                } else {
-                    // ব্রাউজারে থাকলে সাধারণ ডাউনলোড হবে
-                    try {
-                        const link = document.createElement('a');
-                        link.href = dataUrl;
-                        link.download = `DUSAB_ID_${(userData.name || "Member").replace(/\s+/g, '_')}.png`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    } catch (e) {
-                        console.log("Direct download failed", e);
-                    }
-                    downloadBtn.innerHTML = originalText;
-                    downloadBtn.disabled = false;
-                }
-            }).catch(err => {
-                alert("ছবি তৈরি করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
-                console.error(err);
-                downloadBtn.innerHTML = originalText;
-                downloadBtn.disabled = false;
-            });
+                const element = document.getElementById('cvPrintArea');
+                const btn = document.getElementById('downloadCvBtn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> সিভি তৈরি হচ্ছে...';
+                btn.disabled = true;
+
+                let opt = {
+                    margin:       0.5,
+                    filename:     'CV_' + (document.getElementById('cvName').value || "Member").replace(/\s+/g, '_') + '.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2 },
+                    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+                };
+
+                html2pdf().set(opt).from(element).save().then(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }).catch(err => {
+                    alert("সমস্যা হয়েছে! আবার চেষ্টা করুন।");
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            };
+
+            if(fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) { renderPDF(e.target.result); }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                renderPDF(userPhoto);
+            }
         }
 
+        // ================= Photo Edit & Profile Update =================
         let cropper;
         function openCropModal(event) {
             const file = event.target.files[0];
