@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-    <!-- html2canvas Library for ID Card Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
@@ -85,25 +84,13 @@
 
         /* ================= Modals (পপ-আপ) ================= */
         .custom-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(3px);}
-        /* মডাল কনটেন্ট আপডেট করা হয়েছে */
         .modal-content { background-color: var(--white); border-radius: 15px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease; position: relative;}
         
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-bottom: 1px solid #eee; position: sticky; top: 0; background: var(--white); z-index: 10; border-radius: 15px 15px 0 0;}
         .modal-header h3 { color: var(--secondary-color); font-size: 20px; display: flex; align-items: center; gap: 10px; margin: 0; }
         
-        /* ক্লোজ বাটন স্টাইল আপডেট */
-        .close-modal { 
-            font-size: 20px; color: #888; cursor: pointer; transition: 0.3s; 
-            background: #f4f5f7; width: 35px; height: 35px; border-radius: 50%; 
-            display: flex; justify-content: center; align-items: center;
-        }
+        .close-modal { position: absolute; top: -10px; right: -10px; font-size: 20px; color: #333; cursor: pointer; transition: 0.3s; background: #fff; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 100;}
         .close-modal:hover { background: #ffebeb; color: #e74c3c; }
-
-        /* আইডি কার্ড মডালের জন্য বিশেষ ক্লোজ বাটন */
-        #idCardModal .close-modal {
-            position: absolute; top: 10px; right: 10px; z-index: 100;
-            background: #fff; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
         
         .modal-body { padding: 25px; }
 
@@ -115,18 +102,17 @@
         .btn-save { background: var(--primary-color); color: white; width: 100%; padding: 14px; font-size: 16px; margin-top: 10px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;}
         .btn-save:hover { background: var(--secondary-color); }
 
-        /* Age Calculator স্টাইল (মডালের ভেতর) */
+        /* Age Calculator স্টাইল */
         .age-inputs { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
         .age-result { font-weight: bold; background: #e9fbf0; color: #27ae60; padding: 20px; border-radius: 8px; font-size: 18px; text-align: center; border: 1px solid #bcead1; display: none; margin-top: 20px;}
         .btn-calc { background: var(--accent-color); color: white; padding: 14px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold; width: 100%; font-size: 16px; transition: 0.3s;}
         .btn-calc:hover { background: #b5952f; }
 
-        /* ID Card Design Updated */
+        /* ID Card Design */
         .id-card-wrapper { background: linear-gradient(135deg, #ffffff, #f0f2f5); width: 320px; margin: 30px auto 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 1px solid #ddd; position: relative; }
         .id-card-header { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 20px 10px 60px; text-align: center; }
         .id-card-header img { height: 50px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); margin-bottom: 5px; }
         .id-card-header h2 { font-size: 14px; margin: 0; font-weight: 700; letter-spacing: 0.5px; }
-        /* আইডি কার্ডের ছবি স্টাইল আপডেট */
         .id-card-photo { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--white); margin: -60px auto 10px; background: #eee; object-fit: cover; position: relative; z-index: 2; box-shadow: 0 5px 15px rgba(0,0,0,0.15);}
         .id-card-body { padding: 0 20px 25px; text-align: center; }
         .id-name { font-size: 22px; font-weight: 700; color: var(--secondary-color); margin-bottom: 2px; }
@@ -140,7 +126,6 @@
         .btn-download-id { width: 100%; background: #27ae60; color: white; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .btn-download-id:hover { background: #219653; }
 
-        /* ক্রপ মডালের ভেতরের কন্টেইনার */
         .crop-container { width: 100%; height: 300px; margin-bottom: 20px; }
         .crop-container img { max-width: 100%; display: block; }
 
@@ -151,7 +136,6 @@
             .logo img { height: 40px; } 
             .mobile-logo-text { display: block; } 
             .menu-toggle { display: block; } 
-            
             .info-grid { grid-template-columns: 1fr; }
             .action-grid { grid-template-columns: 1fr 1fr; } 
             
@@ -169,7 +153,6 @@
     <div id="app-preloader" class="app-preloader"><img src="logo.png" alt="DUSAB Logo"><div class="spinner"></div></div>
 
     <div id="main-wrapper" class="fade-in-content" style="display: none;">
-        
         <header>
             <div class="navbar">
                 <div class="logo"><a href="index.html"><img src="logo.png" alt="Logo"><span class="mobile-logo-text">DUSAB</span></a></div>
@@ -185,7 +168,6 @@
 
         <div class="profile-container">
             <div class="profile-card">
-                
                 <div class="profile-header">
                     <div class="profile-photo-wrapper">
                         <img id="viewPhoto" src="" class="profile-photo" alt="Profile">
@@ -199,7 +181,6 @@
                 </div>
 
                 <div class="profile-body">
-                    
                     <div class="info-grid">
                         <div class="info-item"><span><i class="fas fa-phone-alt"></i> মোবাইল নাম্বার</span><strong id="vPhone"></strong></div>
                         <div class="info-item"><span><i class="fas fa-tint"></i> রক্তের গ্রুপ</span><strong id="vBlood" style="color:#e74c3c;"></strong></div>
@@ -226,18 +207,16 @@
                             <i class="fas fa-sign-out-alt"></i> লগআউট
                         </button>
                     </div>
-
                 </div>
             </div>
         </div>
     </div> 
     
-    <!-- ================= Edit Profile Modal ================= -->
     <div id="editProfileModal" class="custom-modal">
         <div class="modal-content">
+            <div class="close-modal" onclick="closeModal('editProfileModal')"><i class="fas fa-times"></i></div>
             <div class="modal-header">
                 <h3><i class="fas fa-user-edit"></i> প্রোফাইল এডিট</h3>
-                <div class="close-modal" onclick="closeModal('editProfileModal')"><i class="fas fa-times"></i></div>
             </div>
             <div class="modal-body">
                 <form id="editProfileForm">
@@ -270,12 +249,11 @@
         </div>
     </div>
 
-    <!-- ================= Age Calc Modal ================= -->
     <div id="ageCalcModal" class="custom-modal">
         <div class="modal-content">
+            <div class="close-modal" onclick="closeModal('ageCalcModal')"><i class="fas fa-times"></i></div>
             <div class="modal-header">
                 <h3><i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর</h3>
-                <div class="close-modal" onclick="closeModal('ageCalcModal')"><i class="fas fa-times"></i></div>
             </div>
             <div class="modal-body">
                 <div class="age-inputs">
@@ -294,9 +272,7 @@
         </div>
     </div>
 
-    <!-- ================= ID Card Modal ================= -->
     <div id="idCardModal" class="custom-modal">
-        <!-- এখানে স্টাইল আপডেট করা হয়েছে যাতে ব্যাকগ্রাউন্ড ট্রান্সপারেন্ট থাকে এবং প্যাডিং থাকে -->
         <div class="modal-content" style="background: transparent; box-shadow: none; padding: 20px;">
             <div class="close-modal" onclick="closeModal('idCardModal')"><i class="fas fa-times"></i></div>
             
@@ -327,12 +303,11 @@
         </div>
     </div>
 
-    <!-- ================= Crop Modal ================= -->
     <div id="cropModal" class="custom-modal">
         <div class="modal-content">
+            <div class="close-modal" onclick="closeModal('cropModal')"><i class="fas fa-times"></i></div>
             <div class="modal-header">
                 <h3><i class="fas fa-crop"></i> ছবি ক্রপ করুন</h3>
-                <div class="close-modal" onclick="closeModal('cropModal')"><i class="fas fa-times"></i></div>
             </div>
             <div class="modal-body">
                 <div class="crop-container"><img id="imageToCrop" src=""></div>
@@ -340,7 +315,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script>
@@ -405,10 +379,8 @@
             }
         }
 
-        // ================= Modal Open/Close Logic =================
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
-            
             if(modalId === 'editProfileModal') {
                 document.getElementById('eName').value = userData.name || ""; 
                 document.getElementById('ePhone').value = userData.phone || "";
@@ -431,7 +403,6 @@
             if(modalId === 'cropModal') { document.getElementById('imageUploadInput').value = ''; }
         }
 
-        // ================= Age Calculator Logic =================
         function calculateAge() {
             const dobInput = document.getElementById('dobInput').value;
             const targetInput = document.getElementById('targetDateInput').value;
@@ -472,9 +443,7 @@
             resultDiv.innerHTML = `আপনার বয়স: <br><strong style="font-size: 24px; color: var(--primary-color);">${yBn}</strong> বছর, <strong style="font-size: 24px; color: var(--primary-color);">${mBn}</strong> মাস, <strong style="font-size: 24px; color: var(--primary-color);">${dBn}</strong> দিন`;
         }
 
-        // ================= Digital ID Card Logic =================
         function openIdCardModal() {
-            // ছবির সোর্স আপডেট করা হয়েছে
             const photoElement = document.getElementById('idCardPhoto');
             photoElement.src = (userData && userData.photo) ? userData.photo : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
             
@@ -503,25 +472,26 @@
             }).then(canvas => {
                 const dataUrl = canvas.toDataURL('image/png');
                 
-                // অ্যাপের ভেতরে থাকলে বা সাধারণ ব্রাউজার হলে
-                try {
-                    const link = document.createElement('a');
-                    link.href = dataUrl;
-                    link.download = `DUSAB_ID_${(userData.name || "Member").replace(/\s+/g, '_')}.png`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                } catch (e) {
-                    console.log("Direct download failed", e);
+                // নতুন: অ্যাপের ভেতর থাকলে AndroidBridge কল হবে
+                if (window.AndroidBridge) {
+                    window.AndroidBridge.saveImage(dataUrl);
+                    downloadBtn.innerHTML = originalText;
+                    downloadBtn.disabled = false;
+                } else {
+                    // ব্রাউজারে থাকলে সাধারণ ডাউনলোড হবে
+                    try {
+                        const link = document.createElement('a');
+                        link.href = dataUrl;
+                        link.download = `DUSAB_ID_${(userData.name || "Member").replace(/\s+/g, '_')}.png`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    } catch (e) {
+                        console.log("Direct download failed", e);
+                    }
+                    downloadBtn.innerHTML = originalText;
+                    downloadBtn.disabled = false;
                 }
-                
-                // ওয়েবভিউ এর জন্য ফলব্যাক অ্যালার্ট
-                setTimeout(() => {
-                    alert("যদি সরাসরি ডাউনলোড না হয়, তবে অনুগ্রহ করে আইডি কার্ডের ছবির ওপর চেপে ধরে (Long Press) 'Save Image' অপশনটি বেছে নিন।");
-                }, 500);
-                
-                downloadBtn.innerHTML = originalText;
-                downloadBtn.disabled = false;
             }).catch(err => {
                 alert("ছবি তৈরি করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
                 console.error(err);
@@ -530,7 +500,6 @@
             });
         }
 
-        // ================= Photo Edit & Text Edit Logic =================
         let cropper;
         function openCropModal(event) {
             const file = event.target.files[0];
