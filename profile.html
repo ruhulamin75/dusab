@@ -189,7 +189,7 @@
                         <div class="info-item"><span><i class="fas fa-tint"></i> রক্তের গ্রুপ</span><strong id="vBlood" style="color:#e74c3c;"></strong></div>
                         <div class="info-item"><span><i class="fas fa-calendar-check"></i> শেষ রক্তদান (যোগ্যতা)</span><strong id="vLastBlood"></strong></div>
                         <div class="info-item"><span><i class="fas fa-building"></i> হল</span><strong id="vHall"></strong></div>
-                        <div class="info-item"><span><i class="fas fa-map-marker-alt"></i> গ্রাম/ইউনিয়ন</span><strong id="vVillage"></strong></div>
+                        <div class="info-item"><span><i class="fas fa-map-marker-alt"></i> গ্রাম/ইউনিয়ন</span><strong id="vVillage"></strong></div>
                         <div class="info-item"><span><i class="fas fa-school"></i> স্কুল/মাদ্রাসা</span><strong id="vSchool"></strong></div>
                         <div class="info-item"><span><i class="fas fa-university"></i> কলেজ/মাদ্রাসা</span><strong id="vCollege"></strong></div>
                         <div class="info-item full-width"><span><i class="fas fa-home"></i> বর্তমান ঠিকানা</span><strong id="vAddress"></strong></div>
@@ -200,14 +200,14 @@
                         <button class="action-btn" onclick="openModal('editProfileModal')">
                             <i class="fas fa-user-edit"></i> প্রোফাইল এডিট
                         </button>
-                        <button class="action-btn" onclick="openModal('cvMakerModal')">
-                            <i class="fas fa-file-pdf"></i> সিভি মেকার
-                        </button>
                         <button class="action-btn" onclick="openModal('cgpaCalcModal')">
                             <i class="fas fa-graduation-cap"></i> সিজিপিএ ক্যালকুলেটর
                         </button>
                         <button class="action-btn" onclick="openModal('ageCalcModal')">
-                            <i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর
+                            <i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর
+                        </button>
+                        <button class="action-btn" onclick="openModal('bloodCountdownModal')">
+                            <i class="fas fa-tint"></i> রক্তদান কাউন্টডাউন
                         </button>
                         <a href="https://student.eis.du.ac.bd/bn/408b7c8ad06e4d9954fa2d948a01f508" class="action-btn">
                             <i class="fas fa-money-check-alt"></i> স্টুডেন্ট পোর্টাল (ফি)
@@ -235,7 +235,7 @@
             <div class="modal-body">
                 <form id="editProfileForm">
                     <div class="input-group"><label>পূর্ণ নাম</label><input type="text" id="eName" required></div>
-                    <div class="input-group"><label>মোবাইল নাম্বার (পরিবর্তনযোগ্য নয়)</label><input type="text" id="ePhone" disabled style="background:#eee;"></div>
+                    <div class="input-group"><label>মোবাইল নাম্বার (পরিবর্তনযোগ্য নয়)</label><input type="text" id="ePhone" disabled style="background:#eee;"></div>
                     <div class="input-group"><label>সেশন</label><input type="text" id="eSession" required></div>
                     <div class="input-group"><label>ডিপার্টমেন্ট</label><input type="text" id="eDept" required></div>
                     <div class="input-group">
@@ -252,38 +252,13 @@
                         <input type="date" id="eLastBlood">
                     </div>
                     <div class="input-group"><label>হল</label><input type="text" id="eHall" required></div>
-                    <div class="input-group"><label>গ্রাম/ইউনিয়ন</label><input type="text" id="eVillage" required></div>
-                    <div class="input-group"><label>নতুন পাসওয়ার্ড (পরিবর্তন করতে চাইলে)</label><input type="text" id="ePassword" required></div>
+                    <div class="input-group"><label>গ্রাম/ইউনিয়ন</label><input type="text" id="eVillage" required></div>
+                    <div class="input-group"><label>নতুন পাসওয়ার্ড (পরিবর্তন করতে চাইলে)</label><input type="text" id="ePassword" required></div>
                     <div class="input-group"><label>স্কুল/মাদ্রাসা</label><input type="text" id="eSchool"></div>
                     <div class="input-group"><label>কলেজ/মাদ্রাসা</label><input type="text" id="eCollege"></div>
                     <div class="input-group"><label>বর্তমান ঠিকানা</label><textarea id="eAddress" required rows="3"></textarea></div>
                     <button type="submit" class="btn-save" id="saveBtn">তথ্য আপডেট করুন</button>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= CV Maker Modal ================= -->
-    <div id="cvMakerModal" class="custom-modal">
-        <div class="modal-content">
-            <div class="close-modal" onclick="closeModal('cvMakerModal')"><i class="fas fa-times"></i></div>
-            <div class="modal-header"><h3><i class="fas fa-file-pdf"></i> প্রফেশনাল সিভি মেকার</h3></div>
-            <div class="modal-body">
-                <div class="input-group">
-                    <label>আপনার ছবি আপলোড করুন (ঐচ্ছিক)</label>
-                    <input type="file" id="cvPhotoInput" accept="image/*" style="padding: 8px;">
-                    <small style="color: #888;">ছবি না দিলে প্রোফাইলের বর্তমান ছবিটি ব্যবহার করা হবে।</small>
-                </div>
-                <div class="input-group"><label>পূর্ণ নাম</label><input type="text" id="cvName"></div>
-                <div class="input-group"><label>ইমেইল অ্যাড্রেস</label><input type="email" id="cvEmail" placeholder="example@email.com"></div>
-                <div class="input-group"><label>মোবাইল নাম্বার</label><input type="text" id="cvPhone"></div>
-                <div class="input-group"><label>বর্তমান ঠিকানা</label><input type="text" id="cvAddress"></div>
-                <div class="input-group"><label>ক্যারিয়ার অবজেক্টিভ (Career Objective)</label><textarea id="cvObjective" rows="3" placeholder="নিজের পেশাগত লক্ষ্য সম্পর্কে লিখুন..."></textarea></div>
-                <div class="input-group"><label>শিক্ষাগত যোগ্যতা (Education)</label><textarea id="cvEducation" rows="4" placeholder="বিভাগ, সেশন, ইন্সটিটিউশন এর বিস্তারিত লিখুন..."></textarea></div>
-                <div class="input-group"><label>কাজের অভিজ্ঞতা (Experience)</label><textarea id="cvExperience" rows="4" placeholder="আগের বা বর্তমান কাজের অভিজ্ঞতা (যদি থাকে)..."></textarea></div>
-                <div class="input-group"><label>স্কিল ও অন্যান্য (Skills & Others)</label><textarea id="cvSkills" rows="3" placeholder="ভাষাগত দক্ষতা, কম্পিউটার স্কিল ইত্যাদি..."></textarea></div>
-                
-                <button class="btn-save" id="downloadCvBtn" onclick="generateCV()"><i class="fas fa-download"></i> সিভি ডাউনলোড করুন (PDF)</button>
             </div>
         </div>
     </div>
@@ -310,7 +285,7 @@
     <div id="ageCalcModal" class="custom-modal">
         <div class="modal-content">
             <div class="close-modal" onclick="closeModal('ageCalcModal')"><i class="fas fa-times"></i></div>
-            <div class="modal-header"><h3><i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর</h3></div>
+            <div class="modal-header"><h3><i class="fas fa-calculator"></i> বয়স ক্যালকুলেটর</h3></div>
             <div class="modal-body">
                 <div class="age-inputs">
                     <div class="input-group">
@@ -319,11 +294,33 @@
                     </div>
                     <div class="input-group">
                         <label>যে তারিখ পর্যন্ত হিসাব করবেন (ঐচ্ছিক):</label>
-                        <input type="date" id="targetDateInput" title="খালি রাখলে আজকের তারিখ অনুযায়ী হিসাব হবে">
+                        <input type="date" id="targetDateInput" title="খালি রাখলে আজকের তারিখ অনুযায়ী হিসাব হবে">
                     </div>
                 </div>
                 <button class="btn-calc" onclick="calculateAge()">হিসাব করুন</button>
                 <div id="ageResult" class="result-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= Blood Donation Countdown Modal ================= -->
+    <div id="bloodCountdownModal" class="custom-modal">
+        <div class="modal-content">
+            <div class="close-modal" onclick="closeModal('bloodCountdownModal')"><i class="fas fa-times"></i></div>
+            <div class="modal-header"><h3><i class="fas fa-tint"></i> রক্তদান কাউন্টডাউন</h3></div>
+            <div class="modal-body">
+                <div class="age-inputs">
+                    <div class="input-group">
+                        <label>শেষ রক্তদানের তারিখ:</label>
+                        <input type="date" id="bloodLastDateInput">
+                    </div>
+                    <div class="input-group">
+                        <label>কতদিন পর পর রক্ত দেওয়া যায়:</label>
+                        <input type="number" id="bloodIntervalInput" value="90" min="1" placeholder="দিন সংখ্যা (ডিফল্ট ৯০ দিন)">
+                    </div>
+                </div>
+                <button class="btn-calc" onclick="calculateBloodCountdown()">হিসাব করুন</button>
+                <div id="bloodCountdownResult" class="result-box"></div>
             </div>
         </div>
     </div>
@@ -339,34 +336,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Hidden CV Print Area -->
-    <div id="cvPrintContainer">
-        <div id="cvPrintArea" class="cv-template">
-            <div class="cv-header">
-                <img id="cvPrintPhoto" src="" alt="Photo">
-                <div class="cv-header-info">
-                    <h1 id="cvPrintName">Name Here</h1>
-                    <p><i class="fas fa-envelope"></i> <span id="cvPrintEmail">email@example.com</span></p>
-                    <p><i class="fas fa-phone-alt"></i> <span id="cvPrintPhone">017XXXXXXXX</span></p>
-                    <p><i class="fas fa-map-marker-alt"></i> <span id="cvPrintAddress">Address goes here</span></p>
-                </div>
-            </div>
-            
-            <div class="cv-section-title">Career Objective</div>
-            <div class="cv-text-block" id="cvPrintObjective"></div>
-            
-            <div class="cv-section-title">Education</div>
-            <div class="cv-text-block" id="cvPrintEducation"></div>
-            
-            <div class="cv-section-title">Experience</div>
-            <div class="cv-text-block" id="cvPrintExperience"></div>
-            
-            <div class="cv-section-title">Skills & Others</div>
-            <div class="cv-text-block" id="cvPrintSkills"></div>
-        </div>
-    </div>
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script>
@@ -411,7 +380,7 @@
 
         // Blood Tracker Logic
         function calculateBloodEligibility(dateStr) {
-            if (!dateStr || dateStr === "দেওয়া হয়নি") return "দেওয়া হয়নি";
+            if (!dateStr || dateStr === "দেওয়া হয়নি") return "দেওয়া হয়নি";
             const bngToEng = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'};
             let engStr = dateStr.replace(/[০-৯]/g, m => bngToEng[m]);
             const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
@@ -446,8 +415,8 @@
             
             document.getElementById('vHall').innerText = userData.hall || "N/A";
             document.getElementById('vVillage').innerText = userData.village || "N/A";
-            document.getElementById('vSchool').innerText = userData.school || "দেওয়া হয়নি";
-            document.getElementById('vCollege').innerText = userData.college || "দেওয়া হয়নি";
+            document.getElementById('vSchool').innerText = userData.school || "দেওয়া হয়নি";
+            document.getElementById('vCollege').innerText = userData.college || "দেওয়া হয়নি";
             document.getElementById('vAddress').innerText = userData.address || "N/A";
         }
         populateView();
@@ -472,10 +441,10 @@
                 document.getElementById('currentBloodDate').innerText = userData.lastBloodDonated ? `(বর্তমান: ${userData.lastBloodDonated})` : '';
                 document.getElementById('eLastBlood').value = '';
             }
-            if(modalId === 'cvMakerModal') {
-                document.getElementById('cvName').value = userData.name || "";
-                document.getElementById('cvPhone').value = userData.phone || "";
-                document.getElementById('cvAddress').value = userData.address || "";
+            if(modalId === 'bloodCountdownModal') {
+                document.getElementById('bloodLastDateInput').value = '';
+                document.getElementById('bloodIntervalInput').value = '90';
+                document.getElementById('bloodCountdownResult').style.display = 'none';
             }
             if(modalId === 'cgpaCalcModal') {
                 document.getElementById('cgpaRowsContainer').innerHTML = '';
@@ -508,7 +477,40 @@
             const mBn = months.toString().split('').map(c => engToBng[c]||c).join('');
             const dBn = days.toString().split('').map(c => engToBng[c]||c).join('');
             resultDiv.style.display = 'block';
-            resultDiv.innerHTML = `বয়স: <strong style="font-size:24px; color:var(--primary-color);">${yBn}</strong> বছর, <strong style="font-size:24px; color:var(--primary-color);">${mBn}</strong> মাস, <strong style="font-size:24px; color:var(--primary-color);">${dBn}</strong> দিন`;
+            resultDiv.innerHTML = `বয়স: <strong style="font-size:24px; color:var(--primary-color);">${yBn}</strong> বছর, <strong style="font-size:24px; color:var(--primary-color);">${mBn}</strong> মাস, <strong style="font-size:24px; color:var(--primary-color);">${dBn}</strong> দিন`;
+        }
+
+        // ================= Blood Donation Countdown =================
+        function calculateBloodCountdown() {
+            const lastDateInput = document.getElementById('bloodLastDateInput').value;
+            const interval = parseInt(document.getElementById('bloodIntervalInput').value);
+            const resultDiv = document.getElementById('bloodCountdownResult');
+
+            if (!lastDateInput) { resultDiv.style.display = 'block'; resultDiv.innerHTML = "<span style='color:#e74c3c;'><i class='fas fa-exclamation-triangle'></i> শেষ রক্তদানের তারিখ দিন!</span>"; return; }
+            if (!interval || interval <= 0) { resultDiv.style.display = 'block'; resultDiv.innerHTML = "<span style='color:#e74c3c;'><i class='fas fa-exclamation-triangle'></i> সঠিক দিন সংখ্যা দিন!</span>"; return; }
+
+            const lastDate = new Date(lastDateInput);
+            const nextDate = new Date(lastDate);
+            nextDate.setDate(nextDate.getDate() + interval);
+
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            nextDate.setHours(0,0,0,0);
+
+            const diffDays = Math.ceil((nextDate - today) / (1000 * 60 * 60 * 24));
+
+            const engToBng = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+            const toBn = (num) => num.toString().split('').map(c => engToBng[c] || c).join('');
+
+            const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+            const nextDateStr = `${toBn(nextDate.getDate())} ${months[nextDate.getMonth()]}, ${toBn(nextDate.getFullYear())}`;
+
+            resultDiv.style.display = 'block';
+            if (diffDays <= 0) {
+                resultDiv.innerHTML = `<span style="color:#27ae60;"><i class="fas fa-check-circle"></i> আপনি এখনই রক্ত দিতে পারবেন!</span><br><span style="font-size:14px; font-weight:normal; color:#555;">যোগ্যতার তারিখ ছিল: ${nextDateStr}</span>`;
+            } else {
+                resultDiv.innerHTML = `পরবর্তী রক্তদানের তারিখ: <strong style="color:var(--primary-color); font-size:22px;">${nextDateStr}</strong><br><span style="font-size:16px;">আর মাত্র <strong style="color:var(--primary-color); font-size:22px;">${toBn(diffDays)}</strong> দিন বাকি</span>`;
+            }
         }
 
         // ================= CGPA Calculator =================
@@ -544,54 +546,6 @@
             }
         }
 
-        // ================= CV Maker (PDF Generation) =================
-        function generateCV() {
-            const fileInput = document.getElementById('cvPhotoInput');
-            
-            const renderPDF = (photoUrl) => {
-                document.getElementById('cvPrintPhoto').src = photoUrl || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-                document.getElementById('cvPrintName').innerText = document.getElementById('cvName').value || "Mohammad Rohul Amin";
-                document.getElementById('cvPrintEmail').innerText = document.getElementById('cvEmail').value || "example@email.com";
-                document.getElementById('cvPrintPhone').innerText = document.getElementById('cvPhone').value || "N/A";
-                document.getElementById('cvPrintAddress').innerText = document.getElementById('cvAddress').value || "N/A";
-                document.getElementById('cvPrintObjective').innerText = document.getElementById('cvObjective').value || "Not provided.";
-                document.getElementById('cvPrintEducation').innerText = document.getElementById('cvEducation').value || "Not provided.";
-                document.getElementById('cvPrintExperience').innerText = document.getElementById('cvExperience').value || "Not provided.";
-                document.getElementById('cvPrintSkills').innerText = document.getElementById('cvSkills').value || "Not provided.";
-
-                const element = document.getElementById('cvPrintArea');
-                const btn = document.getElementById('downloadCvBtn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> সিভি তৈরি হচ্ছে...';
-                btn.disabled = true;
-
-                let opt = {
-                    margin:       0.5,
-                    filename:     'CV_' + (document.getElementById('cvName').value || "Member").replace(/\s+/g, '_') + '.pdf',
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2 },
-                    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-                };
-
-                html2pdf().set(opt).from(element).save().then(() => {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }).catch(err => {
-                    alert("সমস্যা হয়েছে! আবার চেষ্টা করুন।");
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                });
-            };
-
-            if(fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) { renderPDF(e.target.result); }
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                renderPDF(userPhoto);
-            }
-        }
-
         // ================= Photo Edit & Profile Update =================
         let cropper;
         function openCropModal(event) {
@@ -621,8 +575,8 @@
                         userData.photo = data.photoUrl; sessionStorage.setItem('memberData', JSON.stringify(userData));
                         document.getElementById('viewPhoto').src = data.photoUrl;
                         const mobileNavImage = document.querySelector('.mobile-bottom-nav a.active img'); if (mobileNavImage) mobileNavImage.src = data.photoUrl;
-                        closeModal('cropModal'); alert("প্রোফাইল ছবি সফলভাবে আপডেট হয়েছে!");
-                    } else { alert("ছবি আপডেট ব্যর্থ হয়েছে!"); }
+                        closeModal('cropModal'); alert("প্রোফাইল ছবি সফলভাবে আপডেট হয়েছে!");
+                    } else { alert("ছবি আপডেট ব্যর্থ হয়েছে!"); }
                 }).finally(() => { saveBtn.innerHTML = 'সেভ করুন'; saveBtn.disabled = false; });
             }
         }
@@ -638,12 +592,12 @@
             .then(res => res.json())
             .then(data => {
                 if(data.status === "success") {
-                    alert("প্রোফাইল তথ্য সফলভাবে আপডেট হয়েছে!");
+                    alert("প্রোফাইল তথ্য সফলভাবে আপডেট হয়েছে!");
                     Object.assign(userData, { name: payload.name, session: payload.session, dept: payload.dept, hall: payload.hall, village: payload.village, blood: payload.blood, lastBloodDonated: payload.lastBloodDonated, password: payload.password, school: payload.school, college: payload.college, address: payload.address });
                     sessionStorage.setItem('memberData', JSON.stringify(userData)); 
                     closeModal('editProfileModal'); 
                     populateView(); 
-                } else { alert("আপডেট ব্যর্থ হয়েছে!"); }
+                } else { alert("আপডেট ব্যর্থ হয়েছে!"); }
             }).finally(() => { btn.innerHTML = 'তথ্য আপডেট করুন'; btn.disabled = false; });
         });
     </script>
