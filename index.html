@@ -6,11 +6,11 @@
     <title>হোম - DUSAB</title>
     
     <link rel="manifest" href="/dusab/manifest.json">
-    <!-- থিম কালার আপডেট করা হয়েছে যেন হেডারের সাথে না মেশে -->
     <meta name="theme-color" content="#f4f5f7">
     <link rel="apple-touch-icon" href="icon-192.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- হেডলাইনের জন্য Poppins ফন্ট যুক্ত করা হয়েছে -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -61,9 +61,25 @@
         .mobile-bottom-nav { display: none; }
 
         /* ================= হিরো ও অন্যান্য সেকশন ================= */
-        .hero { background: linear-gradient(rgba(125, 27, 126, 0.8), rgba(38, 46, 122, 0.85)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200') no-repeat center center/cover; padding: 160px 20px; text-align: center; color: var(--white); }
-        .hero h1 { font-size: 46px; color: var(--accent-color); margin-bottom: 15px; font-weight: 700; text-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
-        .hero p { font-size: 22px; max-width: 850px; margin: 0 auto 30px; font-weight: 500; }
+        .hero { 
+            background: linear-gradient(rgba(125, 27, 126, 0.8), rgba(38, 46, 122, 0.85)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200') no-repeat center center/cover; 
+            min-height: 65vh; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 100px 20px 60px; 
+            text-align: center; color: var(--white); 
+        }
+        /* মেইন হেডলাইনের ফন্ট আরও বড় ও বোল্ড করা হয়েছে */
+        .hero h1 { 
+            font-family: 'Poppins', sans-serif; 
+            font-size: 54px; 
+            color: var(--accent-color); 
+            margin-bottom: 20px; 
+            font-weight: 800; 
+            line-height: 1.2;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.4); 
+            max-width: 1100px;
+        }
+        .hero p { font-size: 20px; max-width: 850px; margin: 0 auto 30px; font-weight: 500; }
         .hero-btns { display: flex; justify-content: center; gap: 15px; }
         .btn { padding: 12px 30px; border-radius: 50px; font-size: 18px; font-weight: 700; text-decoration: none; transition: 0.3s; }
         .btn-primary { background-color: var(--accent-color); color: var(--primary-color); border: 2px solid var(--accent-color); }
@@ -134,38 +150,31 @@
             .mobile-logo-text { display: block; } 
             .menu-toggle { display: block; } 
             
-            /* বটম নেভিগেশন - পুরো ঘরটিকে ক্লিকেবল করা হয়েছে */
             .mobile-bottom-nav {
                 display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
                 background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
-                z-index: 1000; justify-content: space-between; /* space-between ব্যবহার করা হয়েছে */
+                z-index: 1000; justify-content: space-between; 
                 padding-bottom: env(safe-area-inset-bottom);
             }
             .mobile-bottom-nav a { 
                 color: #a0a0a0; font-size: 24px; text-decoration: none; 
                 display: flex; flex-direction: column; align-items: center; justify-content: center; 
-                flex: 1; /* ফ্লেক্স-১ দিয়ে পুরো জায়গা দখল করবে */
-                padding: 12px 0; /* প্যাডিং এতে দেওয়া হয়েছে যাতে ক্লিক এরিয়া বাড়ে */
-                transition: background-color 0.3s, color 0.3s; position: relative;
+                flex: 1; padding: 12px 0; transition: background-color 0.3s, color 0.3s; position: relative;
             }
-            /* ট্যাপ করলে বা হোভার করলে ব্যাকগ্রাউন্ড ইফেক্ট */
-            .mobile-bottom-nav a:hover, .mobile-bottom-nav a:active {
-                background-color: rgba(125, 27, 126, 0.05);
-            }
-            .mobile-bottom-nav a.active { 
-                color: var(--primary-color); 
-                background-color: rgba(125, 27, 126, 0.1); /* একটিভ মেনুর ব্যাকগ্রাউন্ড */
-            }
+            .mobile-bottom-nav a:hover, .mobile-bottom-nav a:active { background-color: rgba(125, 27, 126, 0.05); }
+            .mobile-bottom-nav a.active { color: var(--primary-color); background-color: rgba(125, 27, 126, 0.1); }
             
-            .mobile-bottom-nav a img { 
-                width: 28px; height: 28px; border-radius: 50%; 
-                border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s;
-            }
+            .mobile-bottom-nav a img { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s; }
             .mobile-bottom-nav a.active img { border-color: var(--primary-color); }
 
             .about-section, .dynamic-section, .messages-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 32px; }
-            .about-text { text-align: left; }
+            
+            .hero { min-height: 50vh; padding: 100px 20px 40px; }
+            /* মোবাইল ভিউয়ের জন্য ফন্ট বড় করা হয়েছে */
+            .hero h1 { font-size: 30px; line-height: 1.3; }
+            .hero p { font-size: 16px; }
+            
+            .about-text { text-align: justify; }
         }
     </style>
 </head>
@@ -189,10 +198,8 @@
                     </a>
                 </div>
                 
-                <!-- ডেস্কটপ নেভিগেশন -->
                 <ul class="nav-links" id="desktop-nav-menu"></ul>
                 
-                <!-- মোবাইল টপ-রাইট অ্যাডমিন বাটন (মানানসই আইকন) -->
                 <div class="menu-toggle" id="mobile-menu" title="অ্যাডমিন মেনু"><i class="fas fa-user-shield"></i></div>
                 <ul class="mobile-top-dropdown" id="mobile-top-dropdown">
                     <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> অ্যাডমিন প্যানেলে প্রবেশ করুন</a></li>
@@ -200,11 +207,10 @@
             </div>
         </header>
 
-        <!-- মোবাইল বটম নেভিগেশন -->
         <div class="mobile-bottom-nav" id="mobile-bottom-nav"></div>
 
         <section class="hero">
-            <h1>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব<br>ব্রাহ্মণপাড়া (DUSAB)</h1>
+            <h1>Dhaka University Students Association of Brahmanpara (DUSAB)</h1>
             <p>"শিক্ষা-সহযোগিতা-ভ্রাতৃত্ব" - এই পবিত্র মোটিভকে বুকে ধারণ করে গড়ে ওঠা ডুসাব পরিবারের অফিসিয়াল ওয়েবসাইটে আপনাকে স্বাগতম।</p>
             <div class="hero-btns">
                 <a href="member-login-registration.html" class="btn btn-primary" id="heroLoginBtn">লগইন/রেজিস্ট্রেশন</a>
@@ -218,7 +224,6 @@
 
         <section class="about-section">
             <div class="section-header"><h2>আমাদের সম্পর্কে</h2></div>
-            <!-- ডাটা লোড হওয়ার আগ পর্যন্ত স্পিনার দেখাবে -->
             <div class="about-text" id="displayAbout"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> তথ্য লোড হচ্ছে...</div></div>
             
             <div class="messages-grid">
@@ -298,6 +303,8 @@
                     <a href="gallery.html" class="quick-link"><i class="fas fa-angle-right"></i> গ্যালারি</a>
                     <a href="notice.html" class="quick-link"><i class="fas fa-angle-right"></i> নোটিশ বোর্ড</a>
                     <a href="member-login-registration.html" class="quick-link"><i class="fas fa-angle-right"></i> মেম্বার রেজিস্ট্রেশন</a>
+                    <a href="https://www.facebook.com/profile.php?id=100082948016431" class="quick-link"><i class="fas fa-angle-right"></i> ফেসবুক পেজ</a>
+                    <a href="https://www.facebook.com/groups/1793884147515231/" class="quick-link"><i class="fas fa-angle-right"></i> ফেসবুক গ্রুপ</a>
                 </div>
                 
                 <div class="footer-col">
@@ -327,7 +334,6 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec";
 
-        // মেনু টগল লজিক (অ্যাডমিন আইকনের জন্য)
         document.getElementById('mobile-menu').addEventListener('click', (e) => { 
             document.getElementById('mobile-top-dropdown').classList.toggle('active');
             e.stopPropagation();
@@ -339,7 +345,6 @@
             }
         });
 
-        // লগইন অনুযায়ী নেভিগেশন সেটআপ
         const memberDataString = sessionStorage.getItem('memberData');
         const desktopNav = document.getElementById('desktop-nav-menu');
         const mobileNav = document.getElementById('mobile-bottom-nav');
@@ -370,15 +375,12 @@
             `;
         }
 
-        // ================= API Data Fetching with App Preloader =================
         const contentPromise = fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_content" }) }).then(res => res.json());
         const noticePromise = fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_notices" }) }).then(res => res.json());
         const galleryPromise = fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_gallery" }) }).then(res => res.json());
 
-        // একসাথে সব ডাটা ফেচ হবে
         Promise.all([contentPromise, noticePromise, galleryPromise]).then(([contentData, noticeData, galleryData]) => {
             
-            // 1. Process Content Data
             if(contentData.about_text) {
                 document.getElementById('displayAbout').innerText = contentData.about_text;
                 document.getElementById('displayPresMsg').innerText = `"${contentData.president_msg}"`;
@@ -407,27 +409,22 @@
                 document.getElementById('displayAbout').innerText = "অ্যাডমিন প্যানেল থেকে তথ্য যুক্ত করুন।";
             }
 
-            // 2. Process Notice Data
             const nList = document.getElementById('homeNoticeList'); nList.innerHTML = '';
             if(noticeData.length === 0) { nList.innerHTML = '<p>কোনো নোটিশ নেই</p>'; }
             else { noticeData.reverse().slice(0, 3).forEach(item => { nList.innerHTML += `<div class="notice-item"><div class="n-date"><i class="far fa-calendar-alt"></i> ${item.date}</div><div class="n-title">${item.title}</div></div>`; }); }
 
-            // 3. Process Gallery Data
             const gGrid = document.getElementById('homeGalleryList'); gGrid.innerHTML = '';
             if(galleryData.length === 0) { gGrid.innerHTML = '<p>কোনো ছবি নেই</p>'; }
             else { galleryData.reverse().slice(0, 4).forEach(item => { gGrid.innerHTML += `<div class="g-item"><img src="${item.url}"></div>`; }); }
 
-            // ================= Hide Preloader & Show Content =================
             document.getElementById('app-preloader').classList.add('hidden');
             setTimeout(() => {
                 document.getElementById('app-preloader').style.display = 'none';
-                const mainWrapper = document.getElementById('main-wrapper');
-                mainWrapper.style.display = 'block';
-            }, 600); // 0.6s ট্রানজিশনের সাথে মিলিয়ে
+                document.getElementById('main-wrapper').style.display = 'block';
+            }, 600); 
 
         }).catch(error => {
             console.error("Data Fetch Error:", error);
-            // এরর হলেও স্প্ল্যাশ স্ক্রিন সরিয়ে কন্টেন্ট দেখাবে
             document.getElementById('app-preloader').classList.add('hidden');
             document.getElementById('main-wrapper').style.display = 'block';
         });
