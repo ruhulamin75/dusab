@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <!-- html2canvas Library for ID Card Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
@@ -84,12 +85,25 @@
 
         /* ================= Modals (পপ-আপ) ================= */
         .custom-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(3px);}
-        .modal-content { background-color: var(--white); border-radius: 15px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease;}
+        /* মডাল কনটেন্ট আপডেট করা হয়েছে */
+        .modal-content { background-color: var(--white); border-radius: 15px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease; position: relative;}
         
         .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; border-bottom: 1px solid #eee; position: sticky; top: 0; background: var(--white); z-index: 10; border-radius: 15px 15px 0 0;}
         .modal-header h3 { color: var(--secondary-color); font-size: 20px; display: flex; align-items: center; gap: 10px; margin: 0; }
-        .close-modal { font-size: 20px; color: #888; cursor: pointer; transition: 0.3s; background: #f4f5f7; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center;}
+        
+        /* ক্লোজ বাটন স্টাইল আপডেট */
+        .close-modal { 
+            font-size: 20px; color: #888; cursor: pointer; transition: 0.3s; 
+            background: #f4f5f7; width: 35px; height: 35px; border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center;
+        }
         .close-modal:hover { background: #ffebeb; color: #e74c3c; }
+
+        /* আইডি কার্ড মডালের জন্য বিশেষ ক্লোজ বাটন */
+        #idCardModal .close-modal {
+            position: absolute; top: 10px; right: 10px; z-index: 100;
+            background: #fff; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
         
         .modal-body { padding: 25px; }
 
@@ -107,11 +121,12 @@
         .btn-calc { background: var(--accent-color); color: white; padding: 14px; border-radius: 8px; cursor: pointer; border: none; font-weight: bold; width: 100%; font-size: 16px; transition: 0.3s;}
         .btn-calc:hover { background: #b5952f; }
 
-        /* ID Card Design Updated (সলিড কালার ব্যাকগ্রাউন্ড) */
-        .id-card-wrapper { background: linear-gradient(135deg, #ffffff, #f0f2f5); width: 320px; margin: 0 auto 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 1px solid #ddd; position: relative; }
+        /* ID Card Design Updated */
+        .id-card-wrapper { background: linear-gradient(135deg, #ffffff, #f0f2f5); width: 320px; margin: 30px auto 20px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 1px solid #ddd; position: relative; }
         .id-card-header { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 20px 10px 60px; text-align: center; }
         .id-card-header img { height: 50px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); margin-bottom: 5px; }
         .id-card-header h2 { font-size: 14px; margin: 0; font-weight: 700; letter-spacing: 0.5px; }
+        /* আইডি কার্ডের ছবি স্টাইল আপডেট */
         .id-card-photo { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--white); margin: -60px auto 10px; background: #eee; object-fit: cover; position: relative; z-index: 2; box-shadow: 0 5px 15px rgba(0,0,0,0.15);}
         .id-card-body { padding: 0 20px 25px; text-align: center; }
         .id-name { font-size: 22px; font-weight: 700; color: var(--secondary-color); margin-bottom: 2px; }
@@ -138,7 +153,7 @@
             .menu-toggle { display: block; } 
             
             .info-grid { grid-template-columns: 1fr; }
-            .action-grid { grid-template-columns: 1fr 1fr; } /* মোবাইলে ২টি করে বাটন */
+            .action-grid { grid-template-columns: 1fr 1fr; } 
             
             .mobile-bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 1000; justify-content: space-between; padding-bottom: env(safe-area-inset-bottom); }
             .mobile-bottom-nav a { color: #a0a0a0; font-size: 24px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 12px 0; transition: background-color 0.3s, color 0.3s; position: relative;}
@@ -215,7 +230,10 @@
                 </div>
             </div>
         </div>
-    </div> <div id="editProfileModal" class="custom-modal">
+    </div> 
+    
+    <!-- ================= Edit Profile Modal ================= -->
+    <div id="editProfileModal" class="custom-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3><i class="fas fa-user-edit"></i> প্রোফাইল এডিট</h3>
@@ -252,6 +270,7 @@
         </div>
     </div>
 
+    <!-- ================= Age Calc Modal ================= -->
     <div id="ageCalcModal" class="custom-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -275,9 +294,11 @@
         </div>
     </div>
 
+    <!-- ================= ID Card Modal ================= -->
     <div id="idCardModal" class="custom-modal">
-        <div class="modal-content" style="background: transparent; box-shadow: none;">
-            <div class="close-modal" onclick="closeModal('idCardModal')" style="position: absolute; right: 0; top: -15px;"><i class="fas fa-times"></i></div>
+        <!-- এখানে স্টাইল আপডেট করা হয়েছে যাতে ব্যাকগ্রাউন্ড ট্রান্সপারেন্ট থাকে এবং প্যাডিং থাকে -->
+        <div class="modal-content" style="background: transparent; box-shadow: none; padding: 20px;">
+            <div class="close-modal" onclick="closeModal('idCardModal')"><i class="fas fa-times"></i></div>
             
             <div id="idCardElement" class="id-card-wrapper">
                 <div class="id-card-header">
@@ -306,6 +327,7 @@
         </div>
     </div>
 
+    <!-- ================= Crop Modal ================= -->
     <div id="cropModal" class="custom-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -363,16 +385,16 @@
 
         function populateView() {
             document.getElementById('viewPhoto').src = userPhoto;
-            document.getElementById('viewName').innerText = userData.name;
-            document.getElementById('viewSessionDept').innerHTML = `<i class="fas fa-graduation-cap"></i> ${userData.dept} (${userData.session})`;
-            document.getElementById('vPhone').innerText = userData.phone;
-            document.getElementById('vBlood').innerText = userData.blood;
+            document.getElementById('viewName').innerText = userData.name || "N/A";
+            document.getElementById('viewSessionDept').innerHTML = `<i class="fas fa-graduation-cap"></i> ${userData.dept || ""} (${userData.session || ""})`;
+            document.getElementById('vPhone').innerText = userData.phone || "N/A";
+            document.getElementById('vBlood').innerText = userData.blood || "N/A";
             document.getElementById('vLastBlood').innerText = userData.lastBloodDonated || "দেওয়া হয়নি";
-            document.getElementById('vHall').innerText = userData.hall;
-            document.getElementById('vVillage').innerText = userData.village;
+            document.getElementById('vHall').innerText = userData.hall || "N/A";
+            document.getElementById('vVillage').innerText = userData.village || "N/A";
             document.getElementById('vSchool').innerText = userData.school || "দেওয়া হয়নি";
             document.getElementById('vCollege').innerText = userData.college || "দেওয়া হয়নি";
-            document.getElementById('vAddress').innerText = userData.address;
+            document.getElementById('vAddress').innerText = userData.address || "N/A";
         }
         populateView();
 
@@ -387,19 +409,18 @@
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
             
-            // Edit Modal ওপেন হওয়ার সময় ফিল্ডগুলো ডাটা দিয়ে ভরিয়ে দেওয়া
             if(modalId === 'editProfileModal') {
-                document.getElementById('eName').value = userData.name; 
-                document.getElementById('ePhone').value = userData.phone;
-                document.getElementById('eSession').value = userData.session; 
-                document.getElementById('eDept').value = userData.dept;
-                document.getElementById('eBlood').value = userData.blood; 
-                document.getElementById('eHall').value = userData.hall;
-                document.getElementById('eVillage').value = userData.village; 
-                document.getElementById('ePassword').value = userData.password;
-                document.getElementById('eSchool').value = userData.school; 
-                document.getElementById('eCollege').value = userData.college;
-                document.getElementById('eAddress').value = userData.address;
+                document.getElementById('eName').value = userData.name || ""; 
+                document.getElementById('ePhone').value = userData.phone || "";
+                document.getElementById('eSession').value = userData.session || ""; 
+                document.getElementById('eDept').value = userData.dept || "";
+                document.getElementById('eBlood').value = userData.blood || ""; 
+                document.getElementById('eHall').value = userData.hall || "";
+                document.getElementById('eVillage').value = userData.village || ""; 
+                document.getElementById('ePassword').value = userData.password || "";
+                document.getElementById('eSchool').value = userData.school || ""; 
+                document.getElementById('eCollege').value = userData.college || "";
+                document.getElementById('eAddress').value = userData.address || "";
                 document.getElementById('currentBloodDate').innerText = userData.lastBloodDonated ? `(বর্তমান: ${userData.lastBloodDonated})` : '';
                 document.getElementById('eLastBlood').value = '';
             }
@@ -407,7 +428,6 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
-            // যদি ক্রপ মডাল কাটা হয়, তবে input ক্লিয়ার করে দেওয়া
             if(modalId === 'cropModal') { document.getElementById('imageUploadInput').value = ''; }
         }
 
@@ -454,25 +474,18 @@
 
         // ================= Digital ID Card Logic =================
         function openIdCardModal() {
-            document.getElementById('idCardPhoto').src = userData.photo || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-            document.getElementById('idCardName').innerText = userData.name;
-            document.getElementById('idCardDept').innerText = `${userData.dept} (${userData.session})`;
-            document.getElementById('idCardBlood').innerText = userData.blood;
-            document.getElementById('idCardPhone').innerText = userData.phone;
-            document.getElementById('idCardHall').innerText = userData.hall;
-            document.getElementById('idCardHome').innerText = userData.village;
+            // ছবির সোর্স আপডেট করা হয়েছে
+            const photoElement = document.getElementById('idCardPhoto');
+            photoElement.src = (userData && userData.photo) ? userData.photo : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+            
+            document.getElementById('idCardName').innerText = userData.name || "N/A";
+            document.getElementById('idCardDept').innerText = `${userData.dept || ""} (${userData.session || ""})`;
+            document.getElementById('idCardBlood').innerText = userData.blood || "N/A";
+            document.getElementById('idCardPhone').innerText = userData.phone || "N/A";
+            document.getElementById('idCardHall').innerText = userData.hall || "N/A";
+            document.getElementById('idCardHome').innerText = userData.village || "N/A";
             
             openModal('idCardModal');
-        }
-
-        // Base64 কে Blob এ কনভার্ট করার ফাংশন
-        function dataURItoBlob(dataURI) {
-            const byteString = atob(dataURI.split(',')[1]);
-            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-            const ab = new ArrayBuffer(byteString.length);
-            const ia = new Uint8Array(ab);
-            for (let i = 0; i < byteString.length; i++) { ia[i] = byteString.charCodeAt(i); }
-            return new Blob([ab], {type: mimeString});
         }
 
         function downloadIdCard() {
@@ -489,23 +502,28 @@
                 backgroundColor: "#ffffff"
             }).then(canvas => {
                 const dataUrl = canvas.toDataURL('image/png');
-                const blob = dataURItoBlob(dataUrl);
-                const blobUrl = URL.createObjectURL(blob); 
-
-                const link = document.createElement('a');
-                link.href = blobUrl;
-                link.download = `DUSAB_ID_${userData.name.replace(/\s+/g, '_')}.png`;
                 
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                // অ্যাপের ভেতরে থাকলে বা সাধারণ ব্রাউজার হলে
+                try {
+                    const link = document.createElement('a');
+                    link.href = dataUrl;
+                    link.download = `DUSAB_ID_${(userData.name || "Member").replace(/\s+/g, '_')}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } catch (e) {
+                    console.log("Direct download failed", e);
+                }
                 
-                setTimeout(() => { URL.revokeObjectURL(blobUrl); }, 100);
+                // ওয়েবভিউ এর জন্য ফলব্যাক অ্যালার্ট
+                setTimeout(() => {
+                    alert("যদি সরাসরি ডাউনলোড না হয়, তবে অনুগ্রহ করে আইডি কার্ডের ছবির ওপর চেপে ধরে (Long Press) 'Save Image' অপশনটি বেছে নিন।");
+                }, 500);
                 
                 downloadBtn.innerHTML = originalText;
                 downloadBtn.disabled = false;
             }).catch(err => {
-                alert("ছবি ডাউনলোড করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
+                alert("ছবি তৈরি করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
                 console.error(err);
                 downloadBtn.innerHTML = originalText;
                 downloadBtn.disabled = false;
@@ -561,8 +579,8 @@
                     alert("প্রোফাইল তথ্য সফলভাবে আপডেট হয়েছে!");
                     Object.assign(userData, { name: payload.name, session: payload.session, dept: payload.dept, hall: payload.hall, village: payload.village, blood: payload.blood, lastBloodDonated: payload.lastBloodDonated, password: payload.password, school: payload.school, college: payload.college, address: payload.address });
                     sessionStorage.setItem('memberData', JSON.stringify(userData)); 
-                    closeModal('editProfileModal'); // মডালটি বন্ধ হবে
-                    populateView(); // ব্যাকগ্রাউন্ডের ভিউ অটোমেটিক আপডেট হবে
+                    closeModal('editProfileModal'); 
+                    populateView(); 
                 } else { alert("আপডেট ব্যর্থ হয়েছে!"); }
             }).finally(() => { btn.innerHTML = 'তথ্য আপডেট করুন'; btn.disabled = false; });
         });
