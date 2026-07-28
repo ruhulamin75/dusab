@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>হোম - DUSAB</title>
+    <title>Home - DUSAB</title>
     
     <link rel="manifest" href="/dusab/manifest.json">
     <meta name="theme-color" content="#f4f5f7">
     <link rel="apple-touch-icon" href="icon-192.png">
 
-    <!-- হেডলাইনের জন্য Poppins ফন্ট যুক্ত করা হয়েছে -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Added Inter and Poppins fonts for a clean English UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 70px; }
 
         /* ================= App-like Preloader ================= */
@@ -36,7 +36,7 @@
         .fade-in-content { animation: fadeIn 0.8s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* ================= ডেস্কটপ হেডার ও নেভিগেশন ================= */
+        /* ================= Desktop Header & Navigation ================= */
         header { background-color: var(--white); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px; position: relative; }
         .logo a { display: flex; align-items: center; text-decoration: none; }
@@ -45,7 +45,7 @@
         
         .nav-links { display: flex; list-style: none; align-items: center; }
         .nav-links li { position: relative; }
-        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; display: block; }
+        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 16px; font-weight: 600; transition: 0.3s; display: block; }
         .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
         .dropdown { position: relative; }
         .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background-color: var(--white); min-width: 160px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-top: 3px solid var(--accent-color); list-style: none; padding: 5px 0; border-radius: 0 0 6px 6px; }
@@ -60,7 +60,7 @@
         
         .mobile-bottom-nav { display: none; }
 
-        /* ================= হিরো ও অন্যান্য সেকশন ================= */
+        /* ================= Hero & Other Sections ================= */
         .hero { 
             background: linear-gradient(rgba(125, 27, 126, 0.8), rgba(38, 46, 122, 0.85)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200') no-repeat center center/cover; 
             min-height: 65vh; 
@@ -70,7 +70,7 @@
         }
         .hero h1 { 
             font-family: 'Poppins', sans-serif; 
-            font-size: 54px; 
+            font-size: 48px; 
             color: var(--accent-color); 
             margin-bottom: 20px; 
             font-weight: 800; 
@@ -78,52 +78,52 @@
             text-shadow: 2px 2px 8px rgba(0,0,0,0.4); 
             max-width: 1100px;
         }
-        .hero p { font-size: 20px; max-width: 850px; margin: 0 auto 30px; font-weight: 500; }
+        .hero p { font-size: 18px; max-width: 850px; margin: 0 auto 30px; font-weight: 400; opacity: 0.9; }
         .hero-btns { display: flex; justify-content: center; gap: 15px; }
-        .btn { padding: 12px 30px; border-radius: 50px; font-size: 18px; font-weight: 700; text-decoration: none; transition: 0.3s; }
+        .btn { padding: 12px 30px; border-radius: 50px; font-size: 16px; font-weight: 600; text-decoration: none; transition: 0.3s; }
         .btn-primary { background-color: var(--accent-color); color: var(--primary-color); border: 2px solid var(--accent-color); }
         .btn-primary:hover { background-color: transparent; color: var(--accent-color); }
         .btn-outline { background-color: transparent; color: var(--white); border: 2px solid var(--white); }
         .btn-outline:hover { background-color: var(--white); color: var(--primary-color); }
 
         .section-header { text-align: center; margin-bottom: 40px; }
-        .section-header h2 { font-size: 32px; color: var(--secondary-color); display: inline-block; position: relative; padding-bottom: 10px; }
+        .section-header h2 { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 32px; color: var(--secondary-color); display: inline-block; position: relative; padding-bottom: 10px; }
         .section-header h2::after { content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--accent-color); border-radius: 2px; }
 
-        .motive-banner { background-color: var(--primary-color); color: var(--accent-color); text-align: center; padding: 15px 20px; font-size: 24px; font-weight: 700; letter-spacing: 2px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .motive-banner { background-color: var(--primary-color); color: var(--accent-color); text-align: center; padding: 15px 20px; font-size: 20px; font-weight: 700; letter-spacing: 2px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-transform: uppercase; }
 
         .about-section { max-width: 1200px; margin: 60px auto 80px; padding: 0 20px; }
-        .about-text { font-size: 18px; color: #555; margin-bottom: 40px; text-align: justify; text-justify: inter-word; max-width: 900px; margin-left: auto; margin-right: auto; white-space: pre-wrap; line-height: 1.8; }
+        .about-text { font-size: 16px; color: #555; margin-bottom: 40px; text-align: justify; text-justify: inter-word; max-width: 900px; margin-left: auto; margin-right: auto; white-space: pre-wrap; line-height: 1.8; }
         .messages-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .message-card { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); position: relative; border-top: 4px solid var(--primary-color); }
         .message-card i.fa-quote-left { font-size: 30px; color: rgba(125, 27, 126, 0.1); margin-bottom: 15px; display: block; }
-        .message-card p { font-size: 16px; font-style: italic; color: #444; margin-bottom: 20px; white-space: pre-wrap; }
-        .message-card h4 { color: var(--secondary-color); font-size: 18px; }
-        .message-card span { color: var(--primary-color); font-size: 14px; font-weight: 600; }
+        .message-card p { font-size: 15px; font-style: italic; color: #444; margin-bottom: 20px; white-space: pre-wrap; }
+        .message-card h4 { color: var(--secondary-color); font-size: 18px; font-weight: 600; }
+        .message-card span { color: var(--primary-color); font-size: 13px; font-weight: 600; text-transform: uppercase; }
 
         .features-section { background-color: var(--white); padding: 80px 20px; }
         .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
         .feature-card { padding: 30px; border-radius: 10px; transition: 0.3s; border: 1px solid #eee; background: #fdfdfd; }
         .feature-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(125, 27, 126, 0.08); border-color: var(--accent-color); }
         .feature-card i { font-size: 45px; color: var(--accent-color); margin-bottom: 20px; }
-        .feature-card h3 { color: var(--primary-color); margin-bottom: 12px; font-size: 20px; }
-        .feature-card p { color: #555; font-size: 16px; }
+        .feature-card h3 { color: var(--primary-color); margin-bottom: 12px; font-size: 20px; font-weight: 600; }
+        .feature-card p { color: #555; font-size: 15px; }
 
         .dynamic-section { max-width: 1200px; margin: 80px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         .recent-notices, .recent-gallery { background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 4px solid var(--accent-color);}
         .notice-item { padding: 15px 0; border-bottom: 1px solid #eee; }
         .notice-item:last-child { border-bottom: none; }
         .n-date { color: var(--primary-color); font-size: 13px; font-weight: 600; margin-bottom: 5px; }
-        .n-title { font-size: 18px; color: var(--secondary-color); font-weight: bold; }
+        .n-title { font-size: 16px; color: var(--secondary-color); font-weight: 600; line-height: 1.4; }
         .gallery-preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .g-item img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; transition: 0.3s; }
         .g-item img:hover { transform: scale(1.05); }
-        .view-all { display: block; text-align: center; margin-top: 20px; color: var(--primary-color); font-weight: 600; text-decoration: none; }
+        .view-all { display: block; text-align: center; margin-top: 20px; color: var(--primary-color); font-weight: 600; text-decoration: none; font-size: 15px;}
 
         footer { background-color: var(--secondary-color); color: var(--white); padding: 60px 20px 20px; }
         .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-bottom: 40px; }
-        .footer-col h3 { color: var(--accent-color); margin-bottom: 20px; font-size: 22px; }
-        .footer-col p, .footer-col a { color: #d1d5db; font-size: 16px; margin-bottom: 10px; display: block; text-decoration: none; transition: 0.3s; }
+        .footer-col h3 { font-family: 'Poppins', sans-serif; color: var(--accent-color); margin-bottom: 20px; font-size: 20px; }
+        .footer-col p, .footer-col a { color: #d1d5db; font-size: 15px; margin-bottom: 10px; display: block; text-decoration: none; transition: 0.3s; }
         .footer-col a.quick-link:hover { color: var(--accent-color); padding-left: 5px; }
         
         /* ================= PWA Install Button CSS (Desktop Hidden) ================= */
@@ -132,12 +132,12 @@
             color: var(--primary-color); 
             border: none; 
             padding: 10px 20px; 
-            font-size: 16px; 
-            font-weight: 700; 
+            font-size: 15px; 
+            font-weight: 600; 
             border-radius: 50px; 
             cursor: pointer; 
             margin-top: 20px; 
-            display: none; /* ডিফল্টভাবে লুকিয়ে থাকবে */
+            display: none; 
             align-items: center; 
             gap: 8px; 
             transition: 0.3s; 
@@ -159,30 +159,30 @@
             max-width: 380px; width: 100%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             animation: fadeIn 0.3s ease;
         }
-        .pwa-modal-box h3 { color: var(--primary-color); margin-bottom: 12px; font-size: 20px; }
-        .pwa-modal-box p { font-size: 15px; color: #555; margin-bottom: 20px; line-height: 1.6; text-align: left; }
+        .pwa-modal-box h3 { font-family: 'Poppins', sans-serif; color: var(--primary-color); margin-bottom: 12px; font-size: 18px; }
+        .pwa-modal-box p { font-size: 14px; color: #555; margin-bottom: 20px; line-height: 1.6; text-align: left; }
         .pwa-modal-box p i { color: var(--primary-color); }
         .pwa-close-btn {
             background-color: var(--primary-color); color: var(--white); border: none;
-            padding: 10px 25px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; width: 100%;
+            padding: 10px 25px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%;
         }
         .pwa-close-btn:hover { background-color: var(--secondary-color); }
         
         .contact-person { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid var(--accent-color);}
-        .contact-person strong { display: block; color: var(--white); font-size: 16px; margin-bottom: 10px; }
+        .contact-person strong { display: block; color: var(--white); font-size: 15px; margin-bottom: 10px; }
         .action-btns { display: flex; gap: 10px; }
-        .btn-call, .btn-wa { flex: 1; text-align: center; padding: 8px 0; border-radius: 4px; font-size: 14px; font-weight: bold; text-decoration: none; color: white; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 5px;}
+        .btn-call, .btn-wa { flex: 1; text-align: center; padding: 8px 0; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; color: white; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 5px;}
         .btn-call { background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
         .btn-call:hover { background-color: var(--primary-color); }
         .btn-wa { background-color: #25D366; }
         .btn-wa:hover { background-color: #128C7E; }
 
-        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #9ca3af; font-size: 14px; }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #9ca3af; font-size: 13px; }
         
         /* Data Loading State */
-        .loading-state { text-align: center; color: var(--primary-color); font-weight: 600; padding: 20px 0; }
+        .loading-state { text-align: center; color: var(--primary-color); font-weight: 600; padding: 20px 0; font-size: 14px;}
 
-        /* ================= মোবাইল ভিউ (অ্যাপ-লাইক ডিজাইন) ================= */
+        /* ================= Mobile View (App-like Design) ================= */
         @media (max-width: 768px) {
             body { padding-bottom: 80px; } 
             
@@ -198,26 +198,26 @@
                 padding-bottom: env(safe-area-inset-bottom);
             }
             .mobile-bottom-nav a { 
-                color: #a0a0a0; font-size: 24px; text-decoration: none; 
+                color: #a0a0a0; font-size: 22px; text-decoration: none; 
                 display: flex; flex-direction: column; align-items: center; justify-content: center; 
                 flex: 1; padding: 12px 0; transition: background-color 0.3s, color 0.3s; position: relative;
             }
             .mobile-bottom-nav a:hover, .mobile-bottom-nav a:active { background-color: rgba(125, 27, 126, 0.05); }
             .mobile-bottom-nav a.active { color: var(--primary-color); background-color: rgba(125, 27, 126, 0.1); }
             
-            .mobile-bottom-nav a img { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s; }
+            .mobile-bottom-nav a img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #a0a0a0; object-fit: cover; transition: 0.3s; }
             .mobile-bottom-nav a.active img { border-color: var(--primary-color); }
 
             .about-section, .dynamic-section, .messages-grid { grid-template-columns: 1fr; }
             
             .hero { min-height: 50vh; padding: 100px 20px 40px; }
-            .hero h1 { font-size: 30px; line-height: 1.3; }
-            .hero p { font-size: 16px; }
+            .hero h1 { font-size: 28px; line-height: 1.3; }
+            .hero p { font-size: 15px; }
             
             .about-text { text-align: justify; }
         }
 
-        /* বড় স্ক্রিন বা ডেস্কটপে ইনস্টল বাটন চিরতরে হাইড রাখার জন্য */
+        /* Keep Install App button hidden strictly on desktop */
         @media (min-width: 769px) {
             #installAppBtn {
                 display: none !important;
@@ -247,9 +247,9 @@
                 
                 <ul class="nav-links" id="desktop-nav-menu"></ul>
                 
-                <div class="menu-toggle" id="mobile-menu" title="অ্যাডমিন মেনু"><i class="fas fa-user-shield"></i></div>
+                <div class="menu-toggle" id="mobile-menu" title="Admin Menu"><i class="fas fa-user-shield"></i></div>
                 <ul class="mobile-top-dropdown" id="mobile-top-dropdown">
-                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> অ্যাডমিন প্যানেলে প্রবেশ করুন</a></li>
+                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> Login to Admin Panel</a></li>
                 </ul>
             </div>
         </header>
@@ -258,83 +258,83 @@
 
         <section class="hero">
             <h1>Dhaka University Students Association of Brahmanpara (DUSAB)</h1>
-            <p>"শিক্ষা-সহযোগিতা-ভ্রাতৃত্ব" - এই পবিত্র মোটিভকে বুকে ধারণ করে গড়ে ওঠা ডুসাব পরিবারের অফিসিয়াল ওয়েবসাইটে আপনাকে স্বাগতম।</p>
+            <p>"Education-Cooperation-Brotherhood" - Welcome to the official website of the DUSAB family, built on this sacred motto.</p>
             <div class="hero-btns">
-                <a href="member-login-registration.html" class="btn btn-primary" id="heroLoginBtn">লগইন/রেজিস্ট্রেশন</a>
-                <a href="gallery.html" class="btn btn-outline">গ্যালারি দেখুন</a>
+                <a href="member-login-registration.html" class="btn btn-primary" id="heroLoginBtn">Login / Register</a>
+                <a href="gallery.html" class="btn btn-outline">View Gallery</a>
             </div>
         </section>
 
         <div class="motive-banner">
-            শিক্ষা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> সহযোগিতা <i class="fas fa-circle" style="font-size: 8px; margin: 0 10px; vertical-align: middle;"></i> ভ্রাতৃত্ব
+            Education <i class="fas fa-circle" style="font-size: 6px; margin: 0 10px; vertical-align: middle;"></i> Cooperation <i class="fas fa-circle" style="font-size: 6px; margin: 0 10px; vertical-align: middle;"></i> Brotherhood
         </div>
 
         <section class="about-section">
-            <div class="section-header"><h2>আমাদের সম্পর্কে</h2></div>
-            <div class="about-text" id="displayAbout"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> তথ্য লোড হচ্ছে...</div></div>
+            <div class="section-header"><h2>About Us</h2></div>
+            <div class="about-text" id="displayAbout"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading information...</div></div>
             
             <div class="messages-grid">
                 <div class="message-card">
                     <i class="fas fa-quote-left"></i>
-                    <p id="displayPresMsg"><i class="fas fa-spinner fa-spin"></i> বাণী লোড হচ্ছে...</p>
+                    <p id="displayPresMsg"><i class="fas fa-spinner fa-spin"></i> Loading message...</p>
                     <h4 id="displayPresName"></h4>
-                    <span>সভাপতি, ডুসাব</span>
+                    <span>President, DUSAB</span>
                 </div>
                 <div class="message-card">
                     <i class="fas fa-quote-left"></i>
-                    <p id="displaySecMsg"><i class="fas fa-spinner fa-spin"></i> বাণী লোড হচ্ছে...</p>
+                    <p id="displaySecMsg"><i class="fas fa-spinner fa-spin"></i> Loading message...</p>
                     <h4 id="displaySecName"></h4>
-                    <span>সাধারণ সম্পাদক, ডুসাব</span>
+                    <span>General Secretary, DUSAB</span>
                 </div>
             </div>
         </section>
 
         <section class="features-section">
-            <div class="section-header"><h2>লক্ষ্য ও উদ্দেশ্য</h2></div>
+            <div class="section-header"><h2>Aims & Objectives</h2></div>
             <div class="features-grid">
                 <div class="feature-card">
                     <i class="fas fa-users-cog"></i>
-                    <h3>অরাজনৈতিক ও সেবামূলক</h3>
-                    <p>ডুসাব ব্রাহ্মণপাড়া উপজেলার শিক্ষার্থীদের জন্য একটি সম্পূর্ণ অরাজনৈতিক, শিক্ষার্থীবান্ধব ও সেবামূলক প্ল্যাটফর্ম হিসেবে কাজ করে৷</p>
+                    <h3>Non-political & Service-oriented</h3>
+                    <p>DUSAB works as a completely non-political, student-friendly, and service-oriented platform for the students of Brahmanpara upazila.</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-user-graduate"></i>
-                    <h3>দিকনির্দেশনা ও মেন্টরশিপ</h3>
-                    <p>নবাগত শিক্ষার্থীদের বিশ্ববিদ্যালয় জীবন সম্পর্কে দিকনির্দেশনা প্রদান এবং সিনিয়র-জুনিয়রদের মধ্যে একাডেমিক সহযোগিতা নিশ্চিত করা৷</p>
+                    <h3>Guidance & Mentorship</h3>
+                    <p>Providing guidance to new students about university life and ensuring academic cooperation between seniors and juniors.</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-chalkboard-teacher"></i>
-                    <h3>ক্যারিয়ার ও দক্ষতা উন্নয়ন</h3>
-                    <p>সদস্যদের জন্য নিয়মিত সেমিনার, কর্মশালা ও ক্যারিয়ার বিষয়ক আলোচনার আয়োজন করার মাধ্যমে দক্ষতা বিকাশ করা৷</p>
+                    <h3>Career & Skill Development</h3>
+                    <p>Developing skills by organizing regular seminars, workshops, and career discussions for members.</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-hand-holding-usd"></i>
-                    <h3>আর্থিক ও মানসিক সহায়তা</h3>
-                    <p>প্রয়োজনের সময় সদস্যদের পাশে দাঁড়ানো এবং আর্থিক, মানসিক ও নৈতিক সহায়তার ব্যবস্থা গ্রহণ করা৷</p>
+                    <h3>Financial & Mental Support</h3>
+                    <p>Standing by members in times of need and arranging financial, mental, and moral support.</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-tint"></i>
-                    <h3>সামাজিক দায়বদ্ধতা</h3>
-                    <p>রক্তদান, দুর্যোগে ত্রাণ ও মানবিক কার্যক্রমে অংশগ্রহণের মাধ্যমে সমাজ ও রাষ্ট্রের কল্যাণে দায়িত্ব পালন করা৷</p>
+                    <h3>Social Responsibility</h3>
+                    <p>Fulfilling responsibilities towards the welfare of society and the state by participating in blood donation, disaster relief, and humanitarian activities.</p>
                 </div>
                 <div class="feature-card">
                     <i class="fas fa-hands-helping"></i>
-                    <h3>ভ্রাতৃত্ববোধ ও সুসম্পর্ক</h3>
-                    <p>সদস্যদের মধ্যে ভ্রাতৃত্ব, পারস্পরিক সম্মান ও সহমর্মিতার সম্পর্ক সুদৃঢ় করার মাধ্যমে ঐক্যবদ্ধ থাকা৷</p>
+                    <h3>Brotherhood & Good Relations</h3>
+                    <p>Remaining united by strengthening the bonds of brotherhood, mutual respect, and empathy among members.</p>
                 </div>
             </div>
         </section>
 
         <section class="dynamic-section">
             <div class="recent-notices">
-                <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-bell" style="color: var(--accent-color);"></i> সাম্প্রতিক নোটিশ</h3>
-                <div id="homeNoticeList"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> নোটিশ লোড হচ্ছে...</div></div>
-                <a href="notice.html" class="view-all">সবগুলো নোটিশ দেখুন <i class="fas fa-arrow-right"></i></a>
+                <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-bell" style="color: var(--accent-color);"></i> Recent Notices</h3>
+                <div id="homeNoticeList"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading notices...</div></div>
+                <a href="notice.html" class="view-all">View All Notices <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="recent-gallery">
-                <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-camera-retro" style="color: var(--accent-color);"></i> গ্যালারি একনজরে</h3>
-                <div class="gallery-preview-grid" id="homeGalleryList"><div class="loading-state" style="grid-column: span 2;"><i class="fas fa-spinner fa-spin"></i> ছবি লোড হচ্ছে...</div></div>
-                <a href="gallery.html" class="view-all">সম্পূর্ণ গ্যালারি দেখুন <i class="fas fa-arrow-right"></i></a>
+                <h3 style="color: var(--secondary-color); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;"><i class="fas fa-camera-retro" style="color: var(--accent-color);"></i> Gallery Preview</h3>
+                <div class="gallery-preview-grid" id="homeGalleryList"><div class="loading-state" style="grid-column: span 2;"><i class="fas fa-spinner fa-spin"></i> Loading images...</div></div>
+                <a href="gallery.html" class="view-all">View Full Gallery <i class="fas fa-arrow-right"></i></a>
             </div>
         </section>
 
@@ -342,16 +342,16 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <h3>DUSAB</h3>
-                    <p>ঢাকা ইউনিভার্সিটি স্টুডেন্টস অ্যাসোসিয়েশন অব ব্রাহ্মণপাড়া। </p><p>শিক্ষা, সহযোগিতা ও ভ্রাতৃত্বের একটি মেলবন্ধন।</p>
+                    <p>Dhaka University Students Association of Brahmanpara.</p><p>A bond of education, cooperation, and brotherhood.</p>
                 </div>
                 <div class="footer-col">
-                    <h3>কুইক লিংক</h3>
-                    <a href="index.html" class="quick-link"><i class="fas fa-angle-right"></i> হোমপেজ</a>
-                    <a href="gallery.html" class="quick-link"><i class="fas fa-angle-right"></i> গ্যালারি</a>
-                    <a href="notice.html" class="quick-link"><i class="fas fa-angle-right"></i> নোটিশ বোর্ড</a>
-                    <a href="member-login-registration.html" class="quick-link"><i class="fas fa-angle-right"></i> মেম্বার রেজিস্ট্রেশন</a>
-                    <a href="https://www.facebook.com/profile.php?id=100082948016431" class="quick-link"><i class="fas fa-angle-right"></i> ফেসবুক পেজ</a>
-                    <a href="https://www.facebook.com/groups/1793884147515231/" class="quick-link"><i class="fas fa-angle-right"></i> ফেসবুক গ্রুপ</a>
+                    <h3>Quick Links</h3>
+                    <a href="index.html" class="quick-link"><i class="fas fa-angle-right"></i> Homepage</a>
+                    <a href="gallery.html" class="quick-link"><i class="fas fa-angle-right"></i> Gallery</a>
+                    <a href="notice.html" class="quick-link"><i class="fas fa-angle-right"></i> Notice Board</a>
+                    <a href="member-login-registration.html" class="quick-link"><i class="fas fa-angle-right"></i> Member Registration</a>
+                    <a href="https://www.facebook.com/profile.php?id=100082948016431" class="quick-link"><i class="fas fa-angle-right"></i> Facebook Page</a>
+                    <a href="https://www.facebook.com/groups/1793884147515231/" class="quick-link"><i class="fas fa-angle-right"></i> Facebook Group</a>
                     
                     <!-- PWA Install App Button -->
                     <button id="installAppBtn" class="install-btn">
@@ -360,21 +360,21 @@
                 </div>
                 
                 <div class="footer-col">
-                    <h3>যোগাযোগ</h3>
+                    <h3>Contact Us</h3>
                     
                     <div class="contact-person">
-                        <strong id="footerPresName">সভাপতি: লোড হচ্ছে...</strong>
+                        <strong id="footerPresName">President: Loading...</strong>
                         <div class="action-btns">
-                            <a href="#" id="footerPresCall" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
-                            <a href="#" id="footerPresWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                            <a href="#" id="footerPresCall" class="btn-call"><i class="fas fa-phone-alt"></i> Call</a>
+                            <a href="#" id="footerPresWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                         </div>
                     </div>
 
                     <div class="contact-person">
-                        <strong id="footerSecName">সাধারণ সম্পাদক: লোড হচ্ছে...</strong>
+                        <strong id="footerSecName">General Secretary: Loading...</strong>
                         <div class="action-btns">
-                            <a href="#" id="footerSecCall" class="btn-call"><i class="fas fa-phone-alt"></i> কল</a>
-                            <a href="#" id="footerSecWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                            <a href="#" id="footerSecCall" class="btn-call"><i class="fas fa-phone-alt"></i> Call</a>
+                            <a href="#" id="footerSecWA" target="_blank" class="btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                         </div>
                     </div>
                 </div>
@@ -386,12 +386,12 @@
     <!-- iOS Install Instruction Modal -->
     <div id="iosInstallModal" class="pwa-modal-overlay">
         <div class="pwa-modal-box">
-            <h3>আইফোনে অ্যাপ ইন্সটল করুন</h3>
+            <h3>Install App on iPhone</h3>
             <p>
-                ১. সাফারি ব্রাউজারের নিচের দিকে থাকা <b>Share <i class="fas fa-share-square"></i></b> বাটনে ক্লিক করুন।<br><br>
-                ২. একটু স্ক্রল করে <b>"Add to Home Screen"</b> অপশনটিতে ক্লিক করুন।
+                1. Tap the <b>Share <i class="fas fa-share-square"></i></b> button at the bottom of the Safari browser.<br><br>
+                2. Scroll down and tap on <b>"Add to Home Screen"</b>.
             </p>
-            <button class="pwa-close-btn" onclick="closeIosModal()">বুঝেছি</button>
+            <button class="pwa-close-btn" onclick="closeIosModal()">Got it</button>
         </div>
     </div>
 
@@ -418,7 +418,7 @@
             const memberData = JSON.parse(memberDataString);
             const userPhoto = memberData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
             
-            desktopNav.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
+            desktopNav.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> Member Directory</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> Notice</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>`;
             
             mobileNav.innerHTML = `
                 <a href="index.html" class="active"><i class="fas fa-home"></i></a>
@@ -429,7 +429,7 @@
             `;
             if(heroLoginBtn) heroLoginBtn.style.display = 'none';
         } else {
-            desktopNav.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
+            desktopNav.innerHTML = `<li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> Notice</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> Login <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">Admin Login</a></li><li><a href="member-login-registration.html">Member Login</a></li></ul></li>`;
             
             mobileNav.innerHTML = `
                 <a href="index.html" class="active"><i class="fas fa-home"></i></a>
@@ -452,7 +452,7 @@
                 document.getElementById('displaySecMsg').innerText = `"${contentData.secretary_msg}"`;
                 document.getElementById('displaySecName').innerText = contentData.secretary_name;
                 
-                document.getElementById('footerPresName').innerText = `সভাপতি: ${contentData.president_name || ''}`;
+                document.getElementById('footerPresName').innerText = `President: ${contentData.president_name || ''}`;
                 if (contentData.president_phone) {
                     let rawPhoneP = contentData.president_phone.toString().replace(/'/g, '');
                     document.getElementById('footerPresCall').href = "tel:" + rawPhoneP;
@@ -461,7 +461,7 @@
                     document.getElementById('footerPresWA').href = "https://wa.me/" + waPres;
                 }
 
-                document.getElementById('footerSecName').innerText = `সাধারণ সম্পাদক: ${contentData.secretary_name || ''}`;
+                document.getElementById('footerSecName').innerText = `General Secretary: ${contentData.secretary_name || ''}`;
                 if (contentData.secretary_phone) {
                     let rawPhoneS = contentData.secretary_phone.toString().replace(/'/g, '');
                     document.getElementById('footerSecCall').href = "tel:" + rawPhoneS;
@@ -470,15 +470,15 @@
                     document.getElementById('footerSecWA').href = "https://wa.me/" + waSec;
                 }
             } else {
-                document.getElementById('displayAbout').innerText = "অ্যাডমিন প্যানেল থেকে তথ্য যুক্ত করুন।";
+                document.getElementById('displayAbout').innerText = "Please add information from the admin panel.";
             }
 
             const nList = document.getElementById('homeNoticeList'); nList.innerHTML = '';
-            if(noticeData.length === 0) { nList.innerHTML = '<p>কোনো নোটিশ নেই</p>'; }
+            if(noticeData.length === 0) { nList.innerHTML = '<p>No notices available</p>'; }
             else { noticeData.reverse().slice(0, 3).forEach(item => { nList.innerHTML += `<div class="notice-item"><div class="n-date"><i class="far fa-calendar-alt"></i> ${item.date}</div><div class="n-title">${item.title}</div></div>`; }); }
 
             const gGrid = document.getElementById('homeGalleryList'); gGrid.innerHTML = '';
-            if(galleryData.length === 0) { gGrid.innerHTML = '<p>কোনো ছবি নেই</p>'; }
+            if(galleryData.length === 0) { gGrid.innerHTML = '<p>No images available</p>'; }
             else { galleryData.reverse().slice(0, 4).forEach(item => { gGrid.innerHTML += `<div class="g-item"><img src="${item.url}"></div>`; }); }
 
             document.getElementById('app-preloader').classList.add('hidden');
