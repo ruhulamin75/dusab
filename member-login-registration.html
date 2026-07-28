@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>মেম্বার লগইন ও রেজিস্ট্রেশন - DUSAB</title>
+    <title>Member Login & Registration - DUSAB</title>
     
     <link rel="manifest" href="/dusab/manifest.json">
     <meta name="theme-color" content="#f4f5f7">
@@ -11,13 +11,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Added Inter and Poppins fonts for a clean English UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     
     <style>
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; --border-color: #ced4da; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 90px; padding-bottom: 40px; }
         
         /* ================= Preloader & Animation ================= */
@@ -39,14 +40,14 @@
         
         .nav-links { display: flex; list-style: none; align-items: center; margin: 0; padding: 0; }
         .nav-links li { position: relative; list-style: none; }
-        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; display: block;}
+        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 16px; font-weight: 600; transition: 0.3s; display: block;}
         .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
         
         /* Desktop Dropdown Menu Fix */
         .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background-color: var(--white); min-width: 180px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; padding: 5px 0; z-index: 1001; }
         .dropdown:hover .dropdown-menu { display: block; animation: fadeIn 0.3s ease; }
         .dropdown-menu li { display: block; }
-        .dropdown-menu li a { padding: 10px 20px; font-size: 16px; border-bottom: 1px solid #f4f5f7; }
+        .dropdown-menu li a { padding: 10px 20px; font-size: 15px; border-bottom: 1px solid #f4f5f7; }
         .dropdown-menu li:last-child a { border-bottom: none; }
         .dropdown-menu li a:hover { background-color: #fdfdfd; padding-left: 25px; }
 
@@ -62,30 +63,30 @@
         
         .auth-container { background-color: var(--white); width: 100%; border-radius: 12px; box-shadow: 0 8px 30px rgba(125, 27, 126, 0.1); overflow: hidden; border-top: 4px solid var(--accent-color); }
         .auth-tabs { display: flex; border-bottom: 1px solid #eee; }
-        .tab-btn { flex: 1; padding: 16px 0; text-align: center; font-size: 18px; font-weight: 700; cursor: pointer; background: #fafafa; color: #888; border: none; transition: 0.3s; }
+        .tab-btn { flex: 1; padding: 16px 0; text-align: center; font-size: 17px; font-weight: 700; cursor: pointer; background: #fafafa; color: #888; border: none; transition: 0.3s; }
         .tab-btn.active { background: var(--white); color: var(--primary-color); border-bottom: 3px solid var(--primary-color); }
         .form-area { padding: 40px 30px; display: none; }
         .form-area.active { display: block; }
-        .form-area h2 { text-align: center; margin-bottom: 30px; color: var(--secondary-color); font-weight: 700; font-size: 26px; }
+        .form-area h2 { font-family: 'Poppins', sans-serif; text-align: center; margin-bottom: 30px; color: var(--secondary-color); font-weight: 700; font-size: 26px; }
         
         .profile-upload-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; grid-column: 1 / -1; }
         .profile-preview-wrapper { position: relative; width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent-color); overflow: hidden; margin-bottom: 10px; background-color: #eee; display: flex; justify-content: center; align-items: center; }
         .profile-preview-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        .upload-btn { background-color: var(--white); border: 1px solid var(--primary-color); color: var(--primary-color); padding: 5px 15px; border-radius: 50px; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s; }
+        .upload-btn { background-color: var(--white); border: 1px solid var(--primary-color); color: var(--primary-color); padding: 6px 16px; border-radius: 50px; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s; }
         .upload-btn:hover { background-color: var(--primary-color); color: var(--white); }
         
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .full-width { grid-column: 1 / -1; }
         .input-group { display: flex; flex-direction: column; position: relative; }
-        .input-group label { margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); font-size: 16px; }
+        .input-group label { margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); font-size: 15px; }
         .input-group label span { color: #d32f2f; margin-left: 3px; }
-        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 16px; outline: none; transition: all 0.3s ease; background-color: #fdfdfd; }
-        .login-input-large input { padding: 16px 20px; font-size: 18px; }
+        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 15px; outline: none; transition: all 0.3s ease; background-color: #fdfdfd; }
+        .login-input-large input { padding: 15px 20px; font-size: 16px; }
         .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-color: var(--primary-color); box-shadow: 0 0 5px rgba(125, 27, 126, 0.2); }
         .input-group textarea { resize: vertical; min-height: 80px; }
-        .toggle-password { position: absolute; right: 15px; top: 42px; cursor: pointer; color: var(--primary-color); font-size: 18px; }
+        .toggle-password { position: absolute; right: 15px; top: 40px; cursor: pointer; color: var(--primary-color); font-size: 18px; }
         
-        .btn-submit { width: 100%; background-color: var(--primary-color); color: var(--white); padding: 15px; border: none; border-radius: 6px; font-size: 20px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 25px; }
+        .btn-submit { width: 100%; background-color: var(--primary-color); color: var(--white); padding: 14px; border: none; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 25px; }
         .btn-submit:hover { background-color: var(--secondary-color); box-shadow: 0 4px 12px rgba(38, 46, 122, 0.2); }
         .btn-submit:disabled { background-color: #95a5a6; cursor: not-allowed; }
         
@@ -159,9 +160,9 @@
                 <!-- Desktop Nav -->
                 <ul class="nav-links" id="desktop-nav-menu"></ul>
                 <!-- Mobile Admin Icon -->
-                <div class="menu-toggle" id="mobile-menu" title="অ্যাডমিন মেনু"><i class="fas fa-user-shield"></i></div>
+                <div class="menu-toggle" id="mobile-menu" title="Admin Menu"><i class="fas fa-user-shield"></i></div>
                 <ul class="mobile-top-dropdown" id="mobile-top-dropdown">
-                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> অ্যাডমিন লগইন</a></li>
+                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> Admin Login</a></li>
                 </ul>
             </div>
         </header>
@@ -174,101 +175,100 @@
             
             <div class="auth-container">
                 <div class="auth-tabs">
-                    <button class="tab-btn active" onclick="switchTab('login')">লগইন</button>
-                    <button class="tab-btn" onclick="switchTab('register')">রেজিস্ট্রেশন</button>
+                    <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                    <button class="tab-btn" onclick="switchTab('register')">Registration</button>
                 </div>
 
                 <!-- Login Form -->
                 <div id="login-form" class="form-area active">
-                    <h2>মেম্বার লগইন</h2>
+                    <h2>Member Login</h2>
                     <form id="memberLoginForm">
                         <div class="input-group login-input-large" style="margin-bottom: 25px;">
-                            <label>মোবাইল নাম্বার <span>*</span></label>
+                            <label>Mobile Number <span>*</span></label>
                             <input type="tel" placeholder="017XXXXXXXX" required>
                         </div>
                         <div class="input-group login-input-large" style="margin-bottom: 15px;">
-                            <label>পাসওয়ার্ড <span>*</span></label>
-                            <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড লিখুন" required>
+                            <label>Password <span>*</span></label>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
                             <i class="far fa-eye toggle-password" onclick="togglePasswordVisibility('loginPassword', this)"></i>
                         </div>
-                        <button type="submit" class="btn-submit">লগইন করুন</button>
+                        <button type="submit" class="btn-submit">Login</button>
                     </form>
                 </div>
 
                 <!-- Registration Form -->
                 <div id="register-form" class="form-area">
-                    <h2>মেম্বার রেজিস্ট্রেশন</h2>
+                    <h2>Member Registration</h2>
                     <form id="memberRegisterForm">
                         <div class="form-grid">
                             
                             <div class="profile-upload-container">
                                 <div class="profile-preview-wrapper">
-                                    <!-- ডিফল্ট অবতার আইকন আপডেট করা হয়েছে -->
-                                    <img id="profileImagePreview" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="প্রোফাইল ছবি">
+                                    <img id="profileImagePreview" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile Picture">
                                 </div>
                                 <button type="button" class="upload-btn" onclick="document.getElementById('imageUploadInput').click();">
-                                    <i class="fas fa-camera"></i> ছবি আপলোড করুন (ঐচ্ছিক)
+                                    <i class="fas fa-camera"></i> Upload Photo (Optional)
                                 </button>
                                 <input type="file" id="imageUploadInput" accept="image/*" style="display: none;" onchange="openCropModal(event)">
                                 <input type="hidden" id="croppedImageData">
                             </div>
 
-                            <div class="input-group"><label>পূর্ণ নাম <span>*</span></label><input type="text" id="regName" placeholder="যেমন: মোহাম্মদ রুহুল আমিন" required></div>
+                            <div class="input-group"><label>Full Name <span>*</span></label><input type="text" id="regName" placeholder="e.g. Mohammad Ruhul Amin" required></div>
                             <div class="input-group">
-                                <label>সেশন <span>*</span></label>
+                                <label>Session <span>*</span></label>
                                 <select id="regSession" required>
-                                    <option value="" disabled selected>সেশন নির্বাচন করুন</option>
-                                    <option value="2000-01">২০০০-০১</option><option value="2001-02">২০০১-০২</option><option value="2002-03">২০০২-০৩</option><option value="2003-04">২০০৩-০৪</option>
-                                    <option value="2004-05">২০০৪-০৫</option><option value="2005-06">২০০৫-০৬</option><option value="2006-07">২০০৬-০7</option><option value="2007-08">২০০৭-০৮</option>
-                                    <option value="2008-09">২০০৮-০৯</option><option value="2009-10">২০০৯-১০</option><option value="2010-11">২০১০-১১</option><option value="2011-12">২০১১-১২</option>
-                                    <option value="2012-13">২০১২-১৩</option><option value="2013-14">২০১৩-১৪</option><option value="2014-15">২০১৪-১৫</option><option value="2015-16">২০১৫-১৬</option>
-                                    <option value="2016-17">২০১৬-১৭</option><option value="2017-18">২০১৭-১৮</option><option value="2018-19">২০১৮-১৯</option><option value="2019-20">২০১৯-২০</option>
-                                    <option value="2020-21">২০২০-২১</option><option value="2021-22">২০২১-২২</option><option value="2022-23">২০২২-২৩</option><option value="2023-24">২০২৩-২৪</option>
-                                    <option value="2024-25">২০২৪-২৫</option><option value="2025-26">২০২৫-২৬</option>
+                                    <option value="" disabled selected>Select Session</option>
+                                    <option value="2000-01">2000-01</option><option value="2001-02">2001-02</option><option value="2002-03">2002-03</option><option value="2003-04">2003-04</option>
+                                    <option value="2004-05">2004-05</option><option value="2005-06">2005-06</option><option value="2006-07">2006-07</option><option value="2007-08">2007-08</option>
+                                    <option value="2008-09">2008-09</option><option value="2009-10">2009-10</option><option value="2010-11">2010-11</option><option value="2011-12">2011-12</option>
+                                    <option value="2012-13">2012-13</option><option value="2013-14">2013-14</option><option value="2014-15">2014-15</option><option value="2015-16">2015-16</option>
+                                    <option value="2016-17">2016-17</option><option value="2017-18">2017-18</option><option value="2018-19">2018-19</option><option value="2019-20">2019-20</option>
+                                    <option value="2020-21">2020-21</option><option value="2021-22">2021-22</option><option value="2022-23">2022-23</option><option value="2023-24">2023-24</option>
+                                    <option value="2024-25">2024-25</option><option value="2025-26">2025-26</option>
                                 </select>
                             </div>
-                            <div class="input-group"><label>ডিপার্টমেন্ট <span>*</span></label><input type="text" id="regDept" placeholder="বিভাগের নাম লিখুন" required></div>
+                            <div class="input-group"><label>Department <span>*</span></label><input type="text" id="regDept" placeholder="Enter department name" required></div>
                             <div class="input-group">
-                                <label>হল <span>*</span></label>
+                                <label>Hall <span>*</span></label>
                                 <select id="regHall" required>
-                                    <option value="" disabled selected>হল নির্বাচন করুন</option>
-                                    <option value="সলিমুল্লাহ মুসলিম হল">সলিমুল্লাহ মুসলিম হল</option><option value="ড. মুহম্মদ শহীদুল্লাহ হল">ড. মুহম্মদ শহীদুল্লাহ হল</option>
-                                    <option value="জগন্নাথ হল">জগন্নাথ হল</option><option value="ফজলুল হক মুসলিম হল">ফজলুল হক মুসলিম হল</option>
-                                    <option value="শহীদ সার্জেন্ট জহুরুল হক হল">শহীদ সার্জেন্ট জহুরুল হক হল</option><option value="রোকেয়া হল">রোকেয়া হল</option>
-                                    <option value="সূর্যসেন হল">সূর্যসেন হল</option><option value="হাজী মুহম্মদ মুহসীন হল">হাজী মুহম্মদ মুহসীন হল</option>
-                                    <option value="শামসুন নাহার হল">শামসুন নাহার হল</option><option value="কবি জসীম উদ্দীন হল">কবি জসীম উদ্দীন হল</option>
-                                    <option value="স্যার এ এফ রহমান হল">স্যার এ এফ রহমান হল</option><option value="মুক্তিযোদ্ধা জিয়াউর রহমান হল">মুক্তিযোদ্ধা জিয়াউর রহমান হল</option>
-                                    <option value="শেখ মুজিবুর রহমান হল">শেখ মুজিবুর রহমান হল</option><option value="বাংলাদেশ কুয়েত মৈত্রী হল">বাংলাদেশ কুয়েত মৈত্রী হল</option>
-                                    <option value="স্যার পি জে হার্টগ ইন্টারন্যাশনাল হল">স্যার পি জে হার্টগ ইন্টারন্যাশনাল হল</option><option value="বঙ্গমাতা শেখ ফজিলাতুন্নেছা মুজিব হল">বঙ্গমাতা শেখ ফজিলাতুন্নেছা মুজিব হল</option>
-                                    <option value="অমর একুশে হল">অমর একুশে হল</option><option value="বিজয় একাত্তর হল">বিজয় একাত্তর হল</option>
-                                    <option value="কবি সুফিয়া কামাল হল">কবি সুফিয়া কামাল হল</option><option value="নবাব ফয়জুন্নেসা চৌধুরানী ছাত্রী নিবাস">নবাব ফয়জুন্নেসা চৌধুরানী ছাত্রী নিবাস</option>
-                                    <option value="আইবিএ হোস্টেল">আইবিএ হোস্টেল</option><option value="ডঃ কুদরত-ই-খুদা হোস্টেল">ডঃ কুদরত-ই-খুদা হোস্টেল</option>
-                                    <option value="শহীদ অ্যাথলেট সুলতানা কামাল হোস্টেল">শহীদ অ্যাথলেট সুলতানা কামাল হোস্টেল</option><option value="অন্যান্য">অন্যান্য</option>
+                                    <option value="" disabled selected>Select Hall</option>
+                                    <option value="Salimullah Muslim Hall">Salimullah Muslim Hall</option><option value="Dr. Muhammad Shahidullah Hall">Dr. Muhammad Shahidullah Hall</option>
+                                    <option value="Jagannath Hall">Jagannath Hall</option><option value="Fazlul Huq Muslim Hall">Fazlul Huq Muslim Hall</option>
+                                    <option value="Shahid Sergeant Zahurul Haq Hall">Shahid Sergeant Zahurul Haq Hall</option><option value="Rokeya Hall">Rokeya Hall</option>
+                                    <option value="Surja Sen Hall">Surja Sen Hall</option><option value="Haji Muhammad Muhsin Hall">Haji Muhammad Muhsin Hall</option>
+                                    <option value="Shamsun Nahar Hall">Shamsun Nahar Hall</option><option value="Kabi Jasim Uddin Hall">Kabi Jasim Uddin Hall</option>
+                                    <option value="Sir A. F. Rahman Hall">Sir A. F. Rahman Hall</option><option value="Bijoy Ekattor Hall">Bijoy Ekattor Hall</option>
+                                    <option value="Masterda Surya Sen Hall">Masterda Surya Sen Hall</option><option value="Bangladesh-Kuwait Maitree Hall">Bangladesh-Kuwait Maitree Hall</option>
+                                    <option value="Sir P. J. Hartog International Hall">Sir P. J. Hartog International Hall</option><option value="Bangamata Sheikh Fozilatunnesa Mujib Hall">Bangamata Sheikh Fozilatunnesa Mujib Hall</option>
+                                    <option value="Amar Ekushey Hall">Amar Ekushey Hall</option><option value="Kazi Nazrul Islam Hall">Kazi Nazrul Islam Hall</option>
+                                    <option value="Begum Sufia Kamal Hall">Begum Sufia Kamal Hall</option><option value="Nawab Faizunnessa Chowdhurani Chhatri Nibas">Nawab Faizunnessa Chowdhurani Chhatri Nibas</option>
+                                    <option value="IBA Hostel">IBA Hostel</option><option value="Dr. Qudrat-e-Khuda Hostel">Dr. Qudrat-e-Khuda Hostel</option>
+                                    <option value="Shahid Athlete Sultana Kamal Hostel">Shahid Athlete Sultana Kamal Hostel</option><option value="Others">Others</option>
                                 </select>
                             </div>
-                            <div class="input-group"><label>গ্রাম/ইউনিয়ন <span>*</span></label><input type="text" id="regVillage" placeholder="গ্রাম বা ইউনিয়নের নাম" required></div>
-                            <div class="input-group"><label>মোবাইল নাম্বার <span>*</span></label><input type="tel" id="regPhone" placeholder="017XXXXXXXX" required></div>
+                            <div class="input-group"><label>Village / Union <span>*</span></label><input type="text" id="regVillage" placeholder="Village or union name" required></div>
+                            <div class="input-group"><label>Mobile Number <span>*</span></label><input type="tel" id="regPhone" placeholder="017XXXXXXXX" required></div>
                             
                             <div class="input-group">
-                                <label>রক্তের গ্রুপ <span>*</span></label>
+                                <label>Blood Group <span>*</span></label>
                                 <select id="regBlood" required>
-                                    <option value="" disabled selected>গ্রুপ নির্বাচন করুন</option>
+                                    <option value="" disabled selected>Select Group</option>
                                     <option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option>
                                     <option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option>
                                 </select>
                             </div>
                             
                             <div class="input-group">
-                                <label>শেষ রক্তদানের তারিখ (ঐচ্ছিক)</label>
+                                <label>Last Blood Donation Date (Optional)</label>
                                 <input type="date" id="regLastBlood">
                             </div>
 
-                            <div class="input-group"><label>নতুন পাসওয়ার্ড <span>*</span></label><input type="password" id="regPassword" placeholder="অন্তত ৬ অক্ষরের পাসওয়ার্ড" required><i class="far fa-eye toggle-password" style="top: 42px;" onclick="togglePasswordVisibility('regPassword', this)"></i></div>
-                            <div class="input-group"><label>স্কুল/মাদ্রাসা (ঐচ্ছিক)</label><input type="text" id="regSchool" placeholder="স্কুল বা মাদ্রাসার নাম"></div>
-                            <div class="input-group"><label>কলেজ/মাদ্রাসা (ঐচ্ছিক)</label><input type="text" id="regCollege" placeholder="কলেজ বা মাদ্রাসার নাম"></div>
-                            <div class="input-group full-width"><label>বর্তমান ঠিকানা <span>*</span></label><textarea id="regAddress" placeholder="আপনার বর্তমান ঠিকানা বিস্তারিত লিখুন" required></textarea></div>
+                            <div class="input-group"><label>New Password <span>*</span></label><input type="password" id="regPassword" placeholder="At least 6 characters" required><i class="far fa-eye toggle-password" style="top: 40px;" onclick="togglePasswordVisibility('regPassword', this)"></i></div>
+                            <div class="input-group"><label>School / Madrasah (Optional)</label><input type="text" id="regSchool" placeholder="School or madrasah name"></div>
+                            <div class="input-group"><label>College / Madrasah (Optional)</label><input type="text" id="regCollege" placeholder="College or madrasah name"></div>
+                            <div class="input-group full-width"><label>Current Address <span>*</span></label><textarea id="regAddress" placeholder="Write your full current address" required></textarea></div>
                         </div>
-                        <button type="submit" class="btn-submit">রেজিস্ট্রেশন সম্পন্ন করুন</button>
+                        <button type="submit" class="btn-submit">Complete Registration</button>
                     </form>
                 </div>
             </div>
@@ -278,11 +278,11 @@
     <!-- Image Cropping Modal -->
     <div id="cropModal" class="crop-modal">
         <div class="crop-modal-content">
-            <h3 style="margin-bottom: 15px; color: var(--primary-color);">ছবি ক্রপ করুন</h3>
+            <h3 style="margin-bottom: 15px; color: var(--primary-color);">Crop Image</h3>
             <div class="crop-container"><img id="imageToCrop" src=""></div>
             <div class="crop-modal-buttons">
-                <button class="btn-crop-cancel" onclick="closeCropModal()">বাতিল</button>
-                <button class="btn-crop-save" onclick="cropAndSave()">সেভ করুন</button>
+                <button class="btn-crop-cancel" onclick="closeCropModal()">Cancel</button>
+                <button class="btn-crop-save" onclick="cropAndSave()">Save</button>
             </div>
         </div>
     </div>
@@ -321,13 +321,13 @@
         if (memberDataString) {
             const memberData = JSON.parse(memberDataString);
             const userPhoto = memberData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
+            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> Home</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> Member Directory</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> Notice</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>`;
             mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="fas fa-images"></i></a><a href="member-directory.html"><i class="fas fa-users"></i></a><a href="notice.html"><i class="fas fa-bell"></i></a><a href="profile.html"><img src="${userPhoto}"></a>`;
             
-            // লগইন করা থাকলে প্রোফাইল পেজে পাঠিয়ে দিবে
+            // Redirect to profile page if already logged in
             window.location.href = "profile.html";
         } else {
-            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)" class="active"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
+            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> Home</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> Notice</a></li><li class="dropdown"><a href="javascript:void(0)" class="active"><i class="fas fa-user"></i> Login <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">Admin Login</a></li><li><a href="member-login-registration.html">Member Login</a></li></ul></li>`;
             mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="fas fa-images"></i></a><a href="notice.html"><i class="fas fa-bell"></i></a><a href="member-login-registration.html" class="active"><i class="fas fa-sign-in-alt"></i></a>`;
         }
 
@@ -344,17 +344,14 @@
             if (passwordInput.type === 'password') { passwordInput.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { passwordInput.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
         }
 
-        // Bengali Date Formatter
-        function formatBengaliDate(dateString) {
+        // Date Formatter
+        function formatDate(dateString) {
             if (!dateString) return "";
-            const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
-            const engToBng = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
-            
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             const dateObj = new Date(dateString);
-            const day = dateObj.getDate().toString().split('').map(c => engToBng[c]).join('');
+            const day = dateObj.getDate();
             const month = months[dateObj.getMonth()];
-            const year = dateObj.getFullYear().toString().split('').map(c => engToBng[c]).join('');
-            
+            const year = dateObj.getFullYear();
             return `${day} ${month}, ${year}`;
         }
 
@@ -376,8 +373,8 @@
         // Member Login Fetch
         document.getElementById('memberLoginForm').addEventListener('submit', function(e) {
             e.preventDefault(); const phoneInput = e.target.querySelector('input[type="tel"]').value, passInput = document.getElementById('loginPassword').value, submitBtn = e.target.querySelector('.btn-submit');
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> লগইন হচ্ছে...'; submitBtn.disabled = true;
-            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "member_login", phone: phoneInput, password: passInput }) }).then(res => res.json()).then(data => { if (data.status === "success") { sessionStorage.setItem('memberData', JSON.stringify(data.user)); window.location.href = "profile.html"; } else if (data.status === "pending") { alert("আপনার অ্যাকাউন্টটি এখনো অ্যাডমিন কর্তৃক অ্যাপ্রুভ করা হয়নি।"); } else { alert(data.message); } }).catch(() => alert("নেটওয়ার্ক সমস্যা!")).finally(() => { submitBtn.innerHTML = 'লগইন করুন'; submitBtn.disabled = false; });
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...'; submitBtn.disabled = true;
+            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "member_login", phone: phoneInput, password: passInput }) }).then(res => res.json()).then(data => { if (data.status === "success") { sessionStorage.setItem('memberData', JSON.stringify(data.user)); window.location.href = "profile.html"; } else if (data.status === "pending") { alert("Your account has not been approved by the admin yet."); } else { alert(data.message); } }).catch(() => alert("Network error!")).finally(() => { submitBtn.innerHTML = 'Login'; submitBtn.disabled = false; });
         });
 
         // Member Registration Fetch
@@ -385,7 +382,7 @@
             e.preventDefault();
             const imageRaw = document.getElementById('croppedImageData').value;
             const submitBtn = e.target.querySelector('.btn-submit');
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> রেজিস্ট্রেশন হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering... Please wait';
             submitBtn.disabled = true;
 
             let base64Data = "";
@@ -393,7 +390,7 @@
             const phone = document.getElementById('regPhone').value;
             
             const rawDate = document.getElementById('regLastBlood').value;
-            const formattedBloodDate = formatBengaliDate(rawDate);
+            const formattedBloodDate = formatDate(rawDate);
 
             const payload = {
                 action: "register_member",
@@ -418,21 +415,20 @@
             .then(response => response.json())
             .then(data => { 
                 if (data.status === "success") { 
-                    alert("অভিনন্দন! আপনার রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে। অ্যাডমিন অ্যাকাউন্টটি অ্যাপ্রুভ করার পর আপনি লগইন করতে পারবেন।"); 
+                    alert("Congratulations! Your registration has been completed successfully. You can log in after the admin approves your account."); 
                     document.getElementById('memberRegisterForm').reset(); 
-                    // রিসেট করার সময়ও ডিফল্ট আইকন সেট করা হলো
                     profileImagePreview.src = "https://cdn-icons-png.flaticon.com/512/149/149071.png"; 
                     croppedImageData.value = ''; 
                     window.location.href = "index.html";
                 } else { 
-                    alert("রেজিস্ট্রেশন ব্যর্থ হয়েছে: " + data.message); 
+                    alert("Registration failed: " + data.message); 
                 } 
             })
             .catch(error => { 
-                alert("নেটওয়ার্ক সমস্যা!"); 
+                alert("Network error!"); 
             })
             .finally(() => { 
-                submitBtn.innerHTML = 'রেজিস্ট্রেশন সম্পন্ন করুন'; 
+                submitBtn.innerHTML = 'Complete Registration'; 
                 submitBtn.disabled = false; 
             });
         });
