@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>নোটিশ বোর্ড - DUSAB</title>
+    <title>Notice Board - DUSAB</title>
     
     <link rel="manifest" href="/dusab/manifest.json">
     <meta name="theme-color" content="#f4f5f7">
     <link rel="apple-touch-icon" href="icon-192.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Added Inter and Poppins fonts for a clean English UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 80px; }
 
         /* ================= Preloader & Animation ================= */
@@ -35,8 +36,12 @@
         .mobile-logo-text { display: none; font-weight: 700; font-size: 22px; color: var(--primary-color); margin-left: 10px; }
         
         .nav-links { display: flex; list-style: none; align-items: center; }
-        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; }
+        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 16px; font-weight: 600; transition: 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background-color: var(--white); min-width: 160px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-top: 3px solid var(--accent-color); list-style: none; padding: 5px 0; border-radius: 0 0 6px 6px; }
+        .dropdown-menu li a { padding: 10px 15px; font-size: 15px; color: var(--primary-color); }
+        .dropdown:hover .dropdown-menu { display: block; }
 
         .menu-toggle { display: none; color: var(--primary-color); font-size: 22px; cursor: pointer; padding: 8px; border-radius: 5px; background: rgba(125,27,126,0.1); }
         .mobile-top-dropdown { display: none; position: absolute; top: 100%; right: 20px; background: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-radius: 8px; list-style: none; padding: 10px 0; z-index: 1001; }
@@ -45,7 +50,7 @@
 
         /* ================= Content ================= */
         .page-header { background: linear-gradient(rgba(125, 27, 126, 0.85), rgba(38, 46, 122, 0.90)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200') no-repeat center center/cover; padding: 80px 20px 50px; text-align: center; color: var(--white); }
-        .page-header h1 { font-size: 36px; color: var(--accent-color); margin-bottom: 10px; }
+        .page-header h1 { font-family: 'Poppins', sans-serif; font-size: 36px; color: var(--accent-color); margin-bottom: 10px; font-weight: 700; }
         .notice-container { max-width: 900px; margin: 50px auto; padding: 0 20px; min-height: 400px; }
         
         .notice-card { background-color: var(--white); border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid var(--accent-color); transition: 0.3s; }
@@ -53,7 +58,7 @@
         .notice-date { color: var(--primary-color); font-weight: 600; font-size: 14px; margin-bottom: 8px; display: inline-flex; align-items: center; gap: 6px; background-color: #f3e5f5; padding: 4px 12px; border-radius: 50px;}
         .notice-title { font-size: 22px; color: var(--secondary-color); font-weight: 700; margin-bottom: 12px; }
         
-        /* স্মার্ট নোটিশ কন্টেন্ট স্টাইলিং */
+        /* Smart Notice Content Styling */
         .notice-content { font-size: 16px; color: #555; word-wrap: break-word; }
         .notice-content a { color: var(--primary-color); text-decoration: underline; font-weight: 600; transition: 0.3s; }
         .notice-content a:hover { color: var(--accent-color); }
@@ -69,7 +74,7 @@
             .mobile-logo-text { display: block; }
             .menu-toggle { display: block; }
             
-            /* বটম নেভিগেশন - পুরো ঘর ক্লিকেবল */
+            /* Bottom Navigation */
             .mobile-bottom-nav {
                 display: flex; position: fixed; bottom: 0; left: 0; width: 100%;
                 background-color: var(--white); box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
@@ -105,9 +110,9 @@
             <div class="navbar">
                 <div class="logo"><a href="index.html"><img src="logo.png" alt="Logo"><span class="mobile-logo-text">DUSAB</span></a></div>
                 <ul class="nav-links" id="desktop-nav-menu"></ul>
-                <div class="menu-toggle" id="mobile-menu"><i class="fas fa-user-shield"></i></div>
+                <div class="menu-toggle" id="mobile-menu" title="Admin Menu"><i class="fas fa-user-shield"></i></div>
                 <ul class="mobile-top-dropdown" id="mobile-top-dropdown">
-                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> অ্যাডমিন লগইন</a></li>
+                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> Admin Login</a></li>
                 </ul>
             </div>
         </header>
@@ -115,12 +120,12 @@
         <div class="mobile-bottom-nav" id="mobile-bottom-nav"></div>
 
         <section class="page-header">
-            <h1>নোটিশ বোর্ড</h1>
-            <p>সংগঠনের সকল আপডেট, মিটিং ও গুরুত্বপূর্ণ ঘোষণা এখানে পাবেন।</p>
+            <h1>Notice Board</h1>
+            <p>Find all updates, meetings, and important announcements of the organization here.</p>
         </section>
 
         <div class="notice-container">
-            <div id="noticeList"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> নোটিশ বোর্ড লোড হচ্ছে...</div></div>
+            <div id="noticeList"><div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading notice board...</div></div>
         </div>
     </div>
 
@@ -137,39 +142,39 @@
             }
         });
 
-        // নেভিগেশন সেটআপ
+        // Navigation Setup
         const memberDataString = sessionStorage.getItem('memberData'), desktopNav = document.getElementById('desktop-nav-menu'), mobileNav = document.getElementById('mobile-bottom-nav');
         if (memberDataString) {
             const memberData = JSON.parse(memberDataString);
             const userPhoto = memberData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li><li><a href="notice.html" class="active"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>`;
+            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> Home</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> Member Directory</a></li><li><a href="notice.html" class="active"><i class="fas fa-bullhorn"></i> Notice</a></li><li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>`;
             mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="fas fa-images"></i></a><a href="member-directory.html"><i class="fas fa-users"></i></a><a href="notice.html" class="active"><i class="fas fa-bell"></i></a><a href="profile.html"><img src="${userPhoto}"></a>`;
         } else {
-            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li><li><a href="notice.html" class="active"><i class="fas fa-bullhorn"></i> নোটিশ</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> লগইন <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">এডমিন লগইন</a></li><li><a href="member-login-registration.html">মেম্বার লগইন</a></li></ul></li>`;
+            desktopNav.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> Home</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li><li><a href="notice.html" class="active"><i class="fas fa-bullhorn"></i> Notice</a></li><li class="dropdown"><a href="javascript:void(0)"><i class="fas fa-user"></i> Login <i class="fas fa-caret-down"></i></a><ul class="dropdown-menu"><li><a href="admin-login.html">Admin Login</a></li><li><a href="member-login-registration.html">Member Login</a></li></ul></li>`;
             mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="fas fa-images"></i></a><a href="notice.html" class="active"><i class="fas fa-bell"></i></a><a href="member-login-registration.html"><i class="fas fa-sign-in-alt"></i></a>`;
         }
 
-        // ডাটা ফেচিং এবং স্মার্ট HTML + লিংক রেন্ডারিং
+        // Data Fetching and Smart HTML + Link Rendering
         fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_notices" }) })
         .then(res => res.json())
         .then(data => {
             const list = document.getElementById('noticeList'); list.innerHTML = '';
-            if(data.length === 0) { list.innerHTML = '<h3 style="text-align:center; color:#888;">কোনো নোটিশ নেই।</h3>'; }
+            if(data.length === 0) { list.innerHTML = '<h3 style="text-align:center; color:#888;">No notices available.</h3>'; }
             else {
                 data.reverse().forEach(item => {
-                    // গুগল শিটের এন্টার (লাইন ব্রেক) গুলোকে HTML এর <br> ট্যাগে রূপান্তর
+                    // Convert line breaks from Google Sheets to HTML <br> tags
                     let htmlContent = item.content.replace(/\n/g, '<br>');
                     
-                    // টেক্সট এবং HTML ট্যাগগুলোকে আলাদা করা
+                    // Separate text and HTML tags
                     let parts = htmlContent.split(/(<[^>]+>)/g);
                     
                     for (let i = 0; i < parts.length; i++) {
-                        // যদি এটি কোনো HTML ট্যাগ না হয়, তবে এর ভেতরের লিংকগুলোকে ক্লিকেবল করা হবে
+                        // If it's not an HTML tag, make the links clickable
                         if (i % 2 === 0) {
                             parts[i] = parts[i].replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, '<a href="$1" target="_blank">$1</a>');
                         }
                     }
-                    // সবগুলোকে একসাথে জোড়া লাগানো
+                    // Join everything back together
                     const finalContent = parts.join('');
 
                     list.innerHTML += `
