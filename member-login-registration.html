@@ -390,7 +390,12 @@
             const phone = document.getElementById('regPhone').value;
             
             const rawDate = document.getElementById('regLastBlood').value;
-            const formattedBloodDate = formatDate(rawDate);
+            let formattedBloodDate = formatDate(rawDate);
+            
+            // যুক্ত করা হলো: গুগল শিটে যেন টেক্সট হিসেবে সেভ হয়, তাই শুরুতে ' (সিঙ্গেল কোট) দেওয়া হলো
+            if (formattedBloodDate !== "") {
+                formattedBloodDate = "'" + formattedBloodDate;
+            }
 
             const payload = {
                 action: "register_member",
