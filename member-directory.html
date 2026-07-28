@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>মেম্বার ডিরেক্টরি - DUSAB</title>
+    <title>Member Directory - DUSAB</title>
     
     <link rel="manifest" href="/dusab/manifest.json">
     <meta name="theme-color" content="#f4f5f7">
     <link rel="apple-touch-icon" href="icon-192.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Added Inter and Poppins fonts for a clean English UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-top: 80px; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
 
         /* ================= Preloader & Animation ================= */
@@ -35,58 +36,58 @@
         .mobile-logo-text { display: none; font-weight: 700; font-size: 22px; color: var(--primary-color); margin-left: 10px; }
         
         .nav-links { display: flex; list-style: none; align-items: center; }
-        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 17px; font-weight: 600; transition: 0.3s; }
+        .nav-links a { color: var(--primary-color); text-decoration: none; padding: 10px 15px; font-size: 16px; font-weight: 600; transition: 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--accent-color); }
 
         .menu-toggle { display: none; color: var(--primary-color); font-size: 22px; cursor: pointer; padding: 8px; border-radius: 5px; background: rgba(125,27,126,0.1); transition: 0.3s;}
         .menu-toggle:active { background: var(--primary-color); color: var(--white); }
         .mobile-top-dropdown { display: none; position: absolute; top: 100%; right: 20px; background: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-radius: 8px; list-style: none; padding: 10px 0; z-index: 1001; }
         .mobile-top-dropdown.active { display: flex; flex-direction: column; animation: fadeIn 0.3s ease; }
-        .mobile-top-dropdown li a { padding: 12px 20px; display: block; color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .mobile-top-dropdown li a { padding: 12px 20px; display: block; color: var(--primary-color); text-decoration: none; font-weight: 600; font-size: 15px;}
 
         /* ================= Page Content ================= */
         .page-header { background: linear-gradient(rgba(125, 27, 126, 0.85), rgba(38, 46, 122, 0.90)), url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200') no-repeat center center/cover; padding: 80px 20px 50px; text-align: center; color: var(--white); transition: 0.3s; }
-        .page-header h1 { font-size: 36px; color: var(--accent-color); margin-bottom: 10px; }
+        .page-header h1 { font-family: 'Poppins', sans-serif; font-size: 36px; color: var(--accent-color); margin-bottom: 10px; font-weight: 700; }
 
         .directory-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 10; }
         
         .search-box { max-width: 600px; margin: 0 auto 40px; position: relative; }
-        .search-box input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid #ddd; border-radius: 50px; font-size: 16px; outline: none; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .search-box input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid #ddd; border-radius: 50px; font-size: 15px; outline: none; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .search-box input:focus { border-color: var(--primary-color); }
         .search-box i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 18px; }
 
         .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; transition: 0.3s; }
         
-        /* সাধারণ মেম্বার কার্ড */
+        /* Member Card Styles */
         .member-card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.06); transition: 0.3s; position: relative; display: flex; flex-direction: column;}
         .member-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.12); }
         .card-header { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); height: 100px; position: relative; }
-        .blood-badge { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .blood-badge { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .card-photo { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--white); object-fit: cover; position: absolute; bottom: -55px; left: 50%; transform: translateX(-50%); background: #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .card-body { padding: 65px 20px 20px; text-align: center; flex-grow: 1; }
-        .card-name { font-size: 22px; font-weight: 700; color: var(--secondary-color); margin-bottom: 5px; }
-        .card-dept { font-size: 15px; color: var(--primary-color); font-weight: 600; margin-bottom: 15px; }
+        .card-name { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 700; color: var(--secondary-color); margin-bottom: 5px; }
+        .card-dept { font-size: 14px; color: var(--primary-color); font-weight: 600; margin-bottom: 15px; }
         .info-list { text-align: left; background: #f8f9fa; padding: 15px; border-radius: 10px; transition: 0.3s; }
         .info-list p { font-size: 14px; color: #555; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
         .info-list p:last-child { margin-bottom: 0; }
         .info-list i { color: var(--primary-color); margin-top: 4px; width: 16px; text-align: center;}
         .card-footer { display: flex; border-top: 1px solid #eee; transition: 0.3s; }
-        .contact-btn { flex: 1; padding: 15px 0; text-align: center; text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .contact-btn { flex: 1; padding: 14px 0; text-align: center; text-decoration: none; font-weight: 600; font-size: 14px; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .btn-call { color: var(--secondary-color); background: #fcfcfc; border-right: 1px solid #eee; }
         .btn-call:hover { background: #e8f4fd; color: #2980b9; }
         .btn-wa { color: #25D366; background: #fcfcfc; }
         .btn-wa:hover { background: #e9fbf0; color: #1da851; }
-        .no-result { text-align: center; color: #e74c3c; font-size: 18px; padding: 20px; font-weight: bold; grid-column: 1 / -1;}
+        .no-result { text-align: center; color: #e74c3c; font-size: 16px; padding: 20px; font-weight: bold; grid-column: 1 / -1;}
         .loading-state { text-align: center; color: var(--primary-color); font-weight: 600; padding: 20px 0; grid-column: 1 / -1;}
 
         /* ================= Easter Egg 1: Developer Card ================= */
         .dev-card { background: linear-gradient(135deg, #1f1c2c, #928DAB); color: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; position: relative; border: 2px solid var(--accent-color); margin: 0 auto; max-width: 400px; grid-column: 1 / -1; animation: fadeIn 0.5s ease; }
-        .dev-header-badge { background: var(--accent-color); color: #111; font-weight: 800; padding: 10px; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; }
+        .dev-header-badge { background: var(--accent-color); color: #111; font-weight: 800; padding: 10px; font-size: 16px; letter-spacing: 2px; text-transform: uppercase; }
         .dev-photo-wrapper { margin: 25px auto 15px; width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--accent-color); overflow: hidden; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
         .dev-photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
         .dev-info { padding: 0 20px 30px; }
-        .dev-info h3 { font-size: 26px; color: var(--accent-color); margin-bottom: 8px; font-weight: 700; }
-        .dev-info p { font-size: 16px; color: #eee; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .dev-info h3 { font-family: 'Poppins', sans-serif; font-size: 24px; color: var(--accent-color); margin-bottom: 8px; font-weight: 700; }
+        .dev-info p { font-size: 15px; color: #eee; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .dev-motive { margin-top: 20px; font-style: italic; font-size: 14px; color: #bbb; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
 
         /* ================= Easter Egg 2: Dancing Animation ================= */
@@ -95,26 +96,23 @@
         @keyframes cardSway { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); box-shadow: 0 15px 30px rgba(125, 27, 126, 0.3); } }
         .dancing-card { animation: cardSway 2s infinite ease-in-out; border: 2px dashed var(--primary-color) !important; }
 
-        /* ================= Easter Egg 3: Spin (ঘুরঘুর) ================= */
+        /* ================= Easter Egg 3: Spin Effect ================= */
         @keyframes barrelRoll { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .spin-effect { animation: barrelRoll 2s ease-in-out; }
 
-        /* ================= Easter Egg 4: Hacker Mode (ম্যাট্রিক্স) ================= */
+        /* ================= Easter Egg 4: Hacker Mode ================= */
         body.hacker-mode { background-color: #000 !important; color: #0f0 !important; font-family: 'Courier New', Courier, monospace !important; }
-        /* ব্যাকগ্রাউন্ড ক্যানভাস (বৃষ্টির জন্য) */
         #matrixCanvas { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
         body.hacker-mode #matrixCanvas { display: block; }
         
-        /* হ্যাকার মোডে হেডার ও ফুটার আপডেট */
         body.hacker-mode header, body.hacker-mode .page-header, body.hacker-mode .mobile-bottom-nav { background: rgba(0, 0, 0, 0.8) !important; background-image: none !important; border-bottom: 1px solid #0f0; box-shadow: none !important;}
         body.hacker-mode .search-box input { background: rgba(0,0,0,0.8) !important; color: #0f0 !important; border: 1px solid #0f0 !important; box-shadow: 0 0 10px #0f0 !important;}
         
-        /* হ্যাকার মোডে কার্ডগুলো হালকা ট্রান্সপারেন্ট হবে যাতে পেছনে বৃষ্টি দেখা যায় */
         body.hacker-mode .member-card { background-color: rgba(0, 0, 0, 0.7) !important; border: 1px solid #0f0 !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.3) !important; backdrop-filter: blur(2px); }
         body.hacker-mode .card-header, body.hacker-mode .info-list, body.hacker-mode .card-footer { background: transparent !important; border-color: #0f0 !important; }
         body.hacker-mode * { color: #0f0 !important; border-color: #0f0 !important; text-shadow: 0 0 5px #0f0; }
 
-        /* ================= Easter Egg 5: Earthquake (ভূমিকম্প) ================= */
+        /* ================= Easter Egg 5: Earthquake ================= */
         @keyframes shake {
             0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); }
             20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); }
@@ -125,10 +123,10 @@
         }
         .earthquake-effect { animation: shake 0.5s infinite; }
 
-        /* ================= Easter Egg 6: Magic (থ্যানোস স্ন্যাপ) ================= */
+        /* ================= Easter Egg 6: Thanos Snap ================= */
         @keyframes fadeOutMagic { to { opacity: 0; transform: scale(0.5) rotate(15deg); visibility: hidden; } }
 
-        /* ================= Easter Egg 7: Emoji Rain (সেলিব্রেশন) ================= */
+        /* ================= Easter Egg 7: Emoji Rain ================= */
         .emoji-rain { position: fixed; top: -50px; z-index: 9999; animation: fall linear forwards; font-size: 28px; }
         @keyframes fall { to { transform: translateY(100vh); } }
 
@@ -172,9 +170,9 @@
                 
                 <ul class="nav-links" id="desktop-nav-menu"></ul>
                 
-                <div class="menu-toggle" id="mobile-menu" title="অ্যাডমিন মেনু"><i class="fas fa-user-shield"></i></div>
+                <div class="menu-toggle" id="mobile-menu" title="Admin Menu"><i class="fas fa-user-shield"></i></div>
                 <ul class="mobile-top-dropdown" id="mobile-top-dropdown">
-                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> অ্যাডমিন লগইন</a></li>
+                    <li><a href="admin-login.html"><i class="fas fa-sign-in-alt"></i> Admin Login</a></li>
                 </ul>
             </div>
         </header>
@@ -182,18 +180,18 @@
         <div class="mobile-bottom-nav" id="mobile-bottom-nav"></div>
 
         <section class="page-header">
-            <h1>মেম্বার ডিরেক্টরি</h1>
-            <p>সংগঠনের সকল সদস্যদের তথ্য খুঁজুন এবং যোগাযোগ করুন</p>
+            <h1>Member Directory</h1>
+            <p>Find and connect with all the members of the organization</p>
         </section>
 
         <div class="directory-container">
             <div class="search-box">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="নাম, ডিপার্টমেন্ট, সেশন বা রক্তের গ্রুপ দিয়ে খুঁজুন..." onkeyup="filterMembers()">
+                <input type="text" id="searchInput" placeholder="Search by name, department, session or blood group..." onkeyup="filterMembers()">
             </div>
 
             <div class="members-grid" id="membersGrid">
-                <div class="loading-state" id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> মেম্বারদের তথ্য লোড হচ্ছে...</div>
+                <div class="loading-state" id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> Loading member details...</div>
             </div>
         </div>
 
@@ -215,7 +213,7 @@
             }
         });
 
-        // সিকিউরিটি চেক ও নেভিগেশন সেটআপ
+        // Security Check & Navigation Setup
         const memberDataString = sessionStorage.getItem('memberData');
         const desktopNav = document.getElementById('desktop-nav-menu');
         const mobileNav = document.getElementById('mobile-bottom-nav');
@@ -227,11 +225,11 @@
             const userPhoto = memberData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
             
             desktopNav.innerHTML = `
-                <li><a href="index.html"><i class="fas fa-home"></i> হোম</a></li>
-                <li><a href="gallery.html"><i class="fas fa-images"></i> গ্যালারি</a></li>
-                <li><a href="member-directory.html" class="active"><i class="fas fa-users"></i> মেম্বার ডিরেক্টরি</a></li>
-                <li><a href="notice.html"><i class="fas fa-bullhorn"></i> নোটিশ</a></li>
-                <li><a href="profile.html"><i class="fas fa-user-circle"></i> প্রোফাইল</a></li>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="member-directory.html" class="active"><i class="fas fa-users"></i> Member Directory</a></li>
+                <li><a href="notice.html"><i class="fas fa-bullhorn"></i> Notice</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>
             `;
             
             mobileNav.innerHTML = `
@@ -245,7 +243,7 @@
 
         let allApprovedMembers = [];
 
-        // ডেটা লোড করা
+        // Load Data
         function loadDirectory() {
             fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "get_members" }) })
             .then(response => response.json())
@@ -254,7 +252,7 @@
                 displayMembers(allApprovedMembers);
             })
             .catch(error => {
-                document.getElementById('loadingMessage').innerHTML = '<span style="color:red;">তথ্য লোড করতে সমস্যা হয়েছে! ইন্টারনেট কানেকশন চেক করুন।</span>';
+                document.getElementById('loadingMessage').innerHTML = '<span style="color:red;">Failed to load data! Please check your internet connection.</span>';
             })
             .finally(() => {
                 const preloader = document.getElementById('app-preloader');
@@ -266,25 +264,24 @@
             });
         }
 
-        // কার্ড প্রদর্শন ফাংশন
+        // Display Card Function
         function displayMembers(members) {
             const grid = document.getElementById('membersGrid');
             grid.innerHTML = '';
 
             if(members.length === 0) {
-                grid.innerHTML = '<div class="no-result">কোনো মেম্বারের তথ্য পাওয়া যায়নি!</div>';
+                grid.innerHTML = '<div class="no-result">No member information found!</div>';
                 return;
             }
 
             members.reverse().forEach(item => {
-                // ডিফল্ট আইকন সেট করা হলো
                 const photoUrl = item.photo ? item.photo : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
                 
                 let waNumber = item.phone.replace(/[^0-9]/g, ''); 
                 if(waNumber.startsWith('0')) { waNumber = '88' + waNumber; }
                 
-                let lastBloodText = item.lastBloodDonated ? item.lastBloodDonated : 'কখনো দেননি / তথ্য নেই';
-                let bloodInfoHtml = `<p><i class="fas fa-calendar-check" style="color:#e74c3c;"></i> <span><strong>শেষ রক্তদান:</strong> ${lastBloodText}</span></p>`;
+                let lastBloodText = item.lastBloodDonated ? item.lastBloodDonated : 'Never donated / Not available';
+                let bloodInfoHtml = `<p><i class="fas fa-calendar-check" style="color:#e74c3c;"></i> <span><strong>Last Donation:</strong> ${lastBloodText}</span></p>`;
 
                 const cardHtml = `
                     <div class="member-card">
@@ -298,13 +295,13 @@
                             
                             <div class="info-list">
                                 ${bloodInfoHtml}
-                                <p><i class="fas fa-map-marker-alt"></i> <span><strong>গ্রাম/ইউনিয়ন:</strong> ${item.village}</span></p>
-                                <p><i class="fas fa-home"></i> <span><strong>বর্তমান ঠিকানা:</strong> ${item.address}</span></p>
+                                <p><i class="fas fa-map-marker-alt"></i> <span><strong>Village/Union:</strong> ${item.village}</span></p>
+                                <p><i class="fas fa-home"></i> <span><strong>Current Address:</strong> ${item.address}</span></p>
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="tel:${item.phone}" class="contact-btn btn-call"><i class="fas fa-phone-alt"></i> কল করুন</a>
-                            <a href="https://wa.me/${waNumber}" target="_blank" class="contact-btn btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                            <a href="tel:${item.phone}" class="contact-btn btn-call"><i class="fas fa-phone-alt"></i> Call</a>
+                            <a href="https://wa.me/${waNumber}" target="_blank" class="contact-btn btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                         </div>
                     </div>
                 `;
@@ -315,14 +312,6 @@
         // ================== EASTER EGG FUNCTIONS ==================
         function makeTextDancing(text) {
             if (!text) return "";
-            if (window.Intl && Intl.Segmenter) {
-                const segmenter = new Intl.Segmenter('bn', { granularity: 'grapheme' });
-                const segments = Array.from(segmenter.segment(text));
-                return segments.map((data, index) => {
-                    if (data.segment === ' ') return '&nbsp;';
-                    return `<span class="dancing-letter" style="animation-delay: ${index * 0.05}s">${data.segment}</span>`;
-                }).join('');
-            }
             return text.split('').map((char, index) => {
                 if (char === ' ') return '&nbsp;';
                 return `<span class="dancing-letter" style="animation-delay: ${index * 0.05}s">${char}</span>`;
@@ -331,11 +320,10 @@
 
         function displayMyDancingCard(user) {
             const grid = document.getElementById('membersGrid');
-            // ডিফল্ট আইকন সেট করা হলো
             const photoUrl = user.photo ? user.photo : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
             let waNumber = user.phone.replace(/[^0-9]/g, ''); 
             if(waNumber.startsWith('0')) { waNumber = '88' + waNumber; }
-            let lastBloodText = user.lastBloodDonated ? user.lastBloodDonated : 'কখনো দেননি / তথ্য নেই';
+            let lastBloodText = user.lastBloodDonated ? user.lastBloodDonated : 'Never donated / Not available';
 
             const dancingName = makeTextDancing(user.name);
             const dancingDept = makeTextDancing(`${user.dept} (${user.session})`);
@@ -350,14 +338,14 @@
                         <h3 class="card-name">${dancingName}</h3>
                         <div class="card-dept">${dancingDept}</div>
                         <div class="info-list">
-                            <p><i class="fas fa-calendar-check" style="color:#e74c3c;"></i> <span><strong>শেষ রক্তদান:</strong> ${lastBloodText}</span></p>
-                            <p><i class="fas fa-map-marker-alt"></i> <span><strong>গ্রাম/ইউনিয়ন:</strong> ${user.village}</span></p>
-                            <p><i class="fas fa-home"></i> <span><strong>বর্তমান ঠিকানা:</strong> ${user.address}</span></p>
+                            <p><i class="fas fa-calendar-check" style="color:#e74c3c;"></i> <span><strong>Last Donation:</strong> ${lastBloodText}</span></p>
+                            <p><i class="fas fa-map-marker-alt"></i> <span><strong>Village/Union:</strong> ${user.village}</span></p>
+                            <p><i class="fas fa-home"></i> <span><strong>Current Address:</strong> ${user.address}</span></p>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="tel:${user.phone}" class="contact-btn btn-call"><i class="fas fa-phone-alt"></i> কল করুন</a>
-                        <a href="https://wa.me/${waNumber}" target="_blank" class="contact-btn btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ</a>
+                        <a href="tel:${user.phone}" class="contact-btn btn-call"><i class="fas fa-phone-alt"></i> Call</a>
+                        <a href="https://wa.me/${waNumber}" target="_blank" class="contact-btn btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                     </div>
                 </div>
             `;
@@ -396,9 +384,9 @@
             if (matrixInterval) clearInterval(matrixInterval);
 
             matrixInterval = setInterval(() => {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // হালকা কালো ট্রেইল
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#0F0'; // সবুজ টেক্সট
+                ctx.fillStyle = '#0F0';
                 ctx.font = fontSize + 'px monospace';
 
                 for (let i = 0; i < drops.length; i++) {
@@ -430,19 +418,19 @@
             document.body.classList.remove('spin-effect');
             document.getElementById('membersGrid').classList.remove('earthquake-effect');
             document.getElementById('rain-container').innerHTML = '';
-            stopMatrixRain(); // ম্যাট্রিক্স বৃষ্টি থামানো
+            stopMatrixRain();
         }
 
-       // লাইভ সার্চ এবং ইস্টার এগ লজিক
+        // Live Search & Easter Egg Logic
         function filterMembers() {
-            resetEasterEggs(); // নতুন কিছু লিখলে আগের ম্যাজিক রিসেট হবে
+            resetEasterEggs();
             
             const searchInput = document.getElementById('searchInput');
             const rawQuery = searchInput.value.trim();
             const query = rawQuery.toLowerCase();
             const grid = document.getElementById('membersGrid');
             
-            // ১. Developer Card (0000#)
+            // 1. Developer Card (0000#)
             if (rawQuery === "0000#") {
                 searchInput.blur(); 
                 const devPhoto = "https://lh3.googleusercontent.com/d/15yi6VDVJR3gqwq46Sesy_QsoDULQg3gD"; 
@@ -467,20 +455,20 @@
                 return;
             }
 
-            // ২. Dancing Card (123456789)
+            // 2. Dancing Card (123456789)
             if (rawQuery === "123456789") {
                 searchInput.blur(); 
                 const sessionUser = sessionStorage.getItem('memberData');
                 if (sessionUser) {
                     displayMyDancingCard(JSON.parse(sessionUser));
                 } else {
-                    grid.innerHTML = '<div class="no-result">দয়া করে আগে লগইন করুন!</div>';
+                    grid.innerHTML = '<div class="no-result">Please log in first!</div>';
                 }
                 return;
             }
 
-            // ৩. Spin (ঘুরঘুর)
-            if (query === "spin" || query === "ঘুরঘুর") {
+            // 3. Spin Effect
+            if (query === "spin") {
                 searchInput.blur(); 
                 document.body.classList.add('spin-effect');
                 setTimeout(() => document.body.classList.remove('spin-effect'), 2000);
@@ -488,33 +476,33 @@
                 return;
             }
 
-            // ৪. Hacker Mode (ম্যাট্রিক্স)
-            if (query === "matrix" || query === "হ্যাকার মোড") {
+            // 4. Hacker Mode (Matrix)
+            if (query === "matrix") {
                 searchInput.blur(); 
                 document.body.classList.add('hacker-mode');
-                startMatrixRain(); // ম্যাট্রিক্স বৃষ্টি শুরু
+                startMatrixRain();
                 displayMembers(allApprovedMembers);
                 return;
             }
 
-            // ৫. Emoji Rain (সেলিব্রেশন/DUSAB)
-            if (query === "dusab" || query === "সেলিব্রেশন" || query === "celebrate") {
+            // 5. Celebration (DUSAB / Celebrate)
+            if (query === "dusab" || query === "celebrate") {
                 searchInput.blur(); 
                 startEmojiRain();
                 displayMembers(allApprovedMembers);
                 return;
             }
 
-            // ৬. Earthquake (ভূমিকম্প)
-            if (query === "earthquake" || query === "ভূমিকম্প") {
+            // 6. Earthquake
+            if (query === "earthquake") {
                 searchInput.blur(); 
                 document.getElementById('membersGrid').classList.add('earthquake-effect');
                 displayMembers(allApprovedMembers);
                 return;
             }
 
-            // ৭. Thanos Magic (থ্যানোস স্ন্যাপ)
-            if (query === "magic" || query === "থ্যানোস স্ন্যাপ") {
+            // 7. Thanos Magic (Snap)
+            if (query === "magic") {
                 searchInput.blur(); 
                 displayMembers(allApprovedMembers); 
                 setTimeout(() => {
@@ -526,7 +514,7 @@
                 return; 
             }
 
-            // রেগুলার ফিল্টারিং
+            // Regular Filtering
             const filtered = allApprovedMembers.filter(m => 
                 m.name.toLowerCase().includes(query) || 
                 m.dept.toLowerCase().includes(query) || 
