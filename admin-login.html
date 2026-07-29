@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অ্যাডমিন লগইন - DUSAB</title>
+    <title>Admin Login - DUSAB</title>
     <link rel="manifest" href="/dusab/manifest.json">
-<meta name="theme-color" content="#7D1B7E">
-<link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="theme-color" content="#7D1B7E">
+    <link rel="apple-touch-icon" href="icon-192.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Added Inter and Poppins fonts for a clean English UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -28,7 +29,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
@@ -72,7 +73,6 @@
             margin-bottom: 15px;
         }
 
-        /* আপডেট করা আইকন ডিজাইন */
         .admin-badge i {
             font-size: 55px;
             color: var(--primary-color);
@@ -85,6 +85,7 @@
         }
 
         .auth-container h2 {
+            font-family: 'Poppins', sans-serif;
             text-align: center;
             margin-bottom: 25px;
             color: var(--secondary-color);
@@ -103,7 +104,7 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--secondary-color);
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .input-group input {
@@ -111,7 +112,7 @@
             padding: 14px 15px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 15px;
             outline: none;
             transition: all 0.3s ease;
             background-color: #fcfcfc;
@@ -126,7 +127,7 @@
         .toggle-password {
             position: absolute;
             right: 15px;
-            top: 45px;
+            top: 42px;
             cursor: pointer;
             color: var(--primary-color);
             font-size: 18px;
@@ -139,7 +140,7 @@
             padding: 15px;
             border: none;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
@@ -170,8 +171,11 @@
             text-decoration: none;
             color: #666;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
             transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .back-home a:hover {
@@ -191,28 +195,28 @@
             <div class="admin-badge">
                 <i class="fas fa-user-shield"></i>
             </div>
-            <h2>অ্যাডমিন প্যানেল লগইন</h2>
+            <h2>Admin Panel Login</h2>
             
             <form id="adminLoginForm">
                 <div class="input-group">
-                    <label>অ্যাডমিন ইমেইল</label>
-                    <input type="email" id="adminEmail" placeholder="অ্যাডমিন ইমেইল দিন" required>
+                    <label>Admin Email</label>
+                    <input type="email" id="adminEmail" placeholder="Enter admin email" required>
                 </div>
                 
                 <div class="input-group">
-                    <label>পাসওয়ার্ড</label>
-                    <input type="password" id="adminPassword" placeholder="পাসওয়ার্ড লিখুন" required>
+                    <label>Password</label>
+                    <input type="password" id="adminPassword" placeholder="Enter password" required>
                     <i class="far fa-eye toggle-password" onclick="togglePasswordVisibility('adminPassword', this)"></i>
                 </div>
                 
                 <button type="submit" class="btn-submit" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i> লগইন করুন
+                    <i class="fas fa-sign-in-alt"></i> Login
                 </button>
             </form>
         </div>
 
         <div class="back-home">
-            <a href="index.html"><i class="fas fa-arrow-left"></i> হোমপেজে ফিরে যান</a>
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
         </div>
     </div>
 
@@ -238,13 +242,12 @@
             event.preventDefault(); 
             
             const submitBtn = document.getElementById('loginBtn');
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> লগইন হচ্ছে...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
             submitBtn.disabled = true;
 
             const emailValue = document.getElementById('adminEmail').value;
             const passwordValue = document.getElementById('adminPassword').value;
 
-            // API এর মাধ্যমে সার্ভারে ডেটা পাঠানো হচ্ছে
             fetch(API_URL, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -259,14 +262,14 @@
                     sessionStorage.setItem('isAdminLoggedIn', 'true');
                     window.location.href = 'admin-panel.html';
                 } else {
-                    alert(data.message); // ভুল হলে সার্ভার থেকে আসা মেসেজ দেখাবে
+                    alert(data.message);
                 }
             })
             .catch(error => {
-                alert("নেটওয়ার্ক সমস্যা! দয়া করে ইন্টারনেট কানেকশন চেক করুন।");
+                alert("Network error! Please check your internet connection.");
             })
             .finally(() => {
-                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> লগইন করুন';
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
                 submitBtn.disabled = false;
             });
         });
