@@ -1,38 +1,39 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>মেম্বার ম্যানেজমেন্ট - DUSAB Admin</title>
+    <title>Member Management - DUSAB Admin</title>
     
     <script>
         if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') { window.location.href = 'admin-login.html'; }
     </script>
 <!-- PWA Manifest -->
 <link rel="manifest" href="/dusab/manifest.json">
-<!-- থিম কালার (মোবাইলের স্ট্যাটাস বারের রং পরিবর্তন করবে) -->
+<!-- Theme Color (Changes mobile status bar color) -->
 <meta name="theme-color" content="#7D1B7E">
-<!-- অ্যাপল ডিভাইসের জন্য -->
+<!-- For Apple Devices -->
 <link rel="apple-touch-icon" href="icon-192.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Added Inter and Poppins fonts for a clean English UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --text-dark: #212529; --white: #ffffff; --sidebar-width: 260px; --border-color: #ced4da; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); display: flex; overflow-x: hidden; }
 
         .sidebar { width: var(--sidebar-width); background-color: var(--primary-color); height: 100vh; position: fixed; top: 0; left: 0; color: var(--white); transition: 0.3s; z-index: 1000; }
         .sidebar-header { padding: 20px; text-align: center; border-bottom: 3px solid var(--accent-color); background-color: var(--white); }
         .sidebar-header img { height: 60px; margin-bottom: 10px; }
-        .sidebar-header h3 { font-size: 18px; color: var(--primary-color); font-weight: 700; }
+        .sidebar-header h3 { font-family: 'Poppins', sans-serif; font-size: 17px; color: var(--primary-color); font-weight: 700; }
         .sidebar-menu { list-style: none; padding: 20px 0; }
         .sidebar-menu li { padding: 10px 20px; }
-        .sidebar-menu li a { color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; font-size: 16px; padding: 10px; border-radius: 6px; transition: 0.3s; }
-        .sidebar-menu li a i { margin-right: 15px; width: 20px; font-size: 18px; }
+        .sidebar-menu li a { color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; font-size: 15px; padding: 10px; border-radius: 6px; transition: 0.3s; font-weight: 500;}
+        .sidebar-menu li a i { margin-right: 15px; width: 20px; font-size: 16px; }
         .sidebar-menu li a:hover, .sidebar-menu li a.active { background-color: var(--accent-color); color: var(--primary-color); font-weight: 600; }
 
         .main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; transition: 0.3s; padding-bottom: 40px;}
@@ -40,19 +41,20 @@
         .menu-toggle { font-size: 24px; color: var(--primary-color); cursor: pointer; display: none; }
         
         .admin-profile { display: flex; align-items: center; gap: 15px; }
-        .admin-profile span { font-weight: 600; color: var(--secondary-color); }
+        .admin-profile span { font-weight: 600; color: var(--secondary-color); font-size: 15px;}
         .admin-profile img { height: 40px; width: 40px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover; }
         
         .dashboard-content { padding: 30px; }
-        .page-title { margin-bottom: 25px; color: var(--secondary-color); font-size: 24px; }
+        .page-title { font-family: 'Poppins', sans-serif; margin-bottom: 25px; color: var(--secondary-color); font-size: 24px; font-weight: 700;}
         .content-box { background-color: var(--white); border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-color);}
         
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         table th, table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle; }
-        table th { background-color: #f8f9fa; color: var(--secondary-color); font-weight: 600; white-space: nowrap; }
+        table th { background-color: #f8f9fa; color: var(--secondary-color); font-weight: 600; white-space: nowrap; font-size: 14px;}
+        table td { font-size: 14px; }
         
         .member-thumb { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd; }
-        .badge { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block;}
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block;}
         .badge-pending { background-color: #fcf3cf; color: #d4ac0d; }
         .badge-approved { background-color: #d5f5e3; color: #27ae60; }
         
@@ -66,24 +68,25 @@
         .btn-delete { background-color: #e74c3c; }
         .btn-delete:hover { background-color: #c0392b; }
 
-        #loadingMessage { text-align: center; padding: 20px; font-size: 18px; color: var(--primary-color); display: none; }
+        #loadingMessage { text-align: center; padding: 20px; font-size: 16px; color: var(--primary-color); display: none; font-weight: 600;}
 
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background-color: var(--white); border-radius: 8px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); position: relative;}
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #777; }
+        .modal-content { background-color: var(--white); border-radius: 12px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); position: relative;}
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 22px; cursor: pointer; color: #777; }
         .close-btn:hover { color: red; }
         
         .modal-header { display: flex; align-items: center; gap: 15px; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
         .modal-header img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-color); }
-        .modal-body p { margin-bottom: 8px; font-size: 15px; }
-        .modal-body strong { color: var(--secondary-color); display: inline-block; width: 140px; }
+        .modal-header h2 { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 600;}
+        .modal-body p { margin-bottom: 8px; font-size: 14px; }
+        .modal-body strong { color: var(--secondary-color); display: inline-block; width: 150px; }
 
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;}
         .full-width { grid-column: 1 / -1; }
         .input-group { display: flex; flex-direction: column; }
-        .input-group label { margin-bottom: 5px; font-weight: 600; color: var(--secondary-color); }
-        .input-group input, .input-group select, .input-group textarea { padding: 10px; border: 1px solid var(--border-color); border-radius: 4px; outline: none; }
-        .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 12px; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 20px; width: 100%;}
+        .input-group label { margin-bottom: 5px; font-weight: 600; color: var(--secondary-color); font-size: 14px; }
+        .input-group input, .input-group select, .input-group textarea { padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-size: 14px; font-family: 'Inter', sans-serif;}
+        .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 20px; width: 100%;}
         .btn-submit:hover { background-color: var(--secondary-color); }
 
         @media (max-width: 992px) { .sidebar { left: -260px; } .sidebar.active { left: 0; box-shadow: 4px 0 15px rgba(0,0,0,0.2); } .main-content { margin-left: 0; width: 100%; } .menu-toggle { display: block; } }
@@ -95,13 +98,14 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <img src="logo.png" alt="DUSAB Logo">
-            <h3>অ্যাডমিন প্যানেল</h3>
+            <h3>Admin Panel</h3>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="admin-panel.html"><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড</a></li>
-            <li><a href="member-management.html" class="active"><i class="fas fa-users-cog"></i> মেম্বার ম্যানেজমেন্ট</a></li>
-            <li><a href="admin-gallery.html"><i class="fas fa-images"></i> গ্যালারি ম্যানেজমেন্ট</a></li>
-            <li><a href="notice-management.html"><i class="fas fa-bullhorn"></i> নোটিশ বোর্ড</a></li>
+            <li><a href="admin-panel.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="member-management.html" class="active"><i class="fas fa-users-cog"></i> Member Management</a></li>
+            <li><a href="admin-gallery.html"><i class="fas fa-images"></i> Gallery Management</a></li>
+            <li><a href="notice-management.html"><i class="fas fa-bullhorn"></i> Notice Board</a></li>
+            <li><a href="admin-settings.html"><i class="fas fa-cogs"></i> Website Settings</a></li>
         </ul>
     </div>
 
@@ -117,27 +121,27 @@
         </div>
 
         <div class="dashboard-content">
-            <h2 class="page-title">মেম্বার ম্যানেজমেন্ট</h2>
+            <h2 class="page-title">Member Management</h2>
 
             <div class="content-box">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 style="color: var(--secondary-color);">রেজিস্টারকৃত মেম্বারদের তালিকা</h3>
-                    <button onclick="loadMembers()" style="background: none; border: none; color: var(--primary-color); cursor: pointer; font-size: 16px;"><i class="fas fa-sync-alt"></i> রিফ্রেশ করুন</button>
+                    <h3 style="color: var(--secondary-color); font-size: 18px; font-family: 'Poppins', sans-serif;">Registered Members List</h3>
+                    <button onclick="loadMembers()" style="background: none; border: none; color: var(--primary-color); cursor: pointer; font-size: 15px; font-weight: 600;"><i class="fas fa-sync-alt"></i> Refresh</button>
                 </div>
                 
-                <div id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> মেম্বারদের ডেটা লোড হচ্ছে...</div>
+                <div id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> Loading member data...</div>
                 
                 <div style="overflow-x: auto;">
                     <table id="memberTable">
                         <thead>
                             <tr>
-                                <th>ছবি</th>
-                                <th>নাম</th>
-                                <th>মোবাইল</th>
-                                <th>সেশন</th>
-                                <th>রক্তের গ্রুপ</th>
-                                <th>স্ট্যাটাস</th>
-                                <th>অ্যাকশন</th>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Mobile</th>
+                                <th>Session</th>
+                                <th>Blood Group</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="memberTableBody">
@@ -148,62 +152,61 @@
         </div>
     </div>
 
-    <!-- ডিটেইলস মডাল -->
+    <!-- Details Modal -->
     <div id="detailsModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('detailsModal')">&times;</span>
             <div class="modal-header">
                 <img id="mPhoto" src="https://via.placeholder.com/80" alt="Member Photo">
                 <div>
-                    <h2 id="mName" style="color: var(--primary-color); margin-bottom: 5px;">নাম</h2>
+                    <h2 id="mName" style="color: var(--primary-color); margin-bottom: 5px;">Name</h2>
                     <span id="mStatusBadge"></span>
                 </div>
             </div>
             <div class="modal-body">
-                <p><strong><i class="fas fa-phone-alt"></i> মোবাইল নাম্বার:</strong> <span id="mPhone"></span></p>
-                <p><strong><i class="fas fa-calendar-alt"></i> সেশন:</strong> <span id="mSession"></span></p>
-                <p><strong><i class="fas fa-graduation-cap"></i> ডিপার্টমেন্ট:</strong> <span id="mDept"></span></p>
-                <p><strong><i class="fas fa-building"></i> হল:</strong> <span id="mHall"></span></p>
-                <p><strong><i class="fas fa-tint"></i> রক্তের গ্রুপ:</strong> <span id="mBlood"></span></p>
-                <p><strong><i class="fas fa-calendar-check"></i> শেষ রক্তদান:</strong> <span id="mLastBlood" style="color: #e74c3c;"></span></p>
-                <p><strong><i class="fas fa-map-marker-alt"></i> গ্রাম/ইউনিয়ন:</strong> <span id="mVillage"></span></p>
+                <p><strong><i class="fas fa-phone-alt"></i> Mobile Number:</strong> <span id="mPhone"></span></p>
+                <p><strong><i class="fas fa-calendar-alt"></i> Session:</strong> <span id="mSession"></span></p>
+                <p><strong><i class="fas fa-graduation-cap"></i> Department:</strong> <span id="mDept"></span></p>
+                <p><strong><i class="fas fa-building"></i> Hall:</strong> <span id="mHall"></span></p>
+                <p><strong><i class="fas fa-tint"></i> Blood Group:</strong> <span id="mBlood"></span></p>
+                <p><strong><i class="fas fa-calendar-check"></i> Last Donation:</strong> <span id="mLastBlood" style="color: #e74c3c;"></span></p>
+                <p><strong><i class="fas fa-map-marker-alt"></i> Village/Union:</strong> <span id="mVillage"></span></p>
                 <hr style="margin: 15px 0; border: 1px solid #eee;">
-                <p><strong><i class="fas fa-school"></i> স্কুল/মাদ্রাসা:</strong> <span id="mSchool"></span></p>
-                <p><strong><i class="fas fa-university"></i> কলেজ/মাদ্রাসা:</strong> <span id="mCollege"></span></p>
-                <p><strong><i class="fas fa-home"></i> বর্তমান ঠিকানা:</strong> <span id="mAddress"></span></p>
+                <p><strong><i class="fas fa-school"></i> School/Madrasah:</strong> <span id="mSchool"></span></p>
+                <p><strong><i class="fas fa-university"></i> College/Madrasah:</strong> <span id="mCollege"></span></p>
+                <p><strong><i class="fas fa-home"></i> Current Address:</strong> <span id="mAddress"></span></p>
                 <hr style="margin: 15px 0; border: 1px solid #eee;">
-                <p><strong><i class="fas fa-key"></i> পাসওয়ার্ড:</strong> <span id="mPassword" style="color: #e74c3c; font-family: monospace;"></span></p>
-                <p><strong><i class="far fa-clock"></i> রেজিস্ট্রেশন তারিখ:</strong> <span id="mDate"></span></p>
+                <p><strong><i class="fas fa-key"></i> Password:</strong> <span id="mPassword" style="color: #e74c3c; font-family: monospace;"></span></p>
+                <p><strong><i class="far fa-clock"></i> Registration Date:</strong> <span id="mDate"></span></p>
             </div>
         </div>
     </div>
 
-    <!-- এডিট মডাল -->
+    <!-- Edit Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('editModal')">&times;</span>
-            <h2 style="color: var(--primary-color); border-bottom: 2px solid #eee; padding-bottom: 10px;">মেম্বার তথ্য এডিট করুন</h2>
+            <h2 style="font-family: 'Poppins', sans-serif; color: var(--primary-color); border-bottom: 2px solid #eee; padding-bottom: 10px; font-size: 20px;">Edit Member Information</h2>
             
             <form id="editMemberForm">
                 <input type="hidden" id="editRow">
                 <div class="form-grid">
                     <div class="input-group full-width">
-                        <label>পূর্ণ নাম</label>
+                        <label>Full Name</label>
                         <input type="text" id="editName" required>
                     </div>
                     <div class="input-group">
-                        <label>মোবাইল</label>
+                        <label>Mobile Number</label>
                         <input type="tel" id="editPhone" required>
                     </div>
                     
-                    <!-- পাসওয়ার্ড এডিট অপশন যুক্ত করা হয়েছে -->
                     <div class="input-group">
-                        <label>পাসওয়ার্ড</label>
+                        <label>Password</label>
                         <input type="text" id="editPassword" required>
                     </div>
 
                     <div class="input-group">
-                        <label>রক্তের গ্রুপ</label>
+                        <label>Blood Group</label>
                         <select id="editBlood">
                             <option value="A+">A+</option><option value="A-">A-</option>
                             <option value="B+">B+</option><option value="B-">B-</option>
@@ -212,43 +215,42 @@
                         </select>
                     </div>
                     <div class="input-group">
-                        <label>সেশন</label>
+                        <label>Session</label>
                         <input type="text" id="editSession" required>
                     </div>
                     
-                    <!-- শেষ রক্তদানের তারিখ (স্মার্ট ফলব্যাক সহ) -->
                     <div class="input-group full-width">
-                        <label>শেষ রক্তদানের তারিখ <span id="currentBloodDate" style="color:#e74c3c; font-size: 13px; font-weight: normal; margin-left: 10px;"></span></label>
+                        <label>Last Blood Donation Date <span id="currentBloodDate" style="color:#e74c3c; font-size: 13px; font-weight: normal; margin-left: 10px;"></span></label>
                         <input type="date" id="editLastBlood">
-                        <small style="color: #888; margin-top: 5px;">নতুন তারিখ দিতে চাইলে ক্যালেন্ডার থেকে নির্বাচন করুন, অন্যথায় খালি রাখুন।</small>
+                        <small style="color: #888; margin-top: 5px;">Select from calendar to change, otherwise leave blank.</small>
                     </div>
 
                     <div class="input-group">
-                        <label>ডিপার্টমেন্ট</label>
+                        <label>Department</label>
                         <input type="text" id="editDept" required>
                     </div>
                     <div class="input-group full-width">
-                        <label>হল</label>
+                        <label>Hall</label>
                         <input type="text" id="editHall" required>
                     </div>
                     <div class="input-group full-width">
-                        <label>গ্রাম/ইউনিয়ন</label>
+                        <label>Village / Union</label>
                         <input type="text" id="editVillage" required>
                     </div>
                     <div class="input-group full-width">
-                        <label>স্কুল/মাদ্রাসা</label>
+                        <label>School / Madrasah</label>
                         <input type="text" id="editSchool">
                     </div>
                     <div class="input-group full-width">
-                        <label>কলেজ/মাদ্রাসা</label>
+                        <label>College / Madrasah</label>
                         <input type="text" id="editCollege">
                     </div>
                     <div class="input-group full-width">
-                        <label>বর্তমান ঠিকানা</label>
+                        <label>Current Address</label>
                         <textarea id="editAddress" rows="3" required></textarea>
                     </div>
                 </div>
-                <button type="submit" class="btn-submit" id="editSubmitBtn">তথ্য আপডেট করুন</button>
+                <button type="submit" class="btn-submit" id="editSubmitBtn">Update Information</button>
             </form>
         </div>
     </div>
@@ -267,18 +269,15 @@
             }
         });
 
-        // তারিখকে বাংলা টেক্সটে কনভার্ট করার ফাংশন
-        function formatBengaliDate(dateString) {
+        // Date Formatter in English with Single Quote Prefix for Google Sheets
+        function formatDate(dateString) {
             if (!dateString) return "";
-            const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
-            const engToBng = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
-            
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             const dateObj = new Date(dateString);
-            const day = dateObj.getDate().toString().split('').map(c => engToBng[c]).join('');
+            const day = dateObj.getDate();
             const month = months[dateObj.getMonth()];
-            const year = dateObj.getFullYear().toString().split('').map(c => engToBng[c]).join('');
-            
-            return `${day} ${month}, ${year}`;
+            const year = dateObj.getFullYear();
+            return `'${day} ${month}, ${year}`;
         }
 
         function loadMembers() {
@@ -292,7 +291,7 @@
             .then(data => {
                 loadingMsg.style.display = 'none';
                 if(data.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">কোনো মেম্বার পাওয়া যায়নি।</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No members found.</td></tr>';
                     return;
                 }
                 
@@ -302,15 +301,15 @@
                     const statusBadge = item.status === 'Approved' ? '<span class="badge badge-approved">Approved</span>' : '<span class="badge badge-pending">Pending</span>';
                                         
                     const pendingActions = `
-                        <button class="btn-view" onclick="viewDetails(${item.row})" title="বিস্তারিত"><i class="fas fa-eye"></i></button>
-                        <button class="btn-approve" onclick="approveMember(${item.row})" title="অ্যাপ্রুভ"><i class="fas fa-check"></i></button>
-                        <button class="btn-delete" onclick="deleteMember(${item.row})" title="রিজেক্ট"><i class="fas fa-times"></i></button>
+                        <button class="btn-view" onclick="viewDetails(${item.row})" title="Details"><i class="fas fa-eye"></i></button>
+                        <button class="btn-approve" onclick="approveMember(${item.row})" title="Approve"><i class="fas fa-check"></i></button>
+                        <button class="btn-delete" onclick="deleteMember(${item.row})" title="Reject"><i class="fas fa-times"></i></button>
                     `;
 
                     const approvedActions = `
-                        <button class="btn-view" onclick="viewDetails(${item.row})" title="বিস্তারিত"><i class="fas fa-eye"></i></button>
-                        <button class="btn-edit" onclick="openEditModal(${item.row})" title="এডিট"><i class="fas fa-edit"></i></button>
-                        <button class="btn-delete" onclick="deleteMember(${item.row})" title="মুছুন"><i class="fas fa-trash-alt"></i></button>
+                        <button class="btn-view" onclick="viewDetails(${item.row})" title="Details"><i class="fas fa-eye"></i></button>
+                        <button class="btn-edit" onclick="openEditModal(${item.row})" title="Edit"><i class="fas fa-edit"></i></button>
+                        <button class="btn-delete" onclick="deleteMember(${item.row})" title="Delete"><i class="fas fa-trash-alt"></i></button>
                     `;
 
                     const actionButtons = item.status === 'Pending' ? pendingActions : approvedActions;
@@ -330,7 +329,7 @@
                     tableBody.innerHTML += rowHtml;
                 });
             })
-            .catch(error => { loadingMsg.innerHTML = '<span style="color:red;">ডেটা লোড করতে সমস্যা হয়েছে!</span>'; });
+            .catch(error => { loadingMsg.innerHTML = '<span style="color:red;">Failed to load data!</span>'; });
         }
 
         function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
@@ -352,7 +351,7 @@
                 document.getElementById('mAddress').innerText = member.address;
                 document.getElementById('mPassword').innerText = member.password;
                 document.getElementById('mDate').innerText = member.date;
-                document.getElementById('mLastBlood').innerText = member.lastBloodDonated ? member.lastBloodDonated : 'তথ্য দেওয়া নেই';
+                document.getElementById('mLastBlood').innerText = member.lastBloodDonated ? member.lastBloodDonated : 'Not provided';
                 document.getElementById('detailsModal').style.display = 'flex';
             }
         }
@@ -363,10 +362,7 @@
                 document.getElementById('editRow').value = member.row;
                 document.getElementById('editName').value = member.name;
                 document.getElementById('editPhone').value = member.phone;
-                
-                // পাসওয়ার্ড এডিটের জন্য ডেটা ফিলআপ
                 document.getElementById('editPassword').value = member.password;
-                
                 document.getElementById('editBlood').value = member.blood;
                 document.getElementById('editSession').value = member.session;
                 document.getElementById('editDept').value = member.dept;
@@ -376,9 +372,8 @@
                 document.getElementById('editCollege').value = member.college;
                 document.getElementById('editAddress').value = member.address;
                 
-                // ডেট পিকার হ্যান্ডেলিং
-                document.getElementById('currentBloodDate').innerText = member.lastBloodDonated ? `(বর্তমান: ${member.lastBloodDonated})` : '';
-                document.getElementById('editLastBlood').value = ''; // ক্যালেন্ডার খালি করা হলো
+                document.getElementById('currentBloodDate').innerText = member.lastBloodDonated ? `(Current: ${member.lastBloodDonated})` : '';
+                document.getElementById('editLastBlood').value = '';
                 document.getElementById('editLastBlood').dataset.oldValue = member.lastBloodDonated || '';
 
                 document.getElementById('editModal').style.display = 'flex';
@@ -388,22 +383,21 @@
         document.getElementById('editMemberForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('editSubmitBtn');
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> আপডেট হচ্ছে...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
             submitBtn.disabled = true;
 
-            // তারিখের লজিক: নতুন ইনপুট থাকলে কনভার্ট হবে, না থাকলে আগেরটাই যাবে
             let rawDate = document.getElementById('editLastBlood').value;
             let finalBloodDate = document.getElementById('editLastBlood').dataset.oldValue;
-            if (rawDate) { finalBloodDate = formatBengaliDate(rawDate); }
+            if (rawDate) { finalBloodDate = formatDate(rawDate); }
 
             const payload = {
                 action: "edit_member",
                 row: document.getElementById('editRow').value,
                 name: document.getElementById('editName').value,
                 phone: document.getElementById('editPhone').value,
-                password: document.getElementById('editPassword').value, // পাসওয়ার্ড
+                password: document.getElementById('editPassword').value,
                 blood: document.getElementById('editBlood').value,
-                lastBloodDonated: finalBloodDate, // বাংলা টেক্সট ডেট
+                lastBloodDonated: finalBloodDate,
                 session: document.getElementById('editSession').value,
                 dept: document.getElementById('editDept').value,
                 hall: document.getElementById('editHall').value,
@@ -417,22 +411,22 @@
             .then(response => response.json())
             .then(data => {
                 if(data.status === "success") {
-                    alert("মেম্বার তথ্য সফলভাবে আপডেট হয়েছে!");
+                    alert("Member information updated successfully!");
                     closeModal('editModal');
                     loadMembers(); 
                 } else {
-                    alert("আপডেট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
+                    alert("Update failed. Please try again.");
                 }
             })
-            .catch(error => alert("নেটওয়ার্ক সমস্যা!"))
+            .catch(error => alert("Network error!"))
             .finally(() => {
-                submitBtn.innerHTML = 'তথ্য আপডেট করুন';
+                submitBtn.innerHTML = 'Update Information';
                 submitBtn.disabled = false;
             });
         });
 
         function approveMember(rowNum) {
-            if (confirm("আপনি কি এই মেম্বারকে অ্যাপ্রুভ করতে চান?")) {
+            if (confirm("Are you sure you want to approve this member?")) {
                 fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "approve_member", row: rowNum }) })
                 .then(response => response.json())
                 .then(data => { if(data.status === "success") { loadMembers(); } });
@@ -440,7 +434,7 @@
         }
 
         function deleteMember(rowNum) {
-            if (confirm("আপনি কি নিশ্চিত যে এই মেম্বারের ডেটা মুছে ফেলতে চান? এটি ড্রাইভ থেকেও ছবি মুছে দেবে।")) {
+            if (confirm("Are you sure you want to delete this member's data? This will also delete the photo from Drive.")) {
                 fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "delete_member", row: rowNum }) })
                 .then(response => response.json())
                 .then(data => { if(data.status === "success") { loadMembers(); } });
