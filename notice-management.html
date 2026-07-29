@@ -1,62 +1,63 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>নোটিশ ম্যানেজমেন্ট - DUSAB Admin</title>
+    <title>Notice Management - DUSAB Admin</title>
     <script>if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') window.location.href = 'admin-login.html';</script>
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-<!-- থিম কালার (মোবাইলের স্ট্যাটাস বারের রং পরিবর্তন করবে) -->
+<!-- Theme Color (Changes mobile status bar color) -->
 <meta name="theme-color" content="#7D1B7E">
-<!-- অ্যাপল ডিভাইসের জন্য -->
+<!-- For Apple Devices -->
 <link rel="apple-touch-icon" href="icon-192.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Added Inter and Poppins fonts for a clean English UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* বেসিক ডিজাইন */
         :root { --primary-color: #7D1B7E; --secondary-color: #262E7A; --accent-color: #D4AF37; --bg-light: #f4f5f7; --white: #ffffff; --sidebar-width: 260px; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-light); display: flex; overflow-x: hidden; }
         
-        /* সাইডবার */
+        /* Sidebar */
         .sidebar { width: var(--sidebar-width); background-color: var(--primary-color); height: 100vh; position: fixed; left: 0; top: 0; color: var(--white); z-index: 1000; transition: 0.3s; }
         .sidebar-header { padding: 20px; text-align: center; border-bottom: 3px solid var(--accent-color); background-color: var(--white); }
         .sidebar-header img { height: 60px; margin-bottom: 10px; }
+        .sidebar-header h3 { font-family: 'Poppins', sans-serif; font-size: 17px; color: var(--primary-color); font-weight: 700; }
         .sidebar-menu { list-style: none; padding: 20px 0; }
-        .sidebar-menu li a { color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; padding: 10px 20px; font-size: 16px; transition: 0.3s; }
+        .sidebar-menu li a { color: rgba(255,255,255,0.8); text-decoration: none; display: flex; align-items: center; padding: 10px 20px; font-size: 15px; transition: 0.3s; font-weight: 500;}
         .sidebar-menu li a:hover, .sidebar-menu li a.active { background-color: var(--accent-color); color: var(--primary-color); font-weight: 600; }
-        .sidebar-menu li a i { margin-right: 15px; width: 20px; }
+        .sidebar-menu li a i { margin-right: 15px; width: 20px; font-size: 16px; }
 
-        /* মূল কন্টেন্ট */
+        /* Main Content */
         .main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; padding-bottom: 40px; transition: 0.3s;}
         .topbar { background-color: var(--white); height: 70px; padding: 0 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 999;}
         .menu-toggle { font-size: 24px; color: var(--primary-color); cursor: pointer; display: none; margin-right: 15px;}
-        .admin-profile { display: flex; align-items: center; gap: 15px; font-weight: 600; color: var(--secondary-color); }
+        .admin-profile { display: flex; align-items: center; gap: 15px; font-weight: 600; color: var(--secondary-color); font-size: 15px;}
         .admin-profile img { height: 40px; width: 40px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover; }
         
         .dashboard-content { padding: 30px; }
         .content-box { background-color: var(--white); border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-color); margin-bottom: 30px;}
         
-        /* ফর্ম স্টাইল */
+        /* Form Style */
         .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-weight: 600; color: var(--secondary-color); margin-bottom: 5px; }
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 16px; outline: none; transition: 0.3s;}
+        .input-group label { display: block; font-weight: 600; color: var(--secondary-color); margin-bottom: 5px; font-size: 14px; }
+        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; outline: none; transition: 0.3s; font-family: 'Inter', sans-serif;}
         .input-group input:focus, .input-group textarea:focus { border-color: var(--primary-color); }
         .input-group textarea { height: 150px; resize: vertical; }
         
-        .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 12px 25px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s;}
+        .btn-submit { background-color: var(--primary-color); color: var(--white); padding: 12px 25px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; width: 100%; font-weight: 600; transition: 0.3s;}
         .btn-submit:hover { background-color: var(--secondary-color); }
         
-        /* টেবিল স্টাইল */
+        /* Table Style */
         .table-responsive { overflow-x: auto; width: 100%; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; min-width: 600px; }
-        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        table th { background-color: #f8f9fa; color: var(--secondary-color); }
+        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px;}
+        table th { background-color: #f8f9fa; color: var(--secondary-color); font-weight: 600; }
         
-        .action-btns button { border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; color: white; margin-right: 5px; transition: 0.3s;}
+        .action-btns button { border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; color: white; margin-right: 5px; transition: 0.3s; font-size: 12px;}
         .btn-edit { background-color: #f39c12; }
         .btn-edit:hover { background-color: #d68910; }
         .btn-delete { background-color: #e74c3c; }
@@ -64,11 +65,11 @@
 
         /* Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background-color: var(--white); border-radius: 8px; width: 100%; max-width: 600px; padding: 25px; position: relative;}
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #777;}
+        .modal-content { background-color: var(--white); border-radius: 12px; width: 100%; max-width: 600px; padding: 25px; position: relative;}
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 22px; cursor: pointer; color: #777;}
         .close-btn:hover { color: red; }
 
-        /* মোবাইল রেসপন্সিভ লজিক */
+        /* Mobile Responsive Logic */
         @media (max-width: 992px) { 
             .sidebar { left: -260px; } 
             .sidebar.active { left: 0; box-shadow: 4px 0 15px rgba(0,0,0,0.2); } 
@@ -88,56 +89,56 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <img src="logo.png" alt="Logo">
-            <h3>অ্যাডমিন প্যানেল</h3>
+            <h3>Admin Panel</h3>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="admin-panel.html"><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড</a></li>
-            <li><a href="member-management.html"><i class="fas fa-users-cog"></i> মেম্বার ম্যানেজমেন্ট</a></li>
-            <li><a href="admin-gallery.html"><i class="fas fa-images"></i> গ্যালারি ম্যানেজমেন্ট</a></li>
-            <li><a href="notice-management.html" class="active"><i class="fas fa-bullhorn"></i> নোটিশ বোর্ড</a></li>
-            <li><a href="admin-settings.html"><i class="fas fa-cogs"></i> ওয়েবসাইট সেটিংস</a></li>
+            <li><a href="admin-panel.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="member-management.html"><i class="fas fa-users-cog"></i> Member Management</a></li>
+            <li><a href="admin-gallery.html"><i class="fas fa-images"></i> Gallery Management</a></li>
+            <li><a href="notice-management.html" class="active"><i class="fas fa-bullhorn"></i> Notice Board</a></li>
+            <li><a href="admin-settings.html"><i class="fas fa-cogs"></i> Website Settings</a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="topbar">
             <div class="menu-toggle" id="menuToggleBtn"><i class="fas fa-bars"></i></div>
-            <div style="font-size:20px; font-weight:bold; color:var(--primary-color);" class="mobile-title">নোটিশ ম্যানেজমেন্ট</div>
+            <div style="font-size:18px; font-weight:600; color:var(--primary-color); font-family: 'Poppins', sans-serif;" class="mobile-title">Notice Management</div>
             <div class="admin-profile"><img src="logo.png" alt="Admin"> <span>Admin</span></div>
         </div>
 
         <div class="dashboard-content">
             <div class="content-box">
-                <h3 style="margin-bottom: 15px; color: var(--secondary-color);"><i class="fas fa-plus-circle"></i> নতুন নোটিশ প্রকাশ করুন</h3>
+                <h3 style="margin-bottom: 15px; color: var(--secondary-color); font-family: 'Poppins', sans-serif; font-size: 18px;"><i class="fas fa-plus-circle"></i> Publish New Notice</h3>
                 <form id="addNoticeForm">
                     <div class="input-group">
-                        <label>তারিখ</label>
+                        <label>Date</label>
                         <input type="date" id="noticeDate" required>
                     </div>
                     <div class="input-group">
-                        <label>নোটিশের শিরোনাম</label>
-                        <input type="text" id="noticeTitle" placeholder="যেমন: সাধারণ সভা আহ্বান" required>
+                        <label>Notice Title</label>
+                        <input type="text" id="noticeTitle" placeholder="e.g. General Meeting Call" required>
                     </div>
                     <div class="input-group">
-                        <label>বিস্তারিত তথ্য</label>
-                        <textarea id="noticeContent" placeholder="নোটিশের বিস্তারিত লিখুন..." required></textarea>
+                        <label>Detailed Information</label>
+                        <textarea id="noticeContent" placeholder="Write notice details..." required></textarea>
                     </div>
-                    <button type="submit" class="btn-submit" id="submitBtn">প্রকাশ করুন</button>
+                    <button type="submit" class="btn-submit" id="submitBtn">Publish</button>
                 </form>
             </div>
 
             <div class="content-box">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 style="color: var(--secondary-color);"><i class="fas fa-list-alt"></i> প্রকাশিত নোটিশসমূহ</h3>
-                    <button onclick="loadNotices()" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:16px; font-weight:bold;"><i class="fas fa-sync-alt"></i> রিফ্রেশ</button>
+                    <h3 style="color: var(--secondary-color); font-family: 'Poppins', sans-serif; font-size: 18px;"><i class="fas fa-list-alt"></i> Published Notices</h3>
+                    <button onclick="loadNotices()" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:15px; font-weight:600;"><i class="fas fa-sync-alt"></i> Refresh</button>
                 </div>
                 
-                <div id="loadingMessage" style="text-align: center; display: none; color: var(--primary-color); padding: 10px;"><i class="fas fa-spinner fa-spin"></i> নোটিশ লোড হচ্ছে...</div>
+                <div id="loadingMessage" style="text-align: center; display: none; color: var(--primary-color); padding: 10px; font-weight: 600; font-size: 14px;"><i class="fas fa-spinner fa-spin"></i> Loading notices...</div>
 
                 <div class="table-responsive">
                     <table>
                         <thead>
-                            <tr><th>তারিখ</th><th>শিরোনাম</th><th>বিস্তারিত</th><th>অ্যাকশন</th></tr>
+                            <tr><th>Date</th><th>Title</th><th>Details</th><th>Actions</th></tr>
                         </thead>
                         <tbody id="noticeTableBody"></tbody>
                     </table>
@@ -149,26 +150,25 @@
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
-            <h3 style="margin-bottom: 15px; color: var(--primary-color);">নোটিশ এডিট করুন</h3>
+            <h3 style="margin-bottom: 15px; color: var(--primary-color); font-family: 'Poppins', sans-serif; font-size: 18px;">Edit Notice</h3>
             <form id="editNoticeForm">
                 <input type="hidden" id="editRow">
-                <div class="input-group"><label>তারিখ (DD/MM/YYYY)</label><input type="text" id="editDate" required></div>
-                <div class="input-group"><label>শিরোনাম</label><input type="text" id="editTitle" required></div>
-                <div class="input-group"><label>বিস্তারিত</label><textarea id="editContent" required></textarea></div>
-                <button type="submit" class="btn-submit">আপডেট করুন</button>
+                <div class="input-group"><label>Date</label><input type="date" id="editDate" required></div>
+                <div class="input-group"><label>Title</label><input type="text" id="editTitle" required></div>
+                <div class="input-group"><label>Details</label><textarea id="editContent" required></textarea></div>
+                <button type="submit" class="btn-submit">Update</button>
             </form>
         </div>
     </div>
 
     <script>
         // ========================================================
-        const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec"; // <-- URL বসান
+        const API_URL = "https://script.google.com/macros/s/AKfycby4prftqmqAqauALnrXqgI7nO5f-H4zfu7CNwFYyFaaStsOK7wawUNp8gXhC34mhJ2J/exec"; 
         // ========================================================
 
         document.getElementById('noticeDate').valueAsDate = new Date();
         let noticeData = [];
 
-        // সাইডবার টগল লজিক (মোবাইলের জন্য)
         const sidebar = document.getElementById('sidebar');
         const menuToggleBtn = document.getElementById('menuToggleBtn');
         
@@ -177,32 +177,42 @@
             e.stopPropagation(); 
         });
         
-        // স্ক্রিনের অন্য কোথাও ক্লিক করলে সাইডবার বন্ধ হবে
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 992 && sidebar.classList.contains('active') && !sidebar.contains(e.target) && !menuToggleBtn.contains(e.target)) {
                 sidebar.classList.remove('active');
             }
         });
 
+        // Date Formatter in English with Single Quote Prefix (e.g. '10 June, 2026)
+        function formatDateToText(dateString) {
+            if (!dateString) return "";
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const dateObj = new Date(dateString);
+            const day = dateObj.getDate();
+            const month = months[dateObj.getMonth()];
+            const year = dateObj.getFullYear();
+            return `'${day} ${month}, ${year}`;
+        }
+
         // Add Notice
         document.getElementById('addNoticeForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "প্রকাশ হচ্ছে..."; btn.disabled = true;
+            btn.innerText = "Publishing..."; btn.disabled = true;
 
             const rawDate = document.getElementById('noticeDate').value;
-            const formattedDate = rawDate.split('-').reverse().join('/'); // Converts YYYY-MM-DD to DD/MM/YYYY
+            const formattedDate = formatDateToText(rawDate); // Generates '10 June, 2026
 
             fetch(API_URL, {
                 method: 'POST',
                 body: JSON.stringify({ action: "add_notice", date: formattedDate, title: document.getElementById('noticeTitle').value, content: document.getElementById('noticeContent').value })
             })
             .then(res => res.json()).then(data => {
-                alert("নোটিশ সফলভাবে প্রকাশিত হয়েছে!");
+                alert("Notice published successfully!");
                 document.getElementById('addNoticeForm').reset();
                 document.getElementById('noticeDate').valueAsDate = new Date();
                 loadNotices();
-            }).finally(() => { btn.innerText = "প্রকাশ করুন"; btn.disabled = false; });
+            }).finally(() => { btn.innerText = "Publish"; btn.disabled = false; });
         });
 
         // Load Notices
@@ -216,12 +226,11 @@
                 tbody.innerHTML = '';
                 
                 if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #888;">কোনো নোটিশ পাওয়া যায়নি।</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #888;">No notices available.</td></tr>';
                     return;
                 }
 
                 data.reverse().forEach(item => {
-                    // বিস্তারিত টেক্সট ছোট করে দেখানোর জন্য
                     let shortContent = item.content.length > 40 ? item.content.substring(0, 40) + "..." : item.content;
                     tbody.innerHTML += `
                         <tr>
@@ -229,8 +238,8 @@
                             <td style="font-weight:bold; color: var(--secondary-color);">${item.title}</td>
                             <td>${shortContent}</td>
                             <td class="action-btns" style="white-space:nowrap;">
-                                <button class="btn-edit" onclick="openEditModal(${item.row})"><i class="fas fa-edit"></i></button>
-                                <button class="btn-delete" onclick="deleteNotice(${item.row})"><i class="fas fa-trash"></i></button>
+                                <button class="btn-edit" onclick="openEditModal(${item.row})" title="Edit"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" onclick="deleteNotice(${item.row})" title="Delete"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
@@ -243,7 +252,8 @@
             const item = noticeData.find(n => n.row === row);
             if(item) {
                 document.getElementById('editRow').value = item.row;
-                document.getElementById('editDate').value = item.date;
+                // Note: If stored date starts with single quote, clean it for date input if needed, or leave it blank
+                document.getElementById('editDate').value = ''; 
                 document.getElementById('editTitle').value = item.title;
                 document.getElementById('editContent').value = item.content;
                 document.getElementById('editModal').style.display = 'flex';
@@ -253,21 +263,24 @@
         document.getElementById('editNoticeForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = e.target.querySelector('.btn-submit');
-            btn.innerText = "আপডেট হচ্ছে..."; btn.disabled = true;
+            btn.innerText = "Updating..."; btn.disabled = true;
+
+            const rawDate = document.getElementById('editDate').value;
+            const formattedDate = formatDateToText(rawDate);
 
             fetch(API_URL, {
                 method: 'POST',
-                body: JSON.stringify({ action: "edit_notice", row: document.getElementById('editRow').value, date: document.getElementById('editDate').value, title: document.getElementById('editTitle').value, content: document.getElementById('editContent').value })
+                body: JSON.stringify({ action: "edit_notice", row: document.getElementById('editRow').value, date: formattedDate, title: document.getElementById('editTitle').value, content: document.getElementById('editContent').value })
             }).then(() => { 
-                alert("আপডেট সফল!"); 
+                alert("Update successful!"); 
                 document.getElementById('editModal').style.display='none'; 
                 loadNotices(); 
-            }).finally(() => { btn.innerText = "আপডেট করুন"; btn.disabled = false; });
+            }).finally(() => { btn.innerText = "Update"; btn.disabled = false; });
         });
 
         // Delete Notice
         function deleteNotice(row) {
-            if(confirm("আপনি কি নিশ্চিত যে এই নোটিশটি মুছে ফেলতে চান?")) {
+            if(confirm("Are you sure you want to delete this notice?")) {
                 fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "delete_notice", row: row }) }).then(() => loadNotices());
             }
         }
@@ -275,7 +288,6 @@
         window.onload = loadNotices;
     </script>
 <script>
-    // Service Worker রেজিস্টার করা
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
