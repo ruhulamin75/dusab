@@ -143,7 +143,8 @@
         });
 
         // Navigation Setup
-        const memberDataString = sessionStorage.getItem('memberData'), desktopNav = document.getElementById('desktop-nav-menu'), mobileNav = document.getElementById('mobile-bottom-nav');
+        // পরিবর্তন: sessionStorage এর বদলে localStorage ব্যবহার করা হলো
+        const memberDataString = localStorage.getItem('memberData'), desktopNav = document.getElementById('desktop-nav-menu'), mobileNav = document.getElementById('mobile-bottom-nav');
         if (memberDataString) {
             const memberData = JSON.parse(memberDataString);
             const userPhoto = memberData.photo || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
