@@ -409,7 +409,8 @@
             }
         });
 
-        const memberDataString = sessionStorage.getItem('memberData');
+        // পরিবর্তন: sessionStorage এর বদলে localStorage ব্যবহার করা হলো
+        const memberDataString = localStorage.getItem('memberData');
         const desktopNav = document.getElementById('desktop-nav-menu');
         const mobileNav = document.getElementById('mobile-bottom-nav');
         const heroLoginBtn = document.getElementById('heroLoginBtn');
