@@ -11,7 +11,6 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Added Inter and Poppins fonts for a clean English UI -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
@@ -314,7 +313,8 @@
         });
 
         // Navigation Menus Setup
-        const memberDataString = sessionStorage.getItem('memberData');
+        // এখানেই মূল পরিবর্তনটি করা হয়েছে: sessionStorage এর বদলে localStorage দেওয়া হয়েছে
+        const memberDataString = localStorage.getItem('memberData');
         const desktopNav = document.getElementById('desktop-nav-menu');
         const mobileNav = document.getElementById('mobile-bottom-nav');
 
@@ -374,7 +374,17 @@
         document.getElementById('memberLoginForm').addEventListener('submit', function(e) {
             e.preventDefault(); const phoneInput = e.target.querySelector('input[type="tel"]').value, passInput = document.getElementById('loginPassword').value, submitBtn = e.target.querySelector('.btn-submit');
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...'; submitBtn.disabled = true;
-            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "member_login", phone: phoneInput, password: passInput }) }).then(res => res.json()).then(data => { if (data.status === "success") { sessionStorage.setItem('memberData', JSON.stringify(data.user)); window.location.href = "profile.html"; } else if (data.status === "pending") { alert("Your account has not been approved by the admin yet."); } else { alert(data.message); } }).catch(() => alert("Network error!")).finally(() => { submitBtn.innerHTML = 'Login'; submitBtn.disabled = false; });
+            fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "member_login", phone: phoneInput, password: passInput }) }).then(res => res.json()).then(data => { 
+                if (data.status === "success") { 
+                    // এখানেও sessionStorage এর বদলে localStorage দেওয়া হয়েছে
+                    localStorage.setItem('memberData', JSON.stringify(data.user)); 
+                    window.location.href = "profile.html"; 
+                } else if (data.status === "pending") { 
+                    alert("Your account has not been approved by the admin yet."); 
+                } else { 
+                    alert(data.message); 
+                } 
+            }).catch(() => alert("Network error!")).finally(() => { submitBtn.innerHTML = 'Login'; submitBtn.disabled = false; });
         });
 
         // Member Registration Fetch
