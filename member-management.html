@@ -48,6 +48,12 @@
         .page-title { font-family: 'Poppins', sans-serif; margin-bottom: 25px; color: var(--secondary-color); font-size: 24px; font-weight: 700;}
         .content-box { background-color: var(--white); border-radius: 10px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-color);}
         
+        /* New Styles for Search Box */
+        .search-container { margin-bottom: 20px; display: flex; align-items: center; background: var(--white); border: 1px solid var(--border-color); border-radius: 6px; padding: 5px 15px; transition: 0.3s; }
+        .search-container:focus-within { border-color: var(--primary-color); box-shadow: 0 0 5px rgba(125, 27, 126, 0.2); }
+        .search-container i { color: #888; font-size: 16px; margin-right: 10px; }
+        .search-container input { border: none; outline: none; width: 100%; padding: 8px 0; font-size: 14px; font-family: 'Inter', sans-serif; color: var(--text-dark); }
+
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         table th, table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle; }
         table th { background-color: #f8f9fa; color: var(--secondary-color); font-weight: 600; white-space: nowrap; font-size: 14px;}
@@ -127,6 +133,12 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3 style="color: var(--secondary-color); font-size: 18px; font-family: 'Poppins', sans-serif;">Registered Members List</h3>
                     <button onclick="loadMembers()" style="background: none; border: none; color: var(--primary-color); cursor: pointer; font-size: 15px; font-weight: 600;"><i class="fas fa-sync-alt"></i> Refresh</button>
+                </div>
+                
+                <!-- New Search Box Added Here -->
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by Name, Mobile Number, or Session..." onkeyup="filterMembers()">
                 </div>
                 
                 <div id="loadingMessage"><i class="fas fa-spinner fa-spin"></i> Loading member data...</div>
@@ -283,6 +295,10 @@
         function loadMembers() {
             const tableBody = document.getElementById('memberTableBody');
             const loadingMsg = document.getElementById('loadingMessage');
+            
+            // Clear search input on refresh
+            document.getElementById('searchInput').value = '';
+            
             tableBody.innerHTML = '';
             loadingMsg.style.display = 'block';
 
@@ -330,6 +346,31 @@
                 });
             })
             .catch(error => { loadingMsg.innerHTML = '<span style="color:red;">Failed to load data!</span>'; });
+        }
+
+        // New Real-time Filter Function
+        function filterMembers() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const tableBody = document.getElementById("memberTableBody");
+            const rows = tableBody.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName("td");
+                
+                // Ensure it's a valid data row (ignores empty/loading rows)
+                if (cells.length > 3) {
+                    const name = cells[1].textContent.toLowerCase();
+                    const phone = cells[2].textContent.toLowerCase();
+                    const session = cells[3].textContent.toLowerCase();
+
+                    // Check if input matches Name, Phone, or Session
+                    if (name.includes(input) || phone.includes(input) || session.includes(input)) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
         }
 
         function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
