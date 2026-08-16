@@ -357,7 +357,8 @@
             }
         });
 
-        const memberDataString = sessionStorage.getItem('memberData');
+        // পরিবর্তন ১: sessionStorage এর বদলে localStorage
+        const memberDataString = localStorage.getItem('memberData');
         if (!memberDataString) { window.location.href = "member-login-registration.html"; }
         
         const userData = JSON.parse(memberDataString);
@@ -421,7 +422,8 @@
 
         function userLogout() { 
             if(confirm("Are you sure you want to logout?")) {
-                sessionStorage.removeItem('memberData'); 
+                // পরিবর্তন ২: sessionStorage এর বদলে localStorage
+                localStorage.removeItem('memberData'); 
                 window.location.href = "index.html"; 
             }
         }
@@ -563,7 +565,9 @@
                 .then(res => res.json())
                 .then(data => {
                     if(data.status === "success") {
-                        userData.photo = data.photoUrl; sessionStorage.setItem('memberData', JSON.stringify(userData));
+                        userData.photo = data.photoUrl; 
+                        // পরিবর্তন ৩: sessionStorage এর বদলে localStorage
+                        localStorage.setItem('memberData', JSON.stringify(userData));
                         document.getElementById('viewPhoto').src = data.photoUrl;
                         const mobileNavImage = document.querySelector('.mobile-bottom-nav a.active img'); if (mobileNavImage) mobileNavImage.src = data.photoUrl;
                         closeModal('cropModal'); alert("Profile picture updated successfully!");
@@ -585,7 +589,8 @@
                 if(data.status === "success") {
                     alert("Profile information updated successfully!");
                     Object.assign(userData, { name: payload.name, session: payload.session, dept: payload.dept, hall: payload.hall, village: payload.village, blood: payload.blood, lastBloodDonated: payload.lastBloodDonated, password: payload.password, school: payload.school, college: payload.college, address: payload.address });
-                    sessionStorage.setItem('memberData', JSON.stringify(userData)); 
+                    // পরিবর্তন ৪: sessionStorage এর বদলে localStorage
+                    localStorage.setItem('memberData', JSON.stringify(userData)); 
                     closeModal('editProfileModal'); 
                     populateView(); 
                 } else { alert("Update failed!"); }
