@@ -313,7 +313,14 @@
                 
                 membersData = data; 
                 
-                data.reverse().forEach((item) => {
+                // ডেটা সর্ট করার লজিক: Pending মেম্বাররা আগে আসবে, বাকিরা শীটের সিরিয়াল অনুযায়ী থাকবে
+                data.sort((a, b) => {
+                    if (a.status === 'Pending' && b.status !== 'Pending') return -1;
+                    if (a.status !== 'Pending' && b.status === 'Pending') return 1;
+                    return 0; // স্ট্যাটাস একই হলে গুগল শীটের অরিজিনাল সিরিয়াল বজায় থাকবে
+                });
+                
+                data.forEach((item) => {
                     const statusBadge = item.status === 'Approved' ? '<span class="badge badge-approved">Approved</span>' : '<span class="badge badge-pending">Pending</span>';
                                         
                     const pendingActions = `
