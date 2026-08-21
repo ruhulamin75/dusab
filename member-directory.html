@@ -214,7 +214,6 @@
         });
 
         // Security Check & Navigation Setup
-        // পরিবর্তন: sessionStorage এর বদলে localStorage ব্যবহার করা হলো
         const memberDataString = localStorage.getItem('memberData');
         const desktopNav = document.getElementById('desktop-nav-menu');
         const mobileNav = document.getElementById('mobile-bottom-nav');
@@ -250,7 +249,7 @@
             .then(response => response.json())
             .then(data => {
                 allApprovedMembers = data.filter(m => m.status === 'Approved');
-                displayMembers(allApprovedMembers);
+                displayMembers(allApprovedMembers, false); // By default, first row first
             })
             .catch(error => {
                 document.getElementById('loadingMessage').innerHTML = '<span style="color:red;">Failed to load data! Please check your internet connection.</span>';
@@ -265,8 +264,8 @@
             });
         }
 
-        // Display Card Function
-        function displayMembers(members) {
+        // Display Card Function (Updated to handle Search reverse)
+        function displayMembers(members, isSearch = false) {
             const grid = document.getElementById('membersGrid');
             grid.innerHTML = '';
 
@@ -275,7 +274,15 @@
                 return;
             }
 
-            members.reverse().forEach(item => {
+            // Create a copy so we don't modify the original array
+            let displayList = [...members];
+            
+            // If it's a search result, reverse the array to show bottom rows first
+            if (isSearch) {
+                displayList.reverse();
+            }
+
+            displayList.forEach(item => {
                 const photoUrl = item.photo ? item.photo : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
                 
                 let waNumber = item.phone.replace(/[^0-9]/g, ''); 
@@ -459,7 +466,6 @@
             // 2. Dancing Card (123456789)
             if (rawQuery === "123456789") {
                 searchInput.blur(); 
-                // পরিবর্তন: sessionStorage এর বদলে localStorage ব্যবহার করা হলো
                 const sessionUser = localStorage.getItem('memberData');
                 if (sessionUser) {
                     displayMyDancingCard(JSON.parse(sessionUser));
@@ -474,7 +480,7 @@
                 searchInput.blur(); 
                 document.body.classList.add('spin-effect');
                 setTimeout(() => document.body.classList.remove('spin-effect'), 2000);
-                displayMembers(allApprovedMembers);
+                displayMembers(allApprovedMembers, false);
                 return;
             }
 
@@ -483,7 +489,7 @@
                 searchInput.blur(); 
                 document.body.classList.add('hacker-mode');
                 startMatrixRain();
-                displayMembers(allApprovedMembers);
+                displayMembers(allApprovedMembers, false);
                 return;
             }
 
@@ -491,7 +497,7 @@
             if (query === "dusab" || query === "celebrate") {
                 searchInput.blur(); 
                 startEmojiRain();
-                displayMembers(allApprovedMembers);
+                displayMembers(allApprovedMembers, false);
                 return;
             }
 
@@ -499,14 +505,14 @@
             if (query === "earthquake") {
                 searchInput.blur(); 
                 document.getElementById('membersGrid').classList.add('earthquake-effect');
-                displayMembers(allApprovedMembers);
+                displayMembers(allApprovedMembers, false);
                 return;
             }
 
             // 7. Thanos Magic (Snap)
             if (query === "magic") {
                 searchInput.blur(); 
-                displayMembers(allApprovedMembers); 
+                displayMembers(allApprovedMembers, false); 
                 setTimeout(() => {
                     const cards = document.querySelectorAll('.member-card, .dev-card');
                     cards.forEach((card) => {
@@ -516,14 +522,20 @@
                 return; 
             }
 
-            // Regular Filtering
-            const filtered = allApprovedMembers.filter(m => 
-                m.name.toLowerCase().includes(query) || 
-                m.dept.toLowerCase().includes(query) || 
-                m.blood.toLowerCase().includes(query) ||
-                m.session.toLowerCase().includes(query)
-            );
-            displayMembers(filtered);
+            // Regular Filtering (Updated section)
+            if (query === "") {
+                // If search box is empty, show original order (first row first)
+                displayMembers(allApprovedMembers, false);
+            } else {
+                // If user is searching, show bottom rows first (reversed)
+                const filtered = allApprovedMembers.filter(m => 
+                    m.name.toLowerCase().includes(query) || 
+                    m.dept.toLowerCase().includes(query) || 
+                    m.blood.toLowerCase().includes(query) ||
+                    m.session.toLowerCase().includes(query)
+                );
+                displayMembers(filtered, true); 
+            }
         }
 
         window.onload = loadDirectory;
