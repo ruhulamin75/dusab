@@ -407,6 +407,14 @@
                 formattedBloodDate = "'" + formattedBloodDate;
             }
 
+            // নতুন যুক্ত করা অংশ: বর্তমান রেজিস্ট্রেশন তারিখ জেনারেট করা
+            const today = new Date();
+            const monthsList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const day = String(today.getDate()).padStart(2, '0');
+            const monthName = monthsList[today.getMonth()];
+            const year = today.getFullYear();
+            const registrationDate = `\'${day} ${monthName}, ${year}`; // গুগল শীটের জন্য ' যুক্ত করা হয়েছে
+
             const payload = {
                 action: "register_member",
                 name: document.getElementById('regName').value,
@@ -421,6 +429,7 @@
                 school: document.getElementById('regSchool').value,
                 college: document.getElementById('regCollege').value,
                 address: document.getElementById('regAddress').value,
+                date: registrationDate, // নতুন যুক্ত করা ডেটা (রেজিস্ট্রেশন তারিখ)
                 fileName: "profile_" + phone + ".jpg",
                 mimeType: "image/jpeg",
                 base64: base64Data 
