@@ -326,7 +326,6 @@
         });
 
         // Navigation Menus Setup
-        // এখানেই মূল পরিবর্তনটি করা হয়েছে: sessionStorage এর বদলে localStorage দেওয়া হয়েছে
         const memberDataString = localStorage.getItem('memberData');
         const desktopNav = document.getElementById('desktop-nav-menu');
         const mobileNav = document.getElementById('mobile-bottom-nav');
@@ -370,15 +369,15 @@
             if (passwordInput.type === 'password') { passwordInput.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { passwordInput.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
         }
 
-        // Date Formatter - যুক্ত করা হলো শুরুতে স্পেস যেন গুগল শীট টেক্সট হিসেবে ধরে
+        // Date Formatter - হুবহু 7 June, 2026 ফরম্যাট করার জন্য
         function formatDate(dateString) {
             if (!dateString) return "";
             const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             const dateObj = new Date(dateString);
-            const day = dateObj.getDate();
+            const day = dateObj.getDate(); // দিনটি সিঙ্গেল বা ডাবল ডিজিট আসবে, যেমন: 7
             const month = months[dateObj.getMonth()];
             const year = dateObj.getFullYear();
-            return ` ${day} ${month}, ${year}`;
+            return `${day} ${month}, ${year}`; 
         }
 
         // Cropper Logic
@@ -426,6 +425,11 @@
             
             const rawDate = document.getElementById('regLastBlood').value;
             let formattedBloodDate = formatDate(rawDate);
+            
+            // গুগল শিটে যেন টেক্সট হিসেবে সেভ হয়, তাই শুরুতে ' (সিঙ্গেল কোট) দেওয়া হলো
+            if (formattedBloodDate !== "") {
+                formattedBloodDate = "'" + formattedBloodDate;
+            }
 
             // Determine final session value and prepend a single quote
             const regSessionVal = document.getElementById('regSession').value;
@@ -435,21 +439,21 @@
             // বর্তমান রেজিস্ট্রেশন তারিখ জেনারেট করা
             const today = new Date();
             const monthsList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            const day = String(today.getDate()).padStart(2, '0');
-            const monthName = monthsList[today.getMonth()];
-            const year = today.getFullYear();
-            const registrationDate = ` ${day} ${monthName}, ${year}`; 
+            const regDay = today.getDate();
+            const regMonthName = monthsList[today.getMonth()];
+            const regYear = today.getFullYear();
+            const registrationDate = `\'${regDay} ${regMonthName}, ${regYear}`; 
 
             const payload = {
                 action: "register_member",
                 name: document.getElementById('regName').value,
-                session: finalSession, // Updated session logic here
+                session: finalSession, 
                 dept: document.getElementById('regDept').value,
                 hall: document.getElementById('regHall').value,
                 village: document.getElementById('regVillage').value,
                 phone: phone,
                 blood: document.getElementById('regBlood').value,
-                lastBloodDonated: formattedBloodDate,
+                lastBloodDonated: formattedBloodDate, // Updated Blood Date logic here
                 password: document.getElementById('regPassword').value,
                 school: document.getElementById('regSchool').value,
                 college: document.getElementById('regCollege').value,
