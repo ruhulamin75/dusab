@@ -281,7 +281,7 @@
             }
         });
 
-        // Date Formatter in English with Single Quote Prefix for Google Sheets
+        // Date Formatter updated to return exactly "7 June, 2026" formatting
         function formatDate(dateString) {
             if (!dateString) return "";
             const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -289,7 +289,7 @@
             const day = dateObj.getDate();
             const month = months[dateObj.getMonth()];
             const year = dateObj.getFullYear();
-            return `'${day} ${month}, ${year}`;
+            return `${day} ${month}, ${year}`;
         }
 
         function loadMembers() {
@@ -434,9 +434,21 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
             submitBtn.disabled = true;
 
+            // Date and Session Logic with Single Quote Prefix for Text conversion
             let rawDate = document.getElementById('editLastBlood').value;
-            let finalBloodDate = document.getElementById('editLastBlood').dataset.oldValue;
-            if (rawDate) { finalBloodDate = formatDate(rawDate); }
+            let finalBloodDate = document.getElementById('editLastBlood').dataset.oldValue || "";
+            
+            if (rawDate) { 
+                finalBloodDate = "'" + formatDate(rawDate); 
+            } else if (finalBloodDate !== "" && !finalBloodDate.startsWith("'")) {
+                // Keep old date but ensure it's text
+                finalBloodDate = "'" + finalBloodDate;
+            }
+
+            let sessionVal = document.getElementById('editSession').value;
+            if (!sessionVal.startsWith("'")) {
+                sessionVal = "'" + sessionVal;
+            }
 
             const payload = {
                 action: "edit_member",
@@ -446,7 +458,7 @@
                 password: document.getElementById('editPassword').value,
                 blood: document.getElementById('editBlood').value,
                 lastBloodDonated: finalBloodDate,
-                session: document.getElementById('editSession').value,
+                session: sessionVal,
                 dept: document.getElementById('editDept').value,
                 hall: document.getElementById('editHall').value,
                 village: document.getElementById('editVillage').value,
