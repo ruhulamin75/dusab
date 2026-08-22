@@ -357,7 +357,7 @@
             }
         });
 
-        // পরিবর্তন ১: sessionStorage এর বদলে localStorage
+        // LocalStorage for member data
         const memberDataString = localStorage.getItem('memberData');
         if (!memberDataString) { window.location.href = "member-login-registration.html"; }
         
@@ -370,6 +370,7 @@
         navMenu.innerHTML = `<li><a href="index.html"><i class="fas fa-home"></i> Home</a></li><li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li><li><a href="member-directory.html"><i class="fas fa-users"></i> Member Directory</a></li><li><a href="notice.html"><i class="fas fa-bullhorn"></i> Notice</a></li><li><a href="profile.html" class="active"><i class="fas fa-user-circle"></i> Profile</a></li>`;
         mobileNav.innerHTML = `<a href="index.html"><i class="fas fa-home"></i></a><a href="gallery.html"><i class="fas fa-images"></i></a><a href="member-directory.html"><i class="fas fa-users"></i></a><a href="notice.html"><i class="fas fa-bell"></i></a><a href="profile.html" class="active"><img src="${userPhoto}" alt="User"></a>`;
 
+        // Date formatter updated for exact "7 June, 2026" text format
         function formatDate(dateString) {
             if (!dateString) return "";
             const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -382,30 +383,35 @@
         function calculateBloodEligibility(dateStr) {
             if (!dateStr || dateStr === "Not provided") return "Not provided";
             
+            // Clean single quote if exist to match accurately
+            let cleanDateStr = dateStr.startsWith("'") ? dateStr.substring(1) : dateStr;
             const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             let mIndex = -1;
-            for(let i=0; i<months.length; i++) { if(dateStr.includes(months[i])) { mIndex = i; break; } }
-            if(mIndex === -1) return dateStr;
+            for(let i=0; i<months.length; i++) { if(cleanDateStr.includes(months[i])) { mIndex = i; break; } }
+            if(mIndex === -1) return cleanDateStr;
             
-            let numbers = dateStr.match(/\d+/g);
+            let numbers = cleanDateStr.match(/\d+/g);
             if(numbers && numbers.length >= 2) {
                 let lastDate = new Date(parseInt(numbers[1]), mIndex, parseInt(numbers[0]));
                 let diffTime = new Date() - lastDate;
                 let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
                 
                 if(diffDays >= 90) {
-                    return `${dateStr} <span style="background:#27ae60; color:#fff; padding:3px 10px; border-radius:12px; font-size:11px; margin-left:8px; font-weight:bold;">Eligible to donate</span>`;
+                    return `${cleanDateStr} <span style="background:#27ae60; color:#fff; padding:3px 10px; border-radius:12px; font-size:11px; margin-left:8px; font-weight:bold;">Eligible to donate</span>`;
                 } else {
-                    return `${dateStr} <span style="background:#f39c12; color:#fff; padding:3px 10px; border-radius:12px; font-size:11px; margin-left:8px; font-weight:bold;">${90 - diffDays} days left</span>`;
+                    return `${cleanDateStr} <span style="background:#f39c12; color:#fff; padding:3px 10px; border-radius:12px; font-size:11px; margin-left:8px; font-weight:bold;">${90 - diffDays} days left</span>`;
                 }
             }
-            return dateStr;
+            return cleanDateStr;
         }
 
         function populateView() {
             document.getElementById('viewPhoto').src = userPhoto;
             document.getElementById('viewName').innerText = userData.name || "N/A";
-            document.getElementById('viewSessionDept').innerHTML = `<i class="fas fa-graduation-cap"></i> ${userData.dept || ""} (${userData.session || ""})`;
+            let displaySession = userData.session || "";
+            if (displaySession.startsWith("'")) displaySession = displaySession.substring(1);
+            
+            document.getElementById('viewSessionDept').innerHTML = `<i class="fas fa-graduation-cap"></i> ${userData.dept || ""} (${displaySession})`;
             document.getElementById('vPhone').innerText = userData.phone || "N/A";
             document.getElementById('vBlood').innerText = userData.blood || "N/A";
             
@@ -422,7 +428,6 @@
 
         function userLogout() { 
             if(confirm("Are you sure you want to logout?")) {
-                // পরিবর্তন ২: sessionStorage এর বদলে localStorage
                 localStorage.removeItem('memberData'); 
                 window.location.href = "index.html"; 
             }
@@ -432,13 +437,25 @@
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
             if(modalId === 'editProfileModal') {
-                document.getElementById('eName').value = userData.name || ""; document.getElementById('ePhone').value = userData.phone || "";
-                document.getElementById('eSession').value = userData.session || ""; document.getElementById('eDept').value = userData.dept || "";
-                document.getElementById('eBlood').value = userData.blood || ""; document.getElementById('eHall').value = userData.hall || "";
-                document.getElementById('eVillage').value = userData.village || ""; document.getElementById('ePassword').value = userData.password || "";
-                document.getElementById('eSchool').value = userData.school || ""; document.getElementById('eCollege').value = userData.college || "";
+                let currentSession = userData.session || "";
+                if (currentSession.startsWith("'")) currentSession = currentSession.substring(1);
+
+                document.getElementById('eName').value = userData.name || ""; 
+                document.getElementById('ePhone').value = userData.phone || "";
+                document.getElementById('eSession').value = currentSession; 
+                document.getElementById('eDept').value = userData.dept || "";
+                document.getElementById('eBlood').value = userData.blood || ""; 
+                document.getElementById('eHall').value = userData.hall || "";
+                document.getElementById('eVillage').value = userData.village || ""; 
+                document.getElementById('ePassword').value = userData.password || "";
+                document.getElementById('eSchool').value = userData.school || ""; 
+                document.getElementById('eCollege').value = userData.college || "";
                 document.getElementById('eAddress').value = userData.address || "";
-                document.getElementById('currentBloodDate').innerText = userData.lastBloodDonated ? `(Current: ${userData.lastBloodDonated})` : '';
+                
+                let currentBlood = userData.lastBloodDonated || "";
+                if (currentBlood.startsWith("'")) currentBlood = currentBlood.substring(1);
+                
+                document.getElementById('currentBloodDate').innerText = currentBlood ? `(Current: ${currentBlood})` : '';
                 document.getElementById('eLastBlood').value = '';
             }
             if(modalId === 'bloodCountdownModal') {
@@ -559,14 +576,27 @@
                 const saveBtn = document.getElementById('savePhotoBtn');
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...'; saveBtn.disabled = true;
                 const base64Data = cropper.getCroppedCanvas({ width: 400, height: 400 }).toDataURL('image/jpeg', 0.9).split(',')[1];
-                const payload = { action: "update_profile", row: userData.row, phone: userData.phone, photoUrl: userData.photo, name: userData.name, session: userData.session, dept: userData.dept, hall: userData.hall, village: userData.village, blood: userData.blood, lastBloodDonated: userData.lastBloodDonated, password: userData.password, school: userData.school, college: userData.college, address: userData.address, base64: base64Data, fileName: "profile_" + userData.phone + ".jpg", mimeType: "image/jpeg" };
+                
+                // Ensure session and blood date contain single quotes to protect text format on the sheet
+                let photoSheetSession = userData.session || "";
+                if (!photoSheetSession.startsWith("'")) photoSheetSession = "'" + photoSheetSession;
+
+                let photoSheetBlood = userData.lastBloodDonated || "";
+                if (photoSheetBlood !== "" && !photoSheetBlood.startsWith("'")) photoSheetBlood = "'" + photoSheetBlood;
+
+                const payload = { 
+                    action: "update_profile", row: userData.row, phone: userData.phone, photoUrl: userData.photo, 
+                    name: userData.name, session: photoSheetSession, dept: userData.dept, hall: userData.hall, 
+                    village: userData.village, blood: userData.blood, lastBloodDonated: photoSheetBlood, 
+                    password: userData.password, school: userData.school, college: userData.college, address: userData.address, 
+                    base64: base64Data, fileName: "profile_" + userData.phone + ".jpg", mimeType: "image/jpeg" 
+                };
 
                 fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
                 .then(res => res.json())
                 .then(data => {
                     if(data.status === "success") {
                         userData.photo = data.photoUrl; 
-                        // পরিবর্তন ৩: sessionStorage এর বদলে localStorage
                         localStorage.setItem('memberData', JSON.stringify(userData));
                         document.getElementById('viewPhoto').src = data.photoUrl;
                         const mobileNavImage = document.querySelector('.mobile-bottom-nav a.active img'); if (mobileNavImage) mobileNavImage.src = data.photoUrl;
@@ -579,17 +609,48 @@
         document.getElementById('editProfileForm').addEventListener('submit', function(e) {
             e.preventDefault(); const btn = document.getElementById('saveBtn');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...'; btn.disabled = true;
+            
+            // Format blood date properly for UI and Google Sheet
             let rawDate = document.getElementById('eLastBlood').value;
-            let finalBloodDate = userData.lastBloodDonated; if (rawDate) { finalBloodDate = formatDate(rawDate); }
-            const payload = { action: "update_profile", row: userData.row, phone: userData.phone, photoUrl: userData.photo, name: document.getElementById('eName').value, session: document.getElementById('eSession').value, dept: document.getElementById('eDept').value, hall: document.getElementById('eHall').value, village: document.getElementById('eVillage').value, blood: document.getElementById('eBlood').value, lastBloodDonated: finalBloodDate, password: document.getElementById('ePassword').value, school: document.getElementById('eSchool').value, college: document.getElementById('eCollege').value, address: document.getElementById('eAddress').value, base64: "", fileName: "", mimeType: "" };
+            let displayBloodDate = userData.lastBloodDonated || ""; 
+            if (rawDate) { displayBloodDate = formatDate(rawDate); }
+            
+            let displaySession = document.getElementById('eSession').value;
+            
+            let sheetBloodDate = displayBloodDate;
+            if (sheetBloodDate !== "" && !sheetBloodDate.startsWith("'")) {
+                sheetBloodDate = "'" + sheetBloodDate;
+            }
+            
+            let sheetSession = displaySession;
+            if (!sheetSession.startsWith("'")) {
+                sheetSession = "'" + sheetSession;
+            }
+
+            const payload = { 
+                action: "update_profile", row: userData.row, phone: userData.phone, photoUrl: userData.photo, 
+                name: document.getElementById('eName').value, session: sheetSession, dept: document.getElementById('eDept').value, 
+                hall: document.getElementById('eHall').value, village: document.getElementById('eVillage').value, 
+                blood: document.getElementById('eBlood').value, lastBloodDonated: sheetBloodDate, 
+                password: document.getElementById('ePassword').value, school: document.getElementById('eSchool').value, 
+                college: document.getElementById('eCollege').value, address: document.getElementById('eAddress').value, 
+                base64: "", fileName: "", mimeType: "" 
+            };
 
             fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
             .then(res => res.json())
             .then(data => {
                 if(data.status === "success") {
                     alert("Profile information updated successfully!");
-                    Object.assign(userData, { name: payload.name, session: payload.session, dept: payload.dept, hall: payload.hall, village: payload.village, blood: payload.blood, lastBloodDonated: payload.lastBloodDonated, password: payload.password, school: payload.school, college: payload.college, address: payload.address });
-                    // পরিবর্তন ৪: sessionStorage এর বদলে localStorage
+                    // Update the local storage with UI friendly values (no single quotes needed for local display)
+                    Object.assign(userData, { 
+                        name: document.getElementById('eName').value, session: displaySession, 
+                        dept: document.getElementById('eDept').value, hall: document.getElementById('eHall').value, 
+                        village: document.getElementById('eVillage').value, blood: document.getElementById('eBlood').value, 
+                        lastBloodDonated: displayBloodDate, password: document.getElementById('ePassword').value, 
+                        school: document.getElementById('eSchool').value, college: document.getElementById('eCollege').value, 
+                        address: document.getElementById('eAddress').value 
+                    });
                     localStorage.setItem('memberData', JSON.stringify(userData)); 
                     closeModal('editProfileModal'); 
                     populateView(); 
