@@ -215,16 +215,29 @@
                             <div class="input-group"><label>Full Name <span>*</span></label><input type="text" id="regName" placeholder="e.g. Mohammad Ruhul Amin" required></div>
                             <div class="input-group">
                                 <label>Session <span>*</span></label>
-                                <select id="regSession" required>
+                                <select id="regSession" required onchange="toggleOtherSession(this)">
                                     <option value="" disabled selected>Select Session</option>
-                                    <option value="2000-01">2000-01</option><option value="2001-02">2001-02</option><option value="2002-03">2002-03</option><option value="2003-04">2003-04</option>
+                                    <option value="1990-91">1990-91</option>
+                                    <option value="1991-92">1991-92</option>
+                                    <option value="1992-93">1992-93</option>
+                                    <option value="1993-94">1993-94</option>
+                                    <option value="1994-95">1994-95</option>
+                                    <option value="1995-96">1995-96</option>
+                                    <option value="1996-97">1996-97</option>
+                                    <option value="1997-98">1997-98</option>
+                                    <option value="1998-99">1998-99</option>
+                                    <option value="1999-00">1999-00</option>
+                                    <option value="2000-01">2000-01</option>
+                                    <option value="2001-02">2001-02</option><option value="2002-03">2002-03</option><option value="2003-04">2003-04</option>
                                     <option value="2004-05">2004-05</option><option value="2005-06">2005-06</option><option value="2006-07">2006-07</option><option value="2007-08">2007-08</option>
                                     <option value="2008-09">2008-09</option><option value="2009-10">2009-10</option><option value="2010-11">2010-11</option><option value="2011-12">2011-12</option>
                                     <option value="2012-13">2012-13</option><option value="2013-14">2013-14</option><option value="2014-15">2014-15</option><option value="2015-16">2015-16</option>
                                     <option value="2016-17">2016-17</option><option value="2017-18">2017-18</option><option value="2018-19">2018-19</option><option value="2019-20">2019-20</option>
                                     <option value="2020-21">2020-21</option><option value="2021-22">2021-22</option><option value="2022-23">2022-23</option><option value="2023-24">2023-24</option>
                                     <option value="2024-25">2024-25</option><option value="2025-26">2025-26</option>
+                                    <option value="Other">Other</option>
                                 </select>
+                                <input type="text" id="regSessionOther" placeholder="Type your session (e.g., 1989-90)" style="display: none; margin-top: 10px;">
                             </div>
                             <div class="input-group"><label>Department <span>*</span></label><input type="text" id="regDept" placeholder="Enter department name" required></div>
                             <div class="input-group">
@@ -338,13 +351,26 @@
             if (tabId === 'login') { document.getElementById('login-form').classList.add('active'); } else { document.getElementById('register-form').classList.add('active'); }
         }
 
+        // Toggle Other Session Input
+        function toggleOtherSession(selectElement) {
+            const otherInput = document.getElementById('regSessionOther');
+            if (selectElement.value === 'Other') {
+                otherInput.style.display = 'block';
+                otherInput.required = true;
+            } else {
+                otherInput.style.display = 'none';
+                otherInput.required = false;
+                otherInput.value = '';
+            }
+        }
+
         // Password Visibility
         function togglePasswordVisibility(inputId, icon) {
             const passwordInput = document.getElementById(inputId);
             if (passwordInput.type === 'password') { passwordInput.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { passwordInput.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
         }
 
-        // Date Formatter
+        // Date Formatter - যুক্ত করা হলো শুরুতে স্পেস যেন গুগল শীট টেক্সট হিসেবে ধরে
         function formatDate(dateString) {
             if (!dateString) return "";
             const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -352,7 +378,7 @@
             const day = dateObj.getDate();
             const month = months[dateObj.getMonth()];
             const year = dateObj.getFullYear();
-            return `${day} ${month}, ${year}`;
+            return ` ${day} ${month}, ${year}`;
         }
 
         // Cropper Logic
@@ -376,7 +402,6 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...'; submitBtn.disabled = true;
             fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "member_login", phone: phoneInput, password: passInput }) }).then(res => res.json()).then(data => { 
                 if (data.status === "success") { 
-                    // এখানেও sessionStorage এর বদলে localStorage দেওয়া হয়েছে
                     localStorage.setItem('memberData', JSON.stringify(data.user)); 
                     window.location.href = "profile.html"; 
                 } else if (data.status === "pending") { 
@@ -401,24 +426,24 @@
             
             const rawDate = document.getElementById('regLastBlood').value;
             let formattedBloodDate = formatDate(rawDate);
-            
-            // যুক্ত করা হলো: গুগল শিটে যেন টেক্সট হিসেবে সেভ হয়, তাই শুরুতে ' (সিঙ্গেল কোট) দেওয়া হলো
-            if (formattedBloodDate !== "") {
-                formattedBloodDate = "'" + formattedBloodDate;
-            }
 
-            // নতুন যুক্ত করা অংশ: বর্তমান রেজিস্ট্রেশন তারিখ জেনারেট করা
+            // Determine final session value and prepend a single quote
+            const regSessionVal = document.getElementById('regSession').value;
+            let finalSession = regSessionVal === 'Other' ? document.getElementById('regSessionOther').value : regSessionVal;
+            finalSession = "'" + finalSession;
+
+            // বর্তমান রেজিস্ট্রেশন তারিখ জেনারেট করা
             const today = new Date();
             const monthsList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             const day = String(today.getDate()).padStart(2, '0');
             const monthName = monthsList[today.getMonth()];
             const year = today.getFullYear();
-            const registrationDate = `\'${day} ${monthName}, ${year}`; // গুগল শীটের জন্য ' যুক্ত করা হয়েছে
+            const registrationDate = ` ${day} ${monthName}, ${year}`; 
 
             const payload = {
                 action: "register_member",
                 name: document.getElementById('regName').value,
-                session: document.getElementById('regSession').value,
+                session: finalSession, // Updated session logic here
                 dept: document.getElementById('regDept').value,
                 hall: document.getElementById('regHall').value,
                 village: document.getElementById('regVillage').value,
@@ -429,7 +454,7 @@
                 school: document.getElementById('regSchool').value,
                 college: document.getElementById('regCollege').value,
                 address: document.getElementById('regAddress').value,
-                date: registrationDate, // নতুন যুক্ত করা ডেটা (রেজিস্ট্রেশন তারিখ)
+                date: registrationDate,
                 fileName: "profile_" + phone + ".jpg",
                 mimeType: "image/jpeg",
                 base64: base64Data 
@@ -441,6 +466,7 @@
                 if (data.status === "success") { 
                     alert("Congratulations! Your registration has been completed successfully. You can log in after the admin approves your account."); 
                     document.getElementById('memberRegisterForm').reset(); 
+                    document.getElementById('regSessionOther').style.display = 'none'; // Reset other input
                     profileImagePreview.src = "https://cdn-icons-png.flaticon.com/512/149/149071.png"; 
                     croppedImageData.value = ''; 
                     window.location.href = "index.html";
